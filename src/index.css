@@ -1,0 +1,209 @@
+@import "tailwindcss";
+@layer base { :root { --background:0 0% 100%; --foreground:0 0% 3.9%; --border:0 0% 89.8%; --radius:0.5rem; } }
+
+/* ============================================================
+   软深色设计令牌 · v2-dark(对标 unmoth + x.com/advertising + polar.sh)
+   地基层:色 / 字 / 字号阶梯 / 网格,全站 token 驱动,后续阶段全依赖。
+   层级律:靠亮度 / 不透明度分层(100→60→30→10);发丝线为唯一主分隔;靛蓝为唯一强调。
+   中文长读安全垫:底 #08090A 非纯黑、正文 #E8E8E6 非纯白、行高放大。
+   旧暖白名(--paper/--ink-2/--dim/--faint/--track-*)在此重映射为深色值,令消费它们的
+   阅读区组件(ScrollArticle/Chapters/ReadingShell/ScrollLexicon/Article)协同翻深;
+   残留硬编码暖色(rgba(54,41,0,…) 等)与自作用域的 .prose 由 P2/P3 收编。
+   ============================================================ */
+:root {
+  color-scheme: light;
+  /* —— 颜色:浅色页面底 + 不透明度阶梯 —— */
+  --bg:            #FAFAFA;                 /* 页面底 */
+  --surface-1:     #F2F2F2;                 /* 抬升面 / 卡片 */
+  --surface-2:     #E9E9E9;                 /* 更高抬升 */
+  --dot-texture:   transparent;             /* 点阵背景已停用 */
+  --hairline:      rgba(20,22,24,0.12);     /* 发丝线:全站唯一主分隔件 */
+  --hairline-bold: rgba(20,22,24,0.20);     /* 略重分隔(外框 / 格线) */
+  --connector-line: color-mix(in srgb, var(--hairline), transparent 34%); /* 页面级横向连接线:同 PLAYBOOK 下方线 */
+  --ink:           #191A1B;                 /* 正文主色 */
+  --ink-70:        rgba(25,26,27,0.72);
+  --ink-60:        rgba(25,26,27,0.62);     /* 次要文字 / 弱化标题 = 60 */
+  --ink-50:        rgba(25,26,27,0.50);
+  --ink-40:        rgba(25,26,27,0.40);
+  --ink-30:        rgba(25,26,27,0.30);     /* 占位 / 编号眉标 = 30 */
+  --ink-10:        rgba(25,26,27,0.10);     /* 极弱(= 发丝线) = 10 */
+  --accent:        #34429E;
+  --accent-bright: #4E5DB8;
+  --accent-deep:   #20285F;
+  --accent-soft:   transparent;
+  --accent-ink:    #FAFAFA;
+  --grid-line:     rgba(20,22,24,0.08);
+  --grid-line-strong: rgba(20,22,24,0.14);
+
+  /* —— 素材主题化：线稿画布(签名/顶图)与图形卡(引言卡片)跟随主题 —— */
+  --sig-lo: 206,208,212;               /* 线稿幽灵端：浅卡上的浅暖灰 */
+  --sig-hi: 25,26,27;                  /* 线稿高亮端：深墨(深线画在浅卡上) */
+  --art-card-bg:    #F5F5F7;   /* 中性偏冷,去黄 */           /* 图形卡底(亮色=浅纸卡) */
+  --art-card-line:  rgba(20,22,24,0.12);
+  --art-card-title: #1B1C1D;
+  --art-card-desc:  rgba(25,26,27,0.60);
+  --art-card-meta:  rgba(25,26,27,0.38);
+  /* —— 目录卡 SVG 插画族(LinearArt)：四档明度 + 配件色 —— */
+  --la-line:   rgba(20,22,24,0.38);    /* 主发丝线 */
+  --la-soft:   rgba(20,22,24,0.18);    /* 弱线/虚线 */
+  --la-frame:  rgba(20,22,24,0.22);    /* 帧框 */
+  --la-grid:   rgba(20,22,24,0.07);    /* 虚点网格底 */
+  --la-node:   #71737A;                /* 实心节点灰 */
+  --la-bright: rgba(20,22,24,0.85);    /* 箭头/亮点 */
+  --la-tagbg:  #ECECEF;                /* mono 标签底 */
+  --la-barhi:  rgba(20,22,24,0.16);    /* 词条渐变条·亮端 */
+  --la-barlo:  rgba(20,22,24,0.02);    /* 词条渐变条·隐端 */
+  --la-accent: #4339FF;                /* 插画重点色(亮色版=导航高亮蓝) */
+  --la-accent-ink: #FFFFFF;            /* 重点色底上的文字色(与侧栏高亮同规) */
+  --pb-chip: #FFFFFF;                  /* 图表浮层面色:亮=纯白(压灰骨架上跳出) */
+
+  /* —— 旧名重映射(令阅读区组件协同翻深,勿删,P3 收编) —— */
+  --paper:         var(--bg);               /* 阅读区页底 → 画布深底 */
+  --ink-2:         var(--ink-60);           /* 次级正文 */
+  --dim:           var(--ink-60);           /* 灰副句 / 说明 */
+  --faint:         var(--ink-30);           /* 极弱:编号 / 眉标 */
+
+  /* —— 字体:三声部 —— */
+  --font-serif: 'Noto Serif SC', 'Source Han Serif SC', serif;                     /* 暖文学:标题 / 大句陈述 */
+  --font-sans:  'PingFang SC', 'Noto Sans SC', 'Hanken Grotesk', sans-serif;        /* 中性:正文 / UI */
+  --font-mono:  'JetBrains Mono', ui-monospace, monospace;                          /* 冷等宽:编号 / 图注 / 代码 / 标签 */
+
+  /* —— 字号阶梯(中文放大版;正文一字号一行高) —— */
+  --fs-h1:   48px;  --lh-h1: 1.2;   /* 思源宋大标题(44–52) */
+  --fs-h2:   30px;  --lh-h2: 1.3;   /* 思源宋 */
+  --fs-h3:   22px;  --lh-h3: 1.4;   /* 思源宋或黑 */
+  --fs-body: 16px;  --lh-body: 1.8; /* 思源黑正文(深底放大行高) */
+  --fs-mono: 13px;  --lh-mono: 1.5; /* JetBrains Mono 标签 / 编号 / 图注 */
+
+  /* —— 字距:负字距只给拉丁 + 数字;中文一律 0(§0 红线) —— */
+  --track-latin:   -0.02em;  /* 拉丁 / 数字标题收紧 */
+  --track-mono:     0.02em;  /* mono 标签放宽 + 大写 */
+  --track-display:  0;       /* 旧名:大标题(阅读区多为中文 → 归零) */
+  --track-title:    0;       /* 旧名:中标题(中文 → 归零) */
+  --track-sub:      0;       /* 旧名:副标(中文 → 归零) */
+
+  /* —— 网格系统(承接封面网格对齐;元素吸附不漂移) —— */
+  --page-max:   1440px;  /* 页宽上限 */
+  --site-edge:  max(24px, calc((100vw - var(--page-max)) / 2)); /* X: 1440 居中，窄屏保留 24 */
+  --nav-w:      208px;   /* X business 左导航列 */
+  --main-left:  calc(var(--site-edge) + var(--nav-w));          /* 导航 / 主内容边界 */
+  --content-gap:56px;    /* X: 主内容边界到正文栅格的缓冲 */
+  --content-left: calc(var(--main-left) + var(--content-gap));
+  --content-right: calc(var(--site-edge) + var(--content-gap));
+  --content-w:  calc(100vw - var(--content-left) - var(--content-right));
+  --col:        126px;   /* 内容区 8 列 × 126 */
+  --gutter:     16px;    /* 列间距 */
+  --measure:    720px;   /* 正文阅读宽(中文 ~34 字/行,收窄于内容区) */
+
+  /* 间距阶梯(实测 unmoth：零 margin，全靠 gap+padding；主力 10/20，微观 2/4/6，页面级 40/80/120) */
+  --space-3xs:  2px;   /* 发丝线级微调 */
+  --space-2xs:  4px;   /* 紧凑列表 gap */
+  --space-xs:   6px;
+  --space-sm:  10px;   /* 标准组件 gap */
+  --space-md:  12px;   /* mono 标签内缩 / 列表行上下 padding */
+  --space-lg:  20px;   /* 内容离结构线的标准 inset / 卡片正文 padding(主力·默认) */
+  --space-xl:  40px;   /* 区块底 padding */
+  --space-2xl: 80px;   /* 大段落 / hero 顶 */
+  --space-3xl:120px;   /* footer 底 / 巨型分隔 */
+  --inset:     var(--space-lg);  /* 文字从网格线退开的呼吸量(unmoth 铁律：字不压线) */
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg:            #FAFAFA;
+  --surface-1:     #F2F2F2;
+  --surface-2:     #E9E9E9;
+  --dot-texture:   transparent;
+  --hairline:      rgba(20,22,24,0.12);
+  --hairline-bold: rgba(20,22,24,0.20);
+  --connector-line: color-mix(in srgb, var(--hairline), transparent 34%);
+  --ink:           #191A1B;
+  --ink-70:        rgba(25,26,27,0.72);
+  --ink-60:        rgba(25,26,27,0.62);
+  --ink-50:        rgba(25,26,27,0.50);
+  --ink-40:        rgba(25,26,27,0.40);
+  --ink-30:        rgba(25,26,27,0.30);
+  --ink-10:        rgba(25,26,27,0.10);
+  --accent:        #34429E;
+  --accent-bright: #4E5DB8;
+  --accent-deep:   #20285F;
+  --accent-soft:   transparent;
+  --accent-ink:    #FAFAFA;
+  --grid-line:     rgba(20,22,24,0.08);
+  --grid-line-strong: rgba(20,22,24,0.14);
+  --sig-lo: 206,208,212;
+  --sig-hi: 25,26,27;
+  --art-card-bg:    #F5F5F7;   /* 中性偏冷,去黄 */
+  --art-card-line:  rgba(20,22,24,0.12);
+  --art-card-title: #1B1C1D;
+  --art-card-desc:  rgba(25,26,27,0.60);
+  --art-card-meta:  rgba(25,26,27,0.38);
+  --la-line:   rgba(20,22,24,0.38);
+  --la-soft:   rgba(20,22,24,0.18);
+  --la-frame:  rgba(20,22,24,0.22);
+  --la-grid:   rgba(20,22,24,0.07);
+  --la-node:   #71737A;
+  --la-bright: rgba(20,22,24,0.85);
+  --la-tagbg:  #ECECEF;
+  --la-barhi:  rgba(20,22,24,0.16);
+  --la-barlo:  rgba(20,22,24,0.02);
+  --la-accent: #4339FF;
+  --la-accent-ink: #FFFFFF;
+  --pb-chip: #FFFFFF;
+}
+
+/* —— 暗色主题（侧栏 toggle data-theme="dark" 触发）：页面/素材/线稿全套翻深 —— */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg:            #08090A;
+  --surface-1:     #0D0D0D;
+  --surface-2:     #141414;
+  --dot-texture:   transparent;
+  --hairline:      rgba(255,255,255,0.10);
+  --hairline-bold: rgba(255,255,255,0.18);
+  --connector-line: color-mix(in srgb, var(--hairline), transparent 34%);
+  --ink:           #E8E8E6;
+  --ink-70:        rgba(232,232,230,0.72);
+  --ink-60:        rgba(232,232,230,0.62);
+  --ink-50:        rgba(232,232,230,0.50);
+  --ink-40:        rgba(232,232,230,0.40);
+  --ink-30:        rgba(232,232,230,0.30);
+  --ink-10:        rgba(232,232,230,0.10);
+  --accent:        #4337FF;
+  --accent-bright: #685CFF;
+  --accent-deep:   #2A22B0;
+  --accent-soft:   color-mix(in srgb, #685CFF, transparent 88%);
+  --accent-ink:    #FAFAFA;
+  --grid-line:     rgba(255,255,255,0.045);
+  --grid-line-strong: rgba(255,255,255,0.075);
+  --sig-lo: 60,60,60;                  /* 线稿幽灵端：暗卡上的幽灵灰 */
+  --sig-hi: 255,255,255;               /* 线稿高亮端：亮白 */
+  --art-card-bg:    #060606;
+  --art-card-line:  rgba(255,255,255,0.08);
+  --art-card-title: #F4F4F2;
+  --art-card-desc:  rgba(244,244,242,0.55);
+  --art-card-meta:  rgba(244,244,242,0.34);
+  /* —— 插画族暗色：亮线画在近黑卡上(对齐 Linear 原作明度) —— */
+  --la-line:   rgba(255,255,255,0.32);
+  --la-soft:   rgba(255,255,255,0.16);
+  --la-frame:  rgba(255,255,255,0.18);
+  --la-grid:   rgba(255,255,255,0.06);
+  --la-node:   #9A9CA1;
+  --la-bright: rgba(255,255,255,0.85);
+  --la-tagbg:  #17181A;
+  --la-barhi:  rgba(255,255,255,0.22);
+  --la-barlo:  rgba(255,255,255,0.02);
+  --la-accent: color(display-p3 0.6745 0.8842 0.9367);  /* 插画重点色(=暗色侧栏高亮青绿) */
+  --la-accent-ink: #1A1A1A;            /* 青绿底上用深墨(白字在浅青绿上不可读) */
+  --pb-chip: #232527;                  /* 图表浮层面色:暗=明显亮于骨架的一层 */
+}
+
+/* 文本选中色 = 主题高亮色(与侧栏高亮同值)：亮=蓝底白字 / 暗=青绿底深字 */
+::selection { background:#4339FF; color:#FFFFFF; }
+:root[data-theme="dark"] ::selection {
+  background: color(display-p3 0.6745 0.8842 0.9367);
+  color:#1A1A1A;
+}
+
+* { box-sizing:border-box; }
+html, body, #root { margin:0; height:100%; }

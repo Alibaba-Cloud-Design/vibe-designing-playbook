@@ -1,0 +1,37 @@
+/* ============================================================
+   二屏·书介绍 收束引文 —— 深色大字引文（引言正文 → 目录三屏之间的诗性收束）
+   逐字「上色点亮」跟随滚动（trionn FadeOnScroll）。v2-dark：换深色皮/颜色，机制不动。
+   ============================================================ */
+/* 深底透出制图点阵（与 .rs/.cap 一致的连续滚动，不再是独立黑幕）。
+   左 316 清固定侧栏；上下 padding 给引文呼吸，读完接目录三屏。 */
+.ib{
+  background:transparent;
+  color:var(--ink);
+  /* 左：对齐 316 网格线后再 inset 一个单位(unmoth 铁律：字不压线)；上下走间距阶梯 */
+  padding:var(--space-2xl) 116px clamp(40px, 6vh, 64px) calc(316px + var(--inset));  /* 下收紧:紧接目录卡片 */
+  display:flex; flex-direction:column; align-items:stretch;
+}
+
+/* 引文：全英文文学衬线（Instrument Serif，拉丁大句声部，与封面字标同族）。
+   逐字 color 渐染：基色由 JS 设到每个 char，随滚动 scrub 着色到 --ink。
+   这里只定排版，颜色交给 GSAP。 */
+.ib-quote{
+  margin:0; max-width:920px;
+  font-family:'Instrument Serif',serif; font-weight:400;
+  font-size:clamp(40px, 5vw, 72px); line-height:1.28;
+  letter-spacing:-0.5px;                  /* 负字距只给拉丁引文（中文无涉） */
+  color:var(--ink-10);                    /* 着色前基色兜底（GSAP 未跑时也是弱化文字） */
+  overflow-wrap:normal; word-break:normal;
+}
+/* 逐字 span 只做 color 动画（无 transform）→ 强制 inline，
+   覆盖 SplitText 默认的 inline-block（否则换行会落在词中间，如 capab|ility）。 */
+.ib-char{ display:inline !important; will-change:color; }
+
+@media (prefers-reduced-motion:reduce){
+  .ib-quote{ color:var(--ink); }
+}
+
+@media (max-width:760px){
+  .ib{ padding:72px 24px 96px; }
+  .ib-quote{ font-size:clamp(24px,6vw,36px); }
+}

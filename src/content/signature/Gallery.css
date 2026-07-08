@@ -1,0 +1,111 @@
+/* 章节签名插画系统 · 自检画廊 —— 软深色，发丝线，三声部字体。 */
+.siggal {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 88px clamp(24px, 6vw, 96px) 120px;
+  font-family: var(--font-sans);
+}
+.siggal .mono {
+  font-family: var(--font-mono);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+}
+
+/* —— 顶部 —— */
+.siggal-top { max-width: 760px; margin: 0 0 72px; }
+.siggal-kicker { font-size: 12px; color: var(--ink-30); margin-bottom: 22px; }
+.siggal-h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+.siggal-lead {
+  font-size: 15px; line-height: 1.85;
+  color: var(--ink-60);
+  margin: 0;
+}
+
+/* —— 区标签 —— */
+.siggal-sec-label {
+  font-size: 12px; color: var(--ink-30);
+  padding-bottom: 14px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* —— 章扉页大图 proof —— */
+.siggal-openers { margin-bottom: 84px; }
+.siggal-opener-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;                      /* 发丝格线：靠 1px 缝 + 背景色 */
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+.opener {
+  margin: 0;
+  background: #090909;           /* §2.7 页底 */
+  padding: 40px 24px 26px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.opener-art { width: min(300px, 60vw); }
+.opener-cap {
+  margin-top: 22px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+}
+.opener-no { font-size: 12px; color: var(--ink-30); }
+.opener-name {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 20px; color: var(--ink);
+}
+
+/* —— 三屏目录卡（§2.7 规格） —— */
+.siggal-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.sigcard {
+  background: #101011;           /* §2.7 卡底 */
+  border: 1px solid var(--hairline);
+  border-radius: 0;              /* 直角无圆角 */
+  padding: 32px;                 /* 内距 32 */
+  display: flex; flex-direction: column;
+  min-height: 460px;
+  outline: none;
+  transition: background 220ms ease, border-color 220ms ease;
+}
+.sigcard:hover, .sigcard:focus-visible {
+  background: #161618;           /* §2.7 hover */
+  border-color: var(--hairline-bold);
+}
+.sigcard-head { display: flex; flex-direction: column; align-items: flex-start; }
+.sigcard-no { font-size: 12px; color: var(--ink-30); margin-bottom: 20px; }
+.sigcard-title {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 30px; line-height: 1.25;   /* §2.7 思源宋 30 白 */
+  color: var(--ink); margin: 0;
+}
+.sigcard-divider {
+  display: block; width: 40px; height: 2px;  /* §2.7 2px×40px 分隔条 */
+  background: var(--ink-60);
+  margin: 18px 0;
+}
+.sigcard-desc {
+  font-size: 15px; line-height: 1.8;    /* 描述灰（20 在窄卡偏挤，取 15 保 CN 长读） */
+  color: var(--ink-60); margin: 0;
+}
+.sigcard-art {
+  margin-top: auto;                     /* 底部方图 mt-auto */
+  padding-top: 28px;
+  width: 100%;
+}
+.sigcard-art canvas { margin: 0 auto; max-width: 260px; }
+
+/* 窄屏塌成单列 */
+@media (max-width: 900px) {
+  .siggal-opener-row, .siggal-cards { grid-template-columns: 1fr; }
+}

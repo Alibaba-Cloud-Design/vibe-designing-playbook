@@ -1,0 +1,604 @@
+/* ============================================================
+   大封面 1:1（Figma node 13:295，画布 1600×900）
+   ============================================================ */
+:root { --vsd-violet: linear-gradient(196.557deg, var(--ink) 4.9%, var(--accent-bright) 141.59%); }
+
+body { margin:0; background-color:var(--bg); color:var(--ink);
+  font-family:var(--font-sans);
+  overflow-x:hidden;
+}
+#root { min-height:100vh; }
+
+/* ScrollSmoother 结构：wrapper 固定铺满视口,content 是被平滑变换的滚动内容。
+   注意:固定定位元素(侧栏)放在 wrapper 外,避免被 content 的 transform 影响。 */
+#smooth-wrapper { position:fixed; inset:0; overflow:hidden; }
+/* 滚动内容承载全站底色；仅保留侧栏 / 正文之间的主分隔线。 */
+#smooth-content { will-change:transform;
+  background-color:var(--bg);
+  background-image:linear-gradient(var(--connector-line), var(--connector-line));
+  background-size:1px 100%;
+  background-position:var(--main-left) 0;
+  background-repeat:no-repeat;
+}
+
+.frame{
+  position:relative; width:100vw; height:100dvh; min-height:720px;
+  overflow:hidden;
+  background:var(--bg);
+}
+.frame::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:0;
+  z-index:20;
+  height:1px;
+  pointer-events:none;
+  background:var(--connector-line);
+}
+.stage{
+  position:absolute; top:0; left:0; width:1600px; height:900px;
+  transform-origin:top left;
+}
+
+.el{ position:absolute; z-index:2; }
+
+.cover-card{
+  position:absolute;
+  left:0; top:0;
+  width:1600px;
+  height:max(900px, calc(1600px * 100dvh / 100vw));
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 78% 42%, rgba(232,232,230,0.035), transparent 36%),
+    linear-gradient(180deg, #0c0c0c 0%, #080808 100%);
+  color:#e8e8e6;
+  border:0;
+  box-shadow:none;
+}
+
+.cover-card::before{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(246,246,242,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(246,246,242,0.018) 1px, transparent 1px);
+  background-size:24px 24px;
+  mask-image:linear-gradient(90deg, transparent 0%, black 15%, black 90%, transparent 100%);
+}
+
+/* ============================================================
+   首屏封面 · Figma node 209:42（1:1，画布 1600×900 · 黑底排版式 serif）
+   —— 巨字标 Vibe / Designing(斜体) / Playbook + 靛蓝块；左上 serif 角标 +
+      mono 眉标 + 右上主题 toggle + 淡网格线（竖 28/621/1572 · 横 32/402/542/683/823）。
+   入场沿用 stage.atr-enter 机制（App.tsx playCoverIntro 触发），各元素错峰
+   「模糊渐现」揭示，保留原 poetic 入场语汇。
+   ============================================================ */
+.cover-card.cover-fig{
+  background:#000;
+  color:#fff;
+  font-family:var(--font-sans);
+}
+/* Figma 是纯黑 + 显式网格线：关掉 .cover-card 的暗色渐变 / 点纹 / 扫光 */
+.cover-card.cover-fig::before,
+.cover-card.cover-fig::after{ content:none; display:none; }
+
+/* —— 淡网格线 rgba(255,255,255,0.10) —— */
+.cf-grid{ position:absolute; inset:0; z-index:1; pointer-events:none; }
+.cf-vline{ position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.10); }
+.cf-hline{ position:absolute; left:0; right:0; height:1px; background:rgba(255,255,255,0.10); }
+
+/* —— 左上角标 · serif「Not Design / But Future ■」 —— */
+.cf-cornermark{
+  position:absolute; z-index:3; left:28px; top:29px;
+  display:flex; flex-direction:column; align-items:flex-start;
+  font-family:'Instrument Serif', var(--font-serif);
+  font-weight:400; font-size:23px; line-height:1.05; letter-spacing:0;
+  color:rgba(255,255,255,0.9);
+}
+.cf-cornermark span{ display:inline-flex; align-items:center; white-space:nowrap; }
+.cf-cornermark span + span{ padding-left:25px; }   /* 「But Future」右缩进 25px（Figma 错落双行） */
+.cf-sq{ flex:none; width:14px; height:14px; margin-left:6px; background:#fff; }
+
+/* —— mono 眉标 · Chivo Mono 12/20 · 字距 0.96 · 白 32%（0.8×0.4） —— */
+.cf-year, .cf-tags{
+  position:absolute; z-index:3; margin:0;
+  font-family:'Chivo Mono', var(--font-mono);
+  font-weight:400; font-size:12px; line-height:20px; letter-spacing:0.96px;
+  text-transform:uppercase; color:rgba(255,255,255,0.32);
+}
+.cf-year{ left:621px; top:28px; white-space:nowrap; }
+.cf-tags{ left:621px; top:402px; }
+
+/* —— 巨字标 · Instrument Serif 155.442 / lh .9 · 白 90% —— */
+.cf-wordmark{
+  position:absolute; z-index:2; left:40px; top:392.31px; margin:0;
+  display:flex; flex-direction:column;
+  font-family:'Instrument Serif', var(--font-serif);
+  font-weight:400; color:rgba(255,255,255,0.9);
+  text-transform:capitalize; white-space:nowrap;
+}
+.cf-w{ display:block; font-size:155.442px; line-height:0.9; }
+.cf-w-designing{ font-style:italic; }
+
+/* —— 靛蓝小色块（Playbook 后，Figma 209:56） —— */
+.cf-blue{
+  position:absolute; z-index:2; left:543px; top:748px;
+  width:46px; height:64px;
+  display:block;
+  overflow:visible;
+  font-family:var(--font-mono);
+  font-size:58px;
+  font-weight:700;
+  line-height:1;
+  letter-spacing:0;
+  text-transform:none;
+  color:transparent;
+  transform-origin:left center;
+}
+.cf-blue-measure,
+.cf-blue-overlay{
+  position:absolute;
+  left:0;
+  bottom:6px;
+  display:block;
+  min-width:1ch;
+  background:linear-gradient(95deg, #b266ff 4%, #c62afb 45%, #7a5ef4 68%, #2996ff 100%);
+  background-size:260% 100%;
+  background-clip:text;
+  -webkit-background-clip:text;
+  color:transparent;
+  -webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 14px rgba(128,111,239,0.26));
+  animation:cf-blue-grad 8s linear 1.86s infinite;
+}
+.cf-blue-overlay{
+  animation:
+    cf-blue-grad 8s linear 1.86s infinite,
+    cf-blue-glyph-hit 66ms steps(1,end) infinite;
+}
+.cf-blue.is-hidden .cf-blue-measure,
+.cf-blue[data-phase="scramble"] .cf-blue-measure{
+  opacity:0;
+}
+
+/* ============================================================
+   封面入场（poetic）：默认隐藏 → stage.atr-enter 触发错峰模糊渐现
+   ============================================================ */
+.cover-fig .cf-vline,
+.cover-fig .cf-hline,
+.cover-fig .cf-cornermark,
+.cover-fig .cf-year,
+.cover-fig .cf-tags,
+.cover-fig .cf-w,
+.cover-fig .cf-blue{ opacity:0; }
+
+.cover-fig .cf-cornermark,
+.cover-fig .cf-year,
+.cover-fig .cf-tags{ filter:blur(8px); transform:translateY(6px); }
+
+.cover-fig .cf-w{ filter:blur(16px); transform:translateY(24px); }
+.cover-fig .cf-blue{ transform:scaleX(0); transform-origin:left center; }
+
+.stage.atr-enter .cf-vline,
+.stage.atr-enter .cf-hline{ animation:cf-line-in 1s ease .12s forwards; }
+.stage.atr-enter .cf-cornermark{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .32s forwards; }
+.stage.atr-enter .cf-year{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .4s forwards; }
+.stage.atr-enter .cf-tags{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .48s forwards; }
+.stage.atr-enter .cf-w-vibe{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .44s forwards; }
+.stage.atr-enter .cf-w-designing{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .58s forwards; }
+.stage.atr-enter .cf-w-playbook{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .72s forwards; }
+.stage.atr-enter .cf-blue{
+  animation:
+    cf-blue-in .66s cubic-bezier(.22,1,.36,1) 1.2s forwards;
+}
+
+@keyframes cf-line-in{ to{ opacity:1; } }
+@keyframes cf-soft-in{
+  0%{ opacity:0; filter:blur(8px); transform:translateY(6px); }
+  100%{ opacity:1; filter:blur(0); transform:translateY(0); }
+}
+@keyframes cf-word-in{
+  0%{ opacity:0; filter:blur(16px); transform:translateY(24px); }
+  100%{ opacity:1; filter:blur(0); transform:translateY(0); }
+}
+@keyframes cf-blue-in{
+  0%{ opacity:0; transform:scaleX(0); }
+  100%{ opacity:1; transform:scaleX(1); }
+}
+@keyframes cf-blue-grad{
+  0%{ background-position:0% 50%; }
+  100%{ background-position:200% 50%; }
+}
+@keyframes cf-blue-glyph-hit{
+  0%, 100%{ opacity:1; filter:drop-shadow(0 0 10px rgba(128,111,239,0.22)); }
+  50%{ opacity:0.78; filter:drop-shadow(0 0 20px rgba(198,42,251,0.42)); }
+}
+
+@media (prefers-reduced-motion:reduce){
+  .cover-fig .cf-vline,
+  .cover-fig .cf-hline,
+  .cover-fig .cf-cornermark,
+  .cover-fig .cf-year,
+  .cover-fig .cf-tags,
+  .cover-fig .cf-w,
+  .cover-fig .cf-blue{
+    animation:none !important;
+    opacity:1; filter:none; transform:none;
+  }
+  .cover-fig .cf-blue-measure,
+  .cover-fig .cf-blue-overlay{ animation:none !important; opacity:1; filter:none; }
+}
+
+.cover-nav{
+  position:absolute;
+  left:52px; right:48px; top:30px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:3;
+}
+
+.cover-brand{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-family:"Figtree", var(--font-sans);
+  font-size:25px;
+  line-height:1;
+  font-weight:700;
+  color:rgba(246,246,242,0.94);
+}
+
+.cover-brand-mark{
+  width:22px; height:22px;
+  border:1.4px dashed rgba(246,246,242,0.72);
+  border-radius:50%;
+}
+
+.cover-links{
+  display:flex;
+  align-items:center;
+  gap:34px;
+  font-family:var(--font-mono);
+  font-size:12px;
+  line-height:1;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  color:rgba(246,246,242,0.72);
+}
+
+.cover-link-box{
+  padding:13px 18px;
+  border:1px solid rgba(246,246,242,0.55);
+  border-radius:5px;
+  color:rgba(246,246,242,0.9);
+}
+
+.cover-copy{
+  position:absolute;
+  left:62px; top:46%;
+  width:670px;
+  z-index:3;
+}
+
+.cover-headline{
+  margin:0;
+  font-family:"Instrument Serif", var(--font-serif);
+  font-size:78px;
+  line-height:0.94;
+  font-weight:400;
+  letter-spacing:0;
+  color:#f6f2ea;
+  max-width:620px;
+  text-wrap:balance;
+}
+
+.cover-deck{
+  margin:42px 0 0;
+  max-width:450px;
+  font-family:var(--font-serif);
+  font-size:19px;
+  line-height:1.45;
+  color:rgba(246,246,242,0.78);
+}
+
+.cover-cta{
+  margin-top:56px;
+  appearance:none;
+  border:0;
+  border-radius:4px;
+  padding:16px 20px 15px;
+  background:rgba(232,232,230,0.08);
+  color:rgba(246,246,242,0.9);
+  border:1px solid rgba(246,246,242,0.28);
+  font-family:var(--font-mono);
+  font-size:12px;
+  line-height:1;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  cursor:default;
+}
+
+.cover-visual{
+  position:absolute;
+  right:-22px; top:116px;
+  width:940px; height:600px;
+  z-index:2;
+  opacity:0.94;
+}
+
+.cover-visual .cbp{
+  width:100%;
+  height:100%;
+}
+
+.cover-meta{
+  position:absolute;
+  left:52px; right:48px; bottom:30px;
+  display:flex;
+  justify-content:space-between;
+  font-family:var(--font-mono);
+  font-size:12px;
+  letter-spacing:0.06em;
+  text-transform:uppercase;
+  color:rgba(246,246,242,0.52);
+  z-index:3;
+}
+
+/* 封面内容随滚动渐弱：opacity 由 JS 设的 --cover-fade 驱动(滚 0→1屏高 = 1→0)。
+   含中央 3D 书，整屏内容一起淡出，不会出现"小字没了书还在"的割裂。 */
+.rh-l, .rh-r, .chapters, .scroll-cue, .about-tag, .notdesign, .imprint, .blueprint-slot{
+  opacity:var(--cover-fade, 1);
+}
+
+.mono{
+  font-family:'Chivo Mono',monospace; font-weight:400;
+  color:rgba(255,255,255,0.8);
+  /* Figma 13:295 多数 running text = 12px / 字距 0.96px */
+  font-size:12px; line-height:20px; letter-spacing:0.96px;
+  text-transform:uppercase; white-space:nowrap;
+}
+/* Figma 例外：箭头(13:325) 与 出品(13:319) = 16px / 1.28px */
+.arrows, .imprint{ font-size:16px; letter-spacing:1.28px; }
+
+.rh-l{ left:29px;  top:28px; }
+.rh-r{ right:25px; top:28px; }   /* 右轴：右缘对齐 1575 */
+
+.title{
+  /* 标题整体宽度对齐左右英文脚标：左缘 = 2026 左缘(29)，右缘 ≤ INTENT 右缘(1575) */
+  left:29px; top:92px; margin:0;
+  /* mono 大写字标（精致技术感，贴 X 蓝图 + 全站等宽声部） */
+  font-family:var(--font-mono); font-weight:600;
+  text-transform:uppercase;
+  color:rgba(246,246,242,0.9);
+  -webkit-text-stroke:0 transparent;
+  text-stroke:0 transparent;
+  text-shadow:0 0 34px rgba(255,255,255,0.08);
+  font-size:110px; line-height:1.02;
+  letter-spacing:0; white-space:nowrap;
+}
+
+/* 标题「从黑暗显影」：实体字从近黑显影到暖白。
+   与 BlurReveal 的逐字模糊/透明叠加,cover-enter 时由 stage.cover-entered 触发,
+   只动 CSS 的 color/text-shadow(BlurReveal 只碰 opacity/filter/transform,互不干涉)。 */
+.stage:not(.cover-entered) .title{
+  color:rgba(246,246,242,0.06);
+  text-shadow:none;
+}
+.stage.cover-entered .title{ animation:title-develop 1.3s cubic-bezier(0.22,1,0.36,1) both; }
+@keyframes title-develop{
+  0%   { color:rgba(246,246,242,0.06); text-shadow:none; }
+  100% { color:rgba(246,246,242,0.9); text-shadow:0 0 34px rgba(255,255,255,0.08); }
+}
+@media (prefers-reduced-motion:reduce){
+  .stage:not(.cover-entered) .title,
+  .stage.cover-entered .title{
+    animation:none;
+    color:rgba(246,246,242,0.9); text-shadow:0 0 34px rgba(255,255,255,0.08);
+  }
+}
+
+.chapters{ left:29px; top:232px; width:384px; line-height:20px; }
+
+/* 滚动指示器：trionn 风圆环+箭头滴落（替代 ↓ ↓），位置沿用原箭头左中 */
+.scroll-cue{
+  display:none;
+  left:552px; top:348px; width:16px; height:16px;
+  color:rgba(255,255,255,0.6);   /* 描边+箭头同色，半透明，安静 */
+}
+.scroll-cue svg{ width:16px; height:16px; overflow:visible; display:block; }
+.cue-arrow{
+  transform-box:fill-box; transform-origin:center;
+  animation:cue-drop 1.56s cubic-bezier(.22,1,.36,1) infinite;  /* 周期同 trionn */
+}
+@keyframes cue-drop{
+  0%   { transform:translateY(-13px); opacity:0; }   /* 上方淡入 */
+  40%  { transform:translateY(0);     opacity:1; }   /* 落到圆心 */
+  64%  { transform:translateY(0);     opacity:1; }   /* 停顿 */
+  100% { transform:translateY(13px);  opacity:0; }   /* 下滑淡出 */
+}
+@media (prefers-reduced-motion:reduce){ .cue-arrow{ animation:none; } }
+
+/* 右对齐：右缘统一对齐右轴(右边距 25px = 画布 1575)，见封面网格规范 */
+.sub{ right:25px; top:352px; width:212px; height:81px; }
+.sub-text{ position:absolute; right:0; top:0; text-align:right; white-space:nowrap;
+  font-family:'Figtree',sans-serif; font-weight:500; color:#fff; }
+.sub-en{ font-size:31.1px; line-height:40px; }
+.sub-cn{ font-size:30px; line-height:40px; letter-spacing:1.2px; }
+.sub-bar{ position:absolute; left:66px; top:47px;
+  width:9.86px; height:26.53px; background:var(--vsd-violet); }
+
+/* 中央蓝图星座大图槽：居中大幅，占满封面中部（unmoth 星座漏斗占宽 ~61%）。
+   SVG viewBox 1000×470 与本槽 980×460 同比，xMidYMid meet 恰好铺满不留黑边。
+   上缘 365 落在字标(结束 ~285)与 chapters/sub(y352 细行)之下,盘心/节点均在其下方,不相犯。 */
+.blueprint-slot{
+  left:29px; top:270px; width:1518px; height:500px;
+  z-index:1; display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  background:rgba(246,246,242,0.018);
+}
+.blueprint-slot::before{
+  content:"";
+  position:absolute; inset:0;
+  border:1px solid rgba(246,246,242,0.16);
+  box-shadow:inset 0 1px 0 rgba(246,246,242,0.06);
+  pointer-events:none;
+}
+.blueprint-slot::after{
+  content:"";
+  position:absolute;
+  left:18px; right:18px; top:18px; bottom:18px;
+  border:1px solid rgba(246,246,242,0.055);
+  pointer-events:none;
+}
+.blueprint-slot .cbp{
+  position:relative;
+  z-index:1;
+  width:calc(100% - 72px);
+  height:calc(100% - 72px);
+}
+
+/* (About) 角标：studiox 风括号小标签，底部行左轴(29)，括号是文字本身、不大写 */
+.about-tag{
+  left:29px; top:845px;
+  font-family:'Chivo Mono',monospace; font-weight:400;
+  font-size:12px; line-height:20px; letter-spacing:0.96px;
+  color:rgba(255,255,255,0.8);   /* 与 slogan 同色，靠小号产生层次 */
+}
+/* slogan 居中、底部行轴（恢复原 mono 默认 12px 大小） */
+.notdesign{ left:50%; top:845px; transform:translateX(-50%); }
+.imprint{ right:25px; top:845px; }   /* 右轴：右缘对齐 1575 */
+
+/* ============================================================
+   书封正面 1:1（Figma node 3:273，画布 2100×3046）
+   .book-cover-fit 撑满 PerspectiveBook 内容区，
+   .book-cover-stage 按 2100 基准 scale 缩放（用 CSS container 单位）。
+   ============================================================ */
+/* BookCover 铺满整个书面（含组件 p-[12%] 留白），3-273 是整张黑底出血。
+   .book-cover-fit 用负 inset 撑破 padding；组件 Front Side 的 overflow-hidden+圆角裁溢出。
+   .book-cover-stage 固定 2100×3046，JS 按书面实宽/2100 scale（绝对 px，无累积误差）。 */
+.book-cover-fit{
+  /* 内容待在组件内容区内（不撑破 padding），书封文字自带 3-273 边距、完整不裁。
+     书皮已设 bg-black，padding 区也是黑的，黑底出血连续。 */
+  position:absolute; inset:0;
+  overflow:visible;
+}
+.book-cover-stage{
+  position:absolute; top:50%; left:50%;
+  width:2100px; height:3046px;
+  transform-origin:center center;   /* JS 设 translate(-50%,-50%) scale() 居中铺满 */
+}
+.bc-bg{ position:absolute; inset:0; background:#000; z-index:0; }
+
+/* 涡旋图形 Group121（viewBox 2674×2717）。Figma frame 大幅溢出，
+   先按"铺满中下部、略大、居中偏下"近似，截图后精调 */
+.bc-swirl{
+  position:absolute; z-index:1;
+  left:-340px; top:520px;
+  width:2860px; height:2906px;     /* 显式高（viewBox 2674:2717），否则 SVG naturalRatio 把它压扁 */
+  opacity:0.85; pointer-events:none;
+}
+
+/* 标题 416px Instrument Serif，行高320，字距-16.64，(114,182)，两行 */
+.bc-title{
+  position:absolute; z-index:2; margin:0;
+  left:114px; top:182px;
+  font-family:'Instrument Serif',serif; font-weight:400;
+  color:#fff; text-transform:capitalize;   /* 书封主标题 100% 清晰 */
+  font-size:416px; line-height:320px;
+  letter-spacing:-16.64px; white-space:nowrap;
+}
+
+/* 副标题 82px Figtree，行高96，右对齐到 right 边界 1983（top871）。
+   第一行 Vibe Designing；第二行 = 渐变条 + 设计指南（条在文字左侧、齐高、不压字）。 */
+.bc-sub{
+  position:absolute; z-index:2;
+  top:871px; right:117px;               /* 2100-1983 = 117，右边界对齐 */
+  display:flex; flex-direction:column; align-items:flex-end;
+  font-family:'Figtree',sans-serif; font-weight:500; color:#fff;
+  font-size:82px; line-height:96px;
+}
+.bc-sub-en{ text-align:right; }
+.bc-sub-cn{
+  display:flex; align-items:center; gap:18px;   /* 条与「设计指南」间距 */
+}
+.bc-sub-bar{
+  flex:none;
+  width:26px; height:69.955px;
+  background:linear-gradient(226.558deg, #faf9f9 32.6%, var(--accent-bright) 56%, var(--accent) 132%);
+}
+
+/* ACD标 (121,2842) 180×97 */
+.bc-acd{
+  position:absolute; z-index:2;
+  left:121px; top:2842px; width:180px; height:auto; object-fit:contain;
+}
+/* 出品 (1463,2887) 82px */
+.bc-imprint{
+  position:absolute; z-index:2;
+  left:1463px; top:2887px;
+  font-family:'Chivo Mono',monospace; color:rgba(255,255,255,0.85);
+  font-size:82px; line-height:1.3; white-space:nowrap;
+}
+
+/* ============================================================
+   手机：转竖版
+   ============================================================ */
+@media (max-width:760px){
+  #root{ display:block; }
+  .frame{ width:100vw; aspect-ratio:auto; min-height:100svh; max-height:none; }
+  .stage{ position:relative; width:100vw; height:100svh; transform:none; }
+  .cover-card{
+    left:0; top:0;
+    width:100vw;
+    height:100svh;
+    min-height:0;
+  }
+  /* —— 封面 · Figma serif（移动端重排：巨字标缩放贴底，眉标/角标归位） —— */
+  .cf-grid{ display:none; }
+  .cf-cornermark{ left:20px; top:20px; font-size:18px; }
+  .cf-year{ left:auto; right:20px; top:22px; }
+  .cf-tags{ left:20px; top:118px; white-space:normal; }
+  .cf-wordmark{ left:20px; right:20px; top:auto; bottom:72px; white-space:nowrap; }
+  .cf-w{ font-size:clamp(52px,14.5vw,116px); line-height:0.94; }
+  .cf-blue{ left:20px; top:auto; bottom:28px; width:32px; height:42px; font-size:34px; }
+  .cf-blue-measure,
+  .cf-blue-overlay{ bottom:2px; }
+  .cover-nav{ left:22px; right:22px; top:22px; }
+  .cover-brand{ font-size:18px; gap:9px; }
+  .cover-brand-mark{ width:18px; height:18px; }
+  .cover-links span:not(.cover-link-box){ display:none; }
+  .cover-link-box{ padding:10px 12px; font-size:11px; }
+  .cover-copy{ left:24px; right:24px; top:auto; bottom:64px; width:auto; }
+  .cover-headline{ font-size:44px; line-height:0.98; max-width:300px; }
+  .cover-deck{ margin-top:28px; max-width:300px; font-size:15px; line-height:1.55; }
+  .cover-cta{ margin-top:34px; padding:13px 15px 12px; }
+  .cover-visual{
+    right:-78px; top:142px;
+    width:520px; max-width:none;
+    height:310px;
+    opacity:0.66;
+  }
+  .cover-meta{ left:24px; right:24px; bottom:18px; font-size:10px; }
+  .cover-meta span:first-child{ display:none; }
+  .mono{ font-size:12px; letter-spacing:1px; line-height:18px; }
+  .rh-l{ left:24px; top:24px; }
+  .rh-r{ left:auto; right:24px; top:24px; }
+  .title{ left:24px; top:84px; width:calc(100vw - 48px);
+    font-size:clamp(48px,15vw,104px); line-height:0.92;
+    letter-spacing:-0.03em; white-space:normal; }
+  .chapters{ left:24px; top:240px; width:60vw; }
+  .scroll-cue{ display:none; }
+  .blueprint-slot{ left:50%; top:300px; transform:translateX(-50%);
+    width:min(92vw,440px); height:auto; aspect-ratio:1000/470; }
+  .sub{ left:auto; right:24px; top:auto; bottom:120px; width:auto; height:auto; }
+  .sub-bar{ left:-22px; top:6px; width:7px; height:38px; }
+  .sub-en{ font-size:20px; line-height:26px; }
+  .sub-cn{ font-size:19px; line-height:26px; }
+  .about-tag{ left:24px; top:auto; bottom:14px; }
+  .notdesign{ left:50%; top:auto; bottom:40px; transform:translateX(-50%); }
+  .imprint{ left:auto; right:24px; top:auto; bottom:14px; }
+}

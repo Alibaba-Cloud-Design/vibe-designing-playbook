@@ -1,0 +1,176 @@
+/* ============================================================
+   正文富块（需求4 · 板块设计）—— 步骤名 / 附件卡 / 词条卡 / 对照卡。
+   全部走 .prose 作用域的 --prose-* 与全站 token，深浅主题自适应。
+   ============================================================ */
+
+/* ---------- 步骤名：靛蓝块 + 近黑块拼接（poolside 章节感）---------- */
+.pr-step { margin: 74px 0 26px; }
+.pr-step:first-child { margin-top: 8px; }
+.pr-step-tag {
+  display: inline-flex; align-items: stretch; margin-bottom: 20px;
+  font-family: var(--prose-mono);
+  box-shadow: 0 1px 0 color-mix(in srgb, var(--prose-ink-strong), transparent 92%);
+}
+.pr-step-no {
+  display: inline-flex; align-items: center;
+  background: var(--prose-accent); color: var(--la-accent-ink);   /* 暗色青绿底自动换深墨字 */
+  padding: 8px 13px; font-size: 13px; font-weight: 600;
+  letter-spacing: 0.06em; font-variant-numeric: tabular-nums;
+}
+.pr-step-cn {
+  display: inline-flex; align-items: center;
+  background: var(--ink); color: var(--bg);
+  padding: 8px 15px; font-family: var(--prose-sans);
+  font-size: 13px; font-weight: 500; letter-spacing: 0.16em; text-indent: 0.16em;
+}
+.pr-step-title {
+  margin: 0; font-family: var(--font-serif); font-weight: 400;
+  font-size: clamp(27px, 3vw, 36px); line-height: 1.2; letter-spacing: 0;
+  color: var(--prose-ink-strong);
+}
+
+/* ---------- 附件卡：可点下载 + hover（描边亮 / 图标位移 / 下载态）---------- */
+.pr-att {
+  margin: 24px 0 30px; display: flex; flex-direction: column; gap: 16px;
+  padding: 18px 20px;
+  border: 1px solid var(--prose-hair);
+  border-left: 2px solid color-mix(in srgb, var(--prose-accent), transparent 40%);
+  background: color-mix(in srgb, var(--prose-accent), transparent 97%);
+}
+.pr-att-row { display: flex; flex-direction: column; gap: 11px; }
+.pr-att-role {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--prose-mono); font-size: 11px; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--prose-ink-50);
+}
+.pr-att-role-mk { width: 6px; height: 6px; flex: none; background: var(--prose-accent); }
+.pr-att-row--output .pr-att-role-mk { background: var(--prose-ink-30); }
+.pr-att-cards { display: flex; flex-wrap: wrap; gap: 10px; }
+
+.pr-att-card {
+  position: relative; display: inline-flex; align-items: center; gap: 12px;
+  flex: 1 1 240px; min-width: 220px; max-width: 340px; padding: 12px 14px;
+  border: 1px solid var(--prose-hair); border-radius: 0;
+  background: var(--prose-bg); color: var(--prose-ink-strong);
+  text-decoration: none;
+  transition: border-color .24s ease, background .24s ease,
+    transform .24s cubic-bezier(0.22,1,0.36,1), box-shadow .24s ease;
+}
+.pr-att-card::after {                        /* 顶部靛蓝进度脊（下载态揭示）*/
+  content: ""; position: absolute; left: -1px; top: -1px; height: 2px; width: 0;
+  background: var(--prose-accent-br); transition: width .28s ease;
+}
+.pr-att-card:hover {
+  border-color: var(--prose-accent); background: var(--prose-surface-1);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--prose-accent), transparent 30%);
+}
+.pr-att-card:hover::after { width: calc(100% + 2px); }
+.pr-att-card:active { transform: translateY(0); }
+
+.pr-att-ico {
+  display: inline-flex; flex: none; color: var(--prose-ink-50);
+  transition: color .24s ease, transform .24s ease;
+}
+.pr-att-card:hover .pr-att-ico { color: var(--prose-accent-br); transform: translateY(-1px); }
+
+.pr-att-meta { display: flex; flex-direction: column; gap: 2px; min-width: 0; margin-right: auto; }
+.pr-att-name {
+  font-family: var(--prose-sans); font-size: 14px; font-weight: 500; line-height: 1.3;
+  color: var(--prose-ink-strong); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.pr-att-file {
+  font-family: var(--prose-mono); font-size: 10.5px; letter-spacing: 0.01em;
+  color: var(--prose-ink-30); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.pr-att-act { display: inline-flex; align-items: center; gap: 6px; flex: none; }
+.pr-att-hint {
+  font-family: var(--prose-mono); font-size: 11px; color: var(--prose-accent-br);
+  opacity: 0; transform: translateX(5px); transition: opacity .24s ease, transform .24s ease;
+}
+.pr-att-card:hover .pr-att-hint { opacity: 1; transform: none; }
+.pr-att-dl { color: var(--prose-ink-30); transition: color .24s ease, transform .28s cubic-bezier(0.22,1,0.36,1); }
+.pr-att-card:hover .pr-att-dl { color: var(--prose-accent-br); transform: translateY(3px); }
+.pr-att-card:active .pr-att-dl { transform: translateY(6px); }
+
+.pr-att-plain {
+  display: inline-flex; align-items: center; padding: 10px 14px;
+  border: 1px dashed var(--prose-hair-bold); color: var(--prose-ink-50);
+  font-family: var(--prose-sans); font-size: 13px;
+}
+
+/* ---------- 设计词条卡（📇 术语｜释义）---------- */
+.pr-gloss {
+  margin: 26px 0; padding: 17px 22px 15px;
+  border: 1px solid var(--prose-hair); border-left: 2px solid var(--prose-accent);
+  background: color-mix(in srgb, var(--prose-accent), transparent 95%);
+}
+.pr-gloss-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; margin-bottom: 9px; }
+.pr-gloss-mk { flex: none; color: var(--prose-accent); font-size: 10px; transform: translateY(-1px); }
+.pr-gloss-term {
+  font-family: var(--prose-sans); font-weight: 600; font-size: 15px;
+  letter-spacing: 0; color: var(--prose-ink-strong);
+}
+.pr-gloss-en { font-family: var(--prose-mono); font-size: 12px; color: var(--prose-ink-50); }
+.pr-gloss-body :is(p, .pr-p) { margin: 0 0 9px; font-size: 14.5px; line-height: 1.72; color: var(--prose-ink-60); }
+.pr-gloss-body :is(p, .pr-p):last-child { margin-bottom: 0; }
+.pr-gloss-body strong { font-weight: 600; color: var(--prose-ink-strong); }
+.pr-gloss-body em, .pr-gloss-body code {
+  font-family: var(--prose-mono); font-style: normal; font-size: 0.9em; color: var(--prose-ink-strong);
+}
+
+/* ---------- 对照卡（🃏 双栏并置）---------- */
+/* Notion 式轻卡(2026-07 四轮):内距全部转移进单元格 → 行线满宽、纵向分隔线顶到上下描边 */
+.pr-compare {
+  margin: 28px 0; padding: 0;
+  border: 1px solid var(--prose-hair);
+  background: color-mix(in srgb, var(--ink), transparent 97.5%);
+}
+.pr-compare-body .pr-table-wrap { margin-bottom: 0; }
+/* 表头吃掉卡片顶部内距(分隔线借表头单元格边框贯通到顶) */
+.pr-compare-body .pr-table th { padding-top: 16px; }
+.pr-compare-body .pr-table th:not(:first-child),
+.pr-compare-body .pr-table td:not(:first-child) { padding-left: 20px; }
+/* 首末列吃掉卡片水平内距 */
+.pr-compare-body .pr-table th:first-child,
+.pr-compare-body .pr-table td:first-child { padding-left: 22px; }
+.pr-compare-body .pr-table th:last-child,
+.pr-compare-body .pr-table td:last-child { padding-right: 22px; }
+/* 双栏之间的纵向发丝分隔(border-collapse 下逐行连成整线) */
+.pr-compare-body .pr-table th:last-child,
+.pr-compare-body .pr-table td:last-child { border-left: 1px solid var(--prose-hair); }
+/* 末行行线保留,与卡底描边间留一段呼吸 */
+.pr-compare-body .pr-table tr:last-child td { border-bottom: none; padding-bottom: 18px; }
+
+/* ---------- 正文媒体井（🖼️ GIF/Demo → 描边图版内的演示）---------- */
+.pr-media {
+  position: relative; aspect-ratio: 16 / 9; overflow: hidden;
+  border: 1px solid var(--hairline-bold, var(--prose-hair-bold));
+  background: var(--prose-surface-2);
+}
+.pr-media-img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.pr-media--empty {
+  display: flex; align-items: center; justify-content: center;
+  background:
+    radial-gradient(120% 90% at 20% 0%, color-mix(in srgb, var(--prose-accent-br), transparent 92%), transparent 60%),
+    var(--prose-surface-1);
+}
+.pr-media--empty::before {          /* 发丝对角刻度，表明是待入的演示井（非原始占位）*/
+  content: ""; position: absolute; inset: 0;
+  background:
+    repeating-linear-gradient(45deg, transparent 0 11px, color-mix(in srgb, var(--prose-ink-strong), transparent 96%) 11px 12px);
+  opacity: 0.5;
+}
+.pr-media-tag {
+  position: absolute; left: 10px; bottom: 10px; z-index: 1;
+  font-family: var(--prose-mono); font-size: 10px; letter-spacing: 0.12em;
+  padding: 3px 7px; color: var(--prose-accent-br);
+  background: color-mix(in srgb, var(--prose-bg), transparent 12%);
+  border: 1px solid color-mix(in srgb, var(--prose-accent-br), transparent 62%);
+}
+
+@media (max-width: 760px) {
+  .pr-att-card { min-width: 0; flex-basis: 100%; max-width: none; }
+  .pr-step-title { font-size: 24px; }
+}

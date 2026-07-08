@@ -1,0 +1,191 @@
+/* ============================================================
+   引言页 · 全书板块导览 —— 对照 x.com/advertising
+   「Find the right format」错落格：每项 = 左浅色图形面板 + 右文字列
+   (编号顶对齐面板、标题+描述垂直居中)；两项一行与宽幅一行交替。
+   无滚动动画；面板/线稿随亮暗主题(--art-card-* / --sig-* 由 index.css 提供)。
+   ============================================================ */
+.deck {
+  position: relative;
+  padding: 76px 0 104px 0;
+  color: var(--ink);
+  background: transparent;
+  font-family: var(--font-sans);
+}
+
+/* 区块顶线/底线均已撤(2026-07 决议)——目录区唯一横线是标题下那条 .deck-headline */
+
+/* —— 目录标题(2026-07 样稿)：大衬线 Content + 灰苹方 目录，下接分割线 —— */
+.deck-head {
+  margin: 0 var(--content-right) 0 calc(316px + var(--inset));
+  padding: clamp(20px, 3vh, 40px) 0 clamp(44px, 6.5vh, 72px);
+}
+
+.deck-title {
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 26px;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(48px, 4.6vw, 64px);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.deck-title-cn {
+  font-family: var(--font-sans);      /* 苹方 */
+  font-weight: 400;
+  font-size: 0.58em;
+  letter-spacing: 0.04em;             /* 4% 字间距(既定规格) */
+  color: var(--ink-30);
+}
+
+/* 标题下的内容区分割线(自导航右缘至页右缘,与全站横线同规) */
+.deck-headline {
+  height: 1px;
+  margin-left: var(--main-left);
+  background: var(--connector-line);
+}
+
+/* —— X format 错落格：7 轨共享网格 ——
+   两列行与宽幅行共用同一组列线(X 的对齐律：所有文字列/面板缘共轴)：
+   [面板L 1fr][28][文字L 204][64][面板R 1fr][28][文字R 204]
+   两列行: 面板L→轨1 文字L→轨3 / 面板R→轨5 文字R→轨7
+   宽幅行: 面板跨轨1-5(右缘=面板R右缘) 文字→轨7(与文字R共轴) —— */
+.fmt-grid {
+  margin: clamp(44px, 6vh, 72px) var(--content-right) 0 calc(316px + var(--inset));
+  display: grid;
+  grid-template-columns:
+    minmax(0, 1fr) 28px minmax(176px, 204px)
+    64px
+    minmax(0, 1fr) 28px minmax(176px, 204px);
+  row-gap: clamp(56px, 8vh, 88px);
+}
+
+.fmt-item { display: contents; }
+.fmt-item--a .fmt-panel { grid-column: 1; }
+.fmt-item--a .fmt-info  { grid-column: 3; }
+.fmt-item--b .fmt-panel { grid-column: 5; }
+.fmt-item--b .fmt-info  { grid-column: 7; }
+.fmt-item--wide .fmt-panel { grid-column: 1 / 6; }
+.fmt-item--wide .fmt-info  { grid-column: 7; }
+
+/* 图形面板：线框描边容器(2026-07 决议:撤平涂底色)、直角、线稿居中 */
+.fmt-panel {
+  position: relative;
+  align-self: start;        /* 不随行高 stretch——否则 aspect-ratio 会把宽度反推超出网格列 */
+  width: 100%;
+  background: transparent;
+  border: 1px solid var(--art-card-line);
+  aspect-ratio: 10 / 8.6;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* 宽幅面板：高度与两列行面板一致(X 规则:两种行的面板等高，只变宽) */
+.fmt-item--wide .fmt-panel {
+  aspect-ratio: auto;
+  height: clamp(196px, 15vw, 232px);
+}
+
+/* SVG 插画(LinearArt 族)：整面铺满面板；构图留白在 viewBox 内部控制，
+   normal 面板 viewBox 500×430 与 10/8.6 同比、wide 1200×320 与实高近似同比 */
+.lart {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* mono 小标签(INTENT/FORM、坐标注记) —— 参考里的仪器注字
+   (对齐方式由各 text 的 textAnchor 属性决定,此处不设 text-anchor) */
+.lart-label text {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  fill: var(--la-bright);
+}
+
+/* 呼吸感：8s 一息,只动 transform/opacity(GPU),幅度 3px/7% —— 高级克制;
+   五卡错峰(负延迟错开相位);系统减动效时静止 */
+@media (prefers-reduced-motion: no-preference) {
+  .lart { animation: la-breathe 8s ease-in-out infinite; }
+  .fmt-item:nth-of-type(2) .lart { animation-delay: -2.1s; }
+  .fmt-item:nth-of-type(3) .lart { animation-delay: -4.3s; }
+  .fmt-item:nth-of-type(4) .lart { animation-delay: -1.2s; }
+  .fmt-item:nth-of-type(5) .lart { animation-delay: -5.6s; }
+}
+
+@keyframes la-breathe {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(-3px); opacity: 0.93; }
+}
+
+/* 文字列：编号顶对齐面板顶，标题+描述在剩余空间里垂直居中（X 的 info 列节奏） */
+.fmt-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fmt-no {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: var(--track-mono);
+  color: var(--ink-40);
+}
+
+.fmt-text {
+  margin: auto 0;           /* 垂直居中于面板剩余高度 */
+  padding: 24px 0;
+}
+
+.fmt-title {
+  margin: 0 0 12px;
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.fmt-desc {
+  margin: 0 0 14px;
+  font-size: 14px;
+  line-height: 1.72;
+  color: var(--ink-60);
+}
+
+.fmt-en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 1.2;
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+  color: var(--ink-30);
+}
+
+/* —— 窄屏:单列堆叠，面板在上文字在下 —— */
+@media (max-width: 860px) {
+  .deck {
+    padding: 48px 0 72px;
+  }
+
+  .deck-head { margin: 0 24px; padding: 8px 0 32px; }
+  .deck-headline { margin-left: 0; }
+
+  .fmt-grid {
+    margin: 32px 24px 0;
+    grid-template-columns: 1fr;
+    row-gap: 44px;
+  }
+  .fmt-item { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  .fmt-item .fmt-panel,
+  .fmt-item .fmt-info { grid-column: auto; }
+  .fmt-item--wide .fmt-panel { height: auto; aspect-ratio: 10 / 8.6; }
+  .fmt-text { margin: 0; padding: 0; }
+}

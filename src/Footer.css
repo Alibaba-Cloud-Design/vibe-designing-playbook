@@ -1,0 +1,81 @@
+/* ============================================================
+   P10 · 巨型近隐形 footer 字标（对标 unmoth-07-footer-wordmark）
+   收尾屏：超大「vibe designing playbook」用近 --bg 的灰渲染（几乎看不见）
+   + 虚线制图框 + 网格辅助线 + mono 比例标注；上方一条克制的 colophon/跳转 meta 行。
+   —— 全站深色令牌驱动；字标 fill 贴近 #08090A（ghost），dashed 描边给蓝图轮廓感。
+   进场：整块 sa-reveal 淡入上滑（复用全站机制）+ 字标左→右擦入揭示（呼应侧栏蓝块/横条转场）。
+   ============================================================ */
+.ft {
+  position: relative;
+  background: transparent;                 /* 露出 #smooth-content 深底 + 制图点阵 */
+  color: var(--ink);
+  font-family: var(--font-sans);
+  /* 顶部连接线已撤(2026-07 决议:板块间不压横线) */
+  /* 左让出固定侧栏槽位（对齐词典 316），右留边；底部给字标留大留白 */
+  padding: 88px 96px 72px 316px;
+  overflow: hidden;                        /* 字标擦入裁剪不产生横向滚动 */
+}
+
+/* ---------- meta 行：编号双列（呼应 unmoth 页脚 001/002 账本头）---------- */
+.ft-meta {
+  display: flex;
+  gap: 120px;
+  padding-bottom: 96px;
+}
+.ft-col { min-width: 0; }
+.ft-col-head {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 20px;
+  font-family: var(--font-mono);
+  font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--ink-60);
+}
+.ft-list { display: flex; flex-direction: column; gap: 10px; }
+
+/* colophon 静态行：中性灰、思源黑；年份/tagline 走 mono */
+.ft-line { font-size: 14px; line-height: 1.6; color: var(--ink-60); }
+.ft-line-mono {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.04em;
+  color: var(--ink-30);
+}
+
+/* ---------- 巨型字标制图图 ---------- */
+.ft-wordmark { display: block; width: 100%; height: auto; }
+
+/* 字标本体：fill 贴近画布底（ghost，几乎看不见）+ 极细 dashed 描边（蓝图轮廓）。
+   默认 paint-order（fill→stroke）→ 描边压在字缘上成 dashed 轮廓，正是 unmoth 质感。 */
+.fwm-word {
+  font-family: 'Instrument Serif', serif;
+  fill: var(--surface-2);             /* ghost fill：只比画布抬一档 */
+  stroke: var(--hairline-bold);       /* dashed 轮廓：随主题切换 */
+  stroke-width: 1;
+  stroke-dasharray: 3 4;              /* 更细的虚线，柔化边缘 */
+  stroke-linecap: butt;
+  paint-order: fill;
+}
+
+/* 制图框 / 网格辅助线 / 基线（虚线，faint）*/
+.fwm-frame { fill: none; stroke: var(--ink-10); stroke-width: 1; stroke-dasharray: 5 6; }
+.fwm-grid  { stroke: var(--grid-line); stroke-width: 1; stroke-dasharray: 2 7; }
+.fwm-base  { stroke: var(--hairline); stroke-width: 1; stroke-dasharray: 3 6; }
+.fwm-tick  { stroke: var(--ink-30); stroke-width: 1; }   /* 角标 tick 实线小段 */
+
+/* mono 比例标注（0.4X / 1X / 1Y / 1.75Y …）*/
+.fwm-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 15px; letter-spacing: 0.06em;
+  fill: var(--ink-30);
+}
+.fwm-label-x { text-anchor: end; }     /* 左轴（高度）标注右对齐贴轴 */
+
+/* ---------- 字标「左→右擦入」揭示 ----------
+   默认全显（reduced-motion / 无 JS 兜底）；允许动效时由 GSAP ScrollTrigger 在 Footer.tsx
+   里 gsap.set(inset 100%→0) 擦入（与 ScrollSmoother 集成，呼应侧栏蓝块 / 横条转场）。 */
+.ft-wm-wrap { clip-path: inset(0 0 0 0); }
+
+/* ---------- 手机：收窄留白、字标转 2 行更紧、meta 单列 ---------- */
+@media (max-width: 860px) {
+  .ft { padding: 56px 24px 40px; }
+  .ft-meta { flex-direction: column; gap: 40px; padding-bottom: 56px; }
+  .fwm-label { font-size: 18px; }         /* 缩放后补偿，保持可读 */
+}

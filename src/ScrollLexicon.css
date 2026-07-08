@@ -1,0 +1,47 @@
+/* ============================================================
+   词典折进连续滚动 —— 接在文章后的最后一屏
+   纸感,给固定侧栏让出左侧;版头 + 搜索 + 分类词条网格
+   复用 Lexicon.css 的词条样式(lex-entry / lex-grid / lex-cat …)
+   ============================================================ */
+.slx {
+  position: relative;
+  background: transparent;    /* 深底 + 点阵由 #smooth-content 透出并随滚 */
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, 'PingFang SC', system-ui, sans-serif;
+  padding: 0 116px 160px 316px;
+}
+/* 顶线左缘止于导航右描边(全站铁律:不越入导航底下) */
+.slx::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--main-left);
+  right: 0;
+  height: 1px;
+  background: var(--connector-line);
+  pointer-events: none;
+}
+
+/* 版头:立方体链背景 + 左对齐标题块 */
+.slx-hero {
+  position: relative;
+  padding: 120px 0 64px;
+  overflow: hidden;
+}
+.slx-hero-inner { position: relative; max-width: 760px; }
+/* 标题下家族插画面板：与章扉页 .sa-spread-art 同款,此处只补上边距 */
+.slx-hero-art { margin-top: clamp(28px, 4vh, 44px); }
+.slx-hero-title {
+  margin: 16px 0 0; font-weight: 400; font-size: 48px; line-height: 1.12;
+  letter-spacing: var(--track-display); color: var(--ink);
+}
+.slx-hero-lede {
+  margin: 24px 0 0; max-width: 620px;
+  font-size: 16px; line-height: 1.7; color: var(--ink-2);
+}
+.slx-search {
+  margin-top: 28px;
+}
+
+.slx-body { max-width: 980px; }
+.slx-body .lex-section { padding: 40px 0; }

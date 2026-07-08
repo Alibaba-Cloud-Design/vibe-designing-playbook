@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stripe Transition Lab</title>
+  <style>
+    *{margin:0;box-sizing:border-box}
+    body{font-family:system-ui,sans-serif}
+    .screen{height:100vh;display:flex;align-items:center;justify-content:center;font-size:48px}
+    .s-cover{background:#000;color:#fff}
+    .s-after{background:#FBFAF6;color:#000}
+
+    /* 转场区：外层不设高度，pin 的滚动距离交给 ScrollTrigger pinSpacing 自动撑 */
+    .lab-transition{position:relative;background:#000}
+    .lab-pin{position:relative;height:100vh;width:100%;overflow:hidden}
+    .lab-bg{position:absolute;inset:0;background:#000;z-index:0}
+    .lab-stripes{position:absolute;inset:0;display:flex;flex-direction:column;z-index:1;pointer-events:none}
+    .lab-stripe{flex:1;width:100%;background:#FBFAF6;transform:scaleY(0);transform-origin:bottom;will-change:transform}
+
+    /* HUD：实时显示进度，方便核对 scrub 是否驱动 */
+    #hud{position:fixed;top:8px;left:8px;z-index:9999;background:#111;color:#0f0;
+      font:12px monospace;padding:6px 10px;white-space:pre;border-radius:4px}
+  </style>
+</head>
+<body>
+  <div id="hud">init…</div>
+  <div class="screen s-cover">首屏（黑封面占位）</div>
+
+  <div class="lab-transition" id="labRoot">
+    <div class="lab-pin" id="labPin">
+      <div class="lab-bg"></div>
+      <div class="lab-stripes" id="labStripes">
+        <div class="lab-stripe"></div>
+        <div class="lab-stripe"></div>
+        <div class="lab-stripe"></div>
+        <div class="lab-stripe"></div>
+        <div class="lab-stripe"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="screen s-after">第二页（暖白阅读壳占位）</div>
+
+  <!-- 用 ESM CDN 直接引 gsap，绕开项目 StrictMode / 构建，纯净验证 ScrollTrigger 本身 -->
+  <script type="module">
+    import { gsap } from "https://cdn.jsdelivr.net/npm/gsap@3.15.0/index.js";
+    import { ScrollTrigger } from "https://cdn.jsdelivr.net/npm/gsap@3.15.0/ScrollTrigger.js";
+    gsap.registerPlugin(ScrollTrigger);
+
+    const stripes = [...document.querySelectorAll(".lab-stripe")];
+    const N = stripes.length, EACH = 0.06, DUR = 0.4;
+    gsap.set(stripes, { scaleY: 0, transformOrigin: "bottom" });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: "#labRoot",
+        start: "top top",
+        end: "+=160%",
+        pin: "#labPin",
+        scrub: 0.6,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          const sc = stripes.map(s => {
+            const m = getComputedStyle(s).transform.match(/matrix\(([^)]+)\)/);
+            return m ? (+m[1].split(",")[3]).toFixed(2) : "?";
+          }).join(",");
+          document.getElementById("hud").textContent =
+            `progress ${self.progress.toFixed(2)}\nscaleY [${sc}]`;
+        },
+      },
+      defaults: { ease: "none" },
+    });
+    for (let e = 0; e < N; e++) {
+      tl.to(stripes[e], { scaleY: 1, duration: DUR }, EACH * (N - 1 - e));
+    }
+
+    // 暴露给诊断：实例存在=注册成功；可手动按 progress 驱动（绕开 RAF 节流验证条带映射）
+    window.__lab = {
+      st: tl.scrollTrigger,
+      drive: (p) => { tl.progress(p); return stripes.map(s => {
+        const m = getComputedStyle(s).transform.match(/matrix\(([^)]+)\)/);
+        return m ? +(+m[1].split(",")[3]).toFixed(2) : null; }); },
+    };
+  </script>
+</body>
+</html>

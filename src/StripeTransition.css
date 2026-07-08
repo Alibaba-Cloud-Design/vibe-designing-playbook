@@ -1,0 +1,57 @@
+/* ============================================================
+   黑→暖白 横条快门转场（无 pin 版）
+   转场层就一屏高(100vh)，不 pin。条带随它滚过视口 scrub 生长，
+   转场层正常滚走，.rs 流式接其后——标题位置不被 transform 扰动。
+   ============================================================ */
+.stripe-transition{
+  position:relative;
+  height:100vh;            /* 无 pin，容器自身占一屏滚动距离 */
+  width:100%;
+  overflow:hidden;
+  background:var(--bg);
+}
+
+/* 视口层：铺满转场层 */
+.stripe-pin{
+  position:relative;
+  height:100%;
+  width:100%;
+  overflow:hidden;
+}
+
+/* 底层黑（延续封面黑底），条带在其上长出 */
+.stripe-bg{
+  position:absolute; inset:0;
+  background:var(--bg);
+  z-index:0;
+}
+
+/* 5 根横条容器：等高铺满 */
+.stripe-container{
+  position:absolute; inset:0;
+  display:flex; flex-direction:column;
+  width:100%; height:100%;
+  z-index:1;
+  pointer-events:none;
+}
+.stripe-item{
+  flex:1; width:100%;
+  /* §2.6 深色修正：原「黑→暖白幕」在深色失去对比；改「靛蓝三档幕」——
+     5 条按 深→亮→深 排成一道品牌靛蓝光带,在黑底上拉开可见,拉幕后露深色阅读区。 */
+  background:var(--accent-deep); /* 兜底档;逐条 nth-child 覆写成统一靛蓝 */
+  transform:scaleY(0);          /* 初始收起，GSAP 驱动到 1 */
+  transform-origin:bottom;
+  will-change:transform;
+}
+.stripe-item:nth-child(1){ background:color-mix(in srgb, var(--accent-deep), var(--bg) 36%); }
+.stripe-item:nth-child(2){ background:var(--accent-deep); }
+.stripe-item:nth-child(3){ background:var(--accent); }
+.stripe-item:nth-child(4){ background:var(--accent-deep); }
+.stripe-item:nth-child(5){ background:color-mix(in srgb, var(--accent-deep), var(--bg) 36%); }
+
+/* 无障碍：减少动态时，转场不做百叶窗，直接透明放行（露深色内容，不挡） */
+@media (prefers-reduced-motion:reduce){
+  .stripe-transition{ background:transparent; }
+  .stripe-pin{ height:0; overflow:hidden; }
+  .stripe-item{ display:none; }
+}

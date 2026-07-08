@@ -1,0 +1,23 @@
+/* ============================================================
+   GridOverlay —— 全局分割网格（unmoth 式浅灰竖线框）
+   fixed 常驻、封面后淡入、pointer-events:none；深底之上、内容之下。
+   ============================================================ */
+.grid-overlay {
+  display:none;               /* 竖线已下沉到 #smooth-content 背景，避免 fixed 层压住正文 */
+}
+.grid-overlay.is-visible { opacity: 0; }
+
+.gl-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--grid-line);   /* 比组件发丝线更淡，作底层结构 */
+}
+.gl-line-strong {
+  background: var(--grid-line-strong);   /* 导航/正文主分界，稍强一档 */
+}
+
+@media (max-width: 860px) {
+  .grid-overlay { display: none; }           /* 手机单列，无侧栏，隐藏 */
+}

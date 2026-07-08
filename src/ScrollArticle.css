@@ -1,0 +1,480 @@
+/* ============================================================
+   正文长卷 · magazine chapter opener + rich text article
+   结构:每章一屏开场 → 小节双栏版头 + 右侧富文本。
+   借 X Business 的“一屏一主语”和 unmoth 的通顶发丝线,但保留白皮书的制图点阵。
+   ============================================================ */
+.sa {
+  --sa-sidebar-left: var(--site-edge);
+  --sa-main-left: var(--main-left);
+  --sa-content-left: var(--content-left);
+  --sa-content-right: var(--content-right);
+  --sa-content-inset: 0px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+
+.sa-chapter {
+  position: relative;
+}
+
+/* ---------- 章扉：高度随内容自适应(2026-07 决议:撤 100svh 满屏,消底部空白) ---------- */
+.sa-chapter-spread {
+  position: relative;
+  padding: clamp(92px, 12vh, 132px) var(--sa-content-right) 96px var(--sa-content-left);
+  display: grid;
+  grid-template-rows: auto auto;
+  row-gap: clamp(40px, 7vh, 84px);
+  overflow: hidden;
+  border-top: 1px solid transparent;
+  isolation: isolate;
+}
+
+.sa-chapter-spread::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 82% 18%, var(--accent-soft), transparent 28%),
+    linear-gradient(180deg, color-mix(in srgb, var(--ink), transparent 96%), transparent 42%);
+  opacity: 0.74;
+}
+
+/* 章扉底线已撤(2026-07 决议:与目录区同规,板块间不再压横线) */
+
+.sa-spread-line {
+  position: absolute;
+  left: var(--main-left);   /* 同上：以导航右缘竖线为界 */
+  right: 0;
+  top: clamp(88px, 11vh, 126px);
+  height: 1px;
+  background: var(--connector-line);
+  transform: scaleX(0);
+}
+
+.sa-spread-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-top: 22px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+.sa-spread-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ink-60);
+}
+
+.sa-spread-kicker-sq {
+  width: 7px;
+  height: 7px;
+  flex: none;
+  background: var(--accent);
+}
+
+.sa-spread-meta-right {
+  color: var(--ink-40);
+}
+
+/* 主体：左侧收敛标题栏 + 右侧配图，非对称错落（借 X business 一屏一主语 + 对角节奏） */
+.sa-spread-body {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gutter);
+  align-items: center;
+}
+
+/* 标题下全宽插画面板（Linear 文章页式）—— 现仅词典章头使用(.slx-hero-art 复用此类) */
+.sa-spread-art {
+  position: relative;
+  height: clamp(240px, 30vh, 340px);
+  background: transparent;   /* 线框描边容器(与目录卡一致) */
+  border: 1px solid var(--art-card-line);
+  overflow: hidden;
+}
+
+.sa-spread-lead {
+  position: relative;
+  grid-column: 1 / span 6;
+  align-self: center;
+}
+
+/* 收敛的思源宋标题（从 88 收到 ~60），中文归零字距 */
+.sa-spread-title {
+  margin: 0;
+  max-width: 15ch;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(38px, 4.2vw, 60px);
+  line-height: 1.14;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+/* 灰副题（明显小于标题，修掉原「副题与标题同大」的问题） */
+/* 标题下副题 = 章节英文名(mono 大写,2026-07 决议替换中文副题句) */
+.sa-spread-title-sub {
+  display: block;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+
+/* 章扉导语：苹方、缩小一档(2026-07 决议:17→14,与正文同级) */
+.sa-spread-lede {
+  max-width: 38ch;
+  margin: clamp(24px, 3.2vh, 38px) 0 0;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.78;
+  color: var(--ink-70);
+  text-wrap: pretty;
+}
+
+/* 右侧配图：内容匹配的 skill gif，描边图版 + 四角刻度，向下错落形成对角 */
+.sa-spread-figure {
+  grid-column: 8 / span 5;
+  align-self: center;
+  margin: clamp(56px, 10vh, 128px) 0 0;
+  min-width: 0;
+}
+
+/* 外层只做定位 + 四角刻度（不裁剪），刻度落在暖白页面上，不随 gif 明暗消失 */
+.sa-spread-figure-frame {
+  position: relative;
+}
+
+/* 内层描边媒体井：发丝框内装 LinearArt 同族插画(替代 gif)，底色与目录卡一致 */
+.sa-spread-figure-well {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--art-card-line);
+  background: transparent;   /* 线框描边容器(2026-07 决议:撤底色,与目录卡一致) */
+  overflow: hidden;
+}
+
+/* 井内插画放大取饱满(scale 与呼吸动画的 transform 互不干扰);
+   ch3 宽幅图本就撑满井宽,不放大以免裁掉轴端刻度 */
+.sa-spread-figure-well .lart { scale: 1.25; }
+.sa-chapter-spread[data-chapter="ch3"] .sa-spread-figure-well .lart { scale: none; }
+
+/* ---------- 「下一节」关联卡(poolside NEXT IN SERIES 式)：双发丝框、居中、整卡可点 ---------- */
+.nx {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  margin: 56px 0 0;
+  padding: clamp(40px, 6vh, 56px) 24px;
+  background: none;
+  cursor: pointer;
+  border: 1px solid var(--hairline-bold);
+  text-align: center;
+  transition: border-color 0.18s ease;
+}
+.nx::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px solid var(--hairline);
+  pointer-events: none;
+}
+.nx-kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-40);
+}
+.nx-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.35;
+  color: var(--ink);
+}
+.nx-arrow {
+  font-size: 18px;
+  line-height: 1;
+  color: var(--ink-30);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1), color 0.18s ease;
+}
+.nx:hover { border-color: var(--ink-30); }
+.nx:hover .nx-arrow { transform: translateY(4px); color: var(--ink-70); }
+
+/* ---------- 小节正文：左侧版头 / 右侧富文本 ---------- */
+.sa-section {
+  position: relative;
+  display: block;
+  min-height: 82svh;
+  padding:
+    122px
+    var(--sa-content-right)
+    132px
+    var(--sa-content-left);
+}
+
+.sa-section-line {
+  position: absolute;
+  top: 0;
+  left: var(--main-left);   /* 分割线左缘止于导航右描边(全站铁律) */
+  right: 0;
+  height: 1px;
+  background: var(--connector-line);
+  transform: scaleX(0);
+}
+
+.sa-sechead {
+  position: relative;
+  max-width: min(760px, 100%);
+  padding-top: 0;
+  margin-bottom: 48px;
+}
+
+/* 小节眉标(1.1 设计工程)整行退灰 —— 只有正文的层级色,不再用品牌蓝抢戏 */
+.sa-sechead .ar-kicker,
+.sa-sechead .ar-kicker-no {
+  color: var(--ink-40);
+}
+
+.sa-sectitle {
+  margin: 18px 0 0;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(30px, 3.2vw, 42px);
+  line-height: 1.22;
+  letter-spacing: 0;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.sa-section-excerpt {
+  margin: 24px 0 0;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--ink-50);
+}
+
+.sa-body {
+  max-width: min(640px, 100%);
+  padding-top: 0;
+}
+
+.sa-body.prose {
+  color: var(--prose-ink);
+}
+
+/* ---------- 标题按行揭开 ---------- */
+.sa-title-reveal .sa-line {
+  overflow: hidden;
+}
+
+:where(.no-gsap) .sa-title-reveal {
+  opacity: 1;
+}
+
+/* ---------- 常规逐块显现 ---------- */
+.sa-reveal,
+.sa-spread-reveal {
+  will-change: opacity, transform;
+}
+
+.sa-reveal.is-in,
+:where(.no-gsap) .sa-reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.pr-figure--lead {
+  margin-top: 0;
+  margin-bottom: 42px;
+}
+
+.pr-html {
+  margin: 0 0 var(--prose-gap-p);
+  color: var(--prose-ink-60);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sa-title-reveal,
+  .sa-reveal,
+  .sa-spread-reveal {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+  .sa-spread-line,
+  .sa-section-line {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 1080px) {
+  .sa-spread-lead {
+    grid-column: 1 / span 6;
+  }
+
+  .sa-spread-figure {
+    grid-column: 7 / span 6;
+    margin-top: clamp(36px, 6vh, 72px);
+  }
+
+  .sa-section {
+    padding-left: var(--sa-content-left);
+  }
+}
+
+@media (max-width: 860px) {
+  .sa-chapter-spread {
+    min-height: auto;
+    display: block;
+    padding: 74px 24px 72px;
+  }
+
+  .sa-chapter-spread::before {
+    background:
+      radial-gradient(circle at 76% 16%, var(--accent-soft), transparent 34%),
+      linear-gradient(180deg, color-mix(in srgb, var(--ink), transparent 96%), transparent 48%);
+  }
+
+
+  .sa-spread-line {
+    left: 0;
+    right: 0;
+    top: 70px;
+  }
+
+  .sa-spread-meta {
+    padding-top: 18px;
+  }
+
+  .sa-spread-body {
+    display: block;
+    margin-top: 40px;
+  }
+
+  .sa-spread-title {
+    font-size: 34px;
+    line-height: 1.16;
+  }
+
+  .sa-spread-lede {
+    margin: 26px 0 0;
+    max-width: none;
+  }
+
+  .sa-spread-figure {
+    margin: 40px 0 0;
+  }
+
+  .sa-section {
+    display: block;
+    padding: 72px 24px 84px;
+  }
+
+  .sa-section-line {
+    left: 0;
+    right: 0;
+  }
+
+  .sa-sechead {
+    position: static;
+    padding-top: 0;
+    margin-bottom: 36px;
+  }
+
+  .sa-sectitle {
+    font-size: 30px;
+  }
+
+.sa-body {
+    max-width: none;
+  }
+}
+
+:root[data-theme="light"] .sa-chapter-spread::before,
+:root:not([data-theme]) .sa-chapter-spread::before {
+  background: none;
+  opacity: 0;
+}
+
+/* ---------- 右侧小章节索引（poolside blog 右栏 sticky 目录） ---------- */
+.sa-toc-marker {
+  display: none;
+}
+
+.sa-toc {
+  position: fixed;
+  top: 148px;
+  right: var(--content-right);
+  width: 204px;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  z-index: 30;
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+.sa-toc.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: none;          /* 空轨不挡内容，仅内层可点 */
+}
+.sa-toc-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  pointer-events: auto;
+}
+.sa-toc-item {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  width: 100%;
+  padding: 4px 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-40);
+  transition: color 0.18s ease;
+}
+
+/* 层级编号(1.1.1 / 1.1.2 …)：mono、更弱一档、随条目 hover/active 提亮 */
+.sa-toc-no {
+  flex: none;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: var(--ink-30);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.18s ease;
+}
+.sa-toc-item:hover .sa-toc-no,
+.sa-toc-item.is-active .sa-toc-no { color: inherit; }
+.sa-toc-item:hover { color: var(--ink-70); }
+.sa-toc-item.is-active { color: var(--ink); }
+
+/* 窄屏(<1280)：右栏放不下，隐藏 */
+@media (max-width: 1279px) {
+  .sa-toc { display: none; }
+}

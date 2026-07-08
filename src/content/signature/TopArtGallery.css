@@ -1,0 +1,108 @@
+/* 抽象几何顶图族 · 自检画廊 —— 复刻 behance「Second Kind」深卡形制。 */
+.tagal {
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  padding: 88px clamp(24px, 6vw, 96px) 120px;
+  font-family: var(--font-sans);
+}
+.tagal .mono {
+  font-family: var(--font-mono);
+  letter-spacing: var(--track-mono);
+  text-transform: uppercase;
+}
+
+/* —— 顶部 —— */
+.tagal-top { max-width: 760px; margin: 0 0 72px; }
+.tagal-kicker { font-size: 12px; color: var(--ink-30); margin-bottom: 22px; }
+.tagal-h1 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0 0 20px;
+}
+.tagal-lead {
+  font-size: 15px; line-height: 1.85;
+  color: var(--ink-60);
+  margin: 0;
+}
+
+/* —— 区标签 —— */
+.tagal-sec-label {
+  font-size: 12px; color: var(--ink-30);
+  padding-bottom: 14px; margin-bottom: 28px;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* —— 章扉页大图 proof —— */
+.tagal-openers { margin-bottom: 84px; }
+.tagal-opener-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--hairline);
+  border: 1px solid var(--hairline);
+}
+.taopener {
+  margin: 0;
+  background: #060606;
+  padding: 44px 24px 30px;
+  display: flex; flex-direction: column; align-items: center;
+}
+.taopener-art { width: min(340px, 62vw); }
+.taopener-cap {
+  margin-top: 20px; text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 7px;
+}
+.taopener-no { font-size: 12px; color: var(--ink-30); }
+.taopener-name {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 22px; color: var(--ink);
+}
+.taopener-en { font-size: 11px; color: var(--ink-30); }
+
+/* —— 引言卡片形制（对照 behance 深卡） —— */
+.tagal-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.tacard {
+  background: #060606;            /* behance 近黑卡底 */
+  border-radius: 14px;           /* behance 圆角 */
+  overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.tacard-art {
+  width: 100%;
+  padding: 30px 30px 6px;        /* 顶图四周留白，居中构图 */
+}
+.tacard-art canvas { margin: 0 auto; max-width: 300px; }
+.tacard-body { padding: 12px 34px 40px; }
+.tacard-title {
+  font-family: var(--font-serif); font-weight: 500;
+  font-size: 40px; line-height: 1.15;   /* behance 大衬线标题 */
+  color: #f4f4f2; margin: 0 0 14px;
+  letter-spacing: 0;
+}
+.tacard-desc {
+  font-size: 14px; line-height: 1.7;
+  color: rgba(244,244,242,0.55);         /* 灰 sans 描述 */
+  margin: 0;
+}
+
+/* —— 统一描边图版 <Figure> proof —— */
+.tagal-figs-sec { margin-top: 84px; }
+.tagal-figs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+.tagal-figs .fig { margin: 0; }
+
+/* 窄屏塌成单列 */
+@media (max-width: 900px) {
+  .tagal-opener-row, .tagal-cards, .tagal-figs { grid-template-columns: 1fr; }
+}

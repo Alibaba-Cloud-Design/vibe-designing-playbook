@@ -1,0 +1,57 @@
+/* 全站统一描边图版 <Figure>（需求6）—— 发丝框 + 四角刻度 + 内 padding，精致收边。
+   用全局 token（不依赖 .prose 作用域），任何位置可套。 */
+.fig { margin: 36px 0; }
+
+.fig-frame {
+  position: relative;
+  border: 1px solid var(--hairline);      /* 暖黑 12% 发丝线（全站唯一主分隔件） */
+  background: transparent;                 /* 透底：让插画自身卡片浮起 */
+  border-radius: 0;                        /* 直角（架构图蓝图感） */
+  overflow: hidden;
+  padding: 12px;
+}
+
+/* 四角蓝图刻度（纯 CSS，无额外 DOM）—— 精致收边的关键 */
+.fig-frame--ticks::before {
+  content: ""; position: absolute; inset: 7px; pointer-events: none; z-index: 1;
+  --t: var(--ink-30);
+  background:
+    linear-gradient(var(--t), var(--t)) 0 0 / 11px 1px no-repeat,
+    linear-gradient(var(--t), var(--t)) 0 0 / 1px 11px no-repeat,
+    linear-gradient(var(--t), var(--t)) 100% 0 / 11px 1px no-repeat,
+    linear-gradient(var(--t), var(--t)) 100% 0 / 1px 11px no-repeat,
+    linear-gradient(var(--t), var(--t)) 0 100% / 11px 1px no-repeat,
+    linear-gradient(var(--t), var(--t)) 0 100% / 1px 11px no-repeat,
+    linear-gradient(var(--t), var(--t)) 100% 100% / 11px 1px no-repeat,
+    linear-gradient(var(--t), var(--t)) 100% 100% / 1px 11px no-repeat;
+}
+
+.fig-inner { position: relative; z-index: 0; padding: 16px 20px; }
+
+/* 出血模式：满幅位图 / SVG 自己贴边（去框去 padding） */
+.fig-frame--bleed { border: 0; padding: 0; background: transparent; }
+.fig-frame--bleed .fig-inner { padding: 0; }
+
+/* Design I/O 架构图资源自带外框 + 四角刻度：套进全局 <Figure> 时自动去框，
+   避免「外框 + 图自带框」双重描边（与 .prose 的 .pr-figure-frame 行为一致，保持全站单层收边）。 */
+.fig-frame:has(.design-io-art) { border: 0; padding: 0; background: transparent; }
+.fig-frame:has(.design-io-art)::before { display: none; }
+
+/* 图注：mono 图号（靛蓝）+ sans 图注文（含中文），前置靛蓝引导刻度 */
+.fig-cap {
+  margin-top: 14px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-mono, 13px); line-height: 1.55; color: var(--ink-50);
+  letter-spacing: 0;
+  display: flex; align-items: baseline; gap: 10px;
+}
+.fig-cap::before {
+  content: ""; flex: none; width: 16px; height: 1px;
+  background: var(--accent-bright); transform: translateY(-0.34em);
+}
+.fig-cap-no {
+  flex: none; color: var(--accent-bright);
+  font-family: var(--font-mono); font-size: 12px;
+  letter-spacing: 0.08em; text-transform: uppercase;
+}
+.fig-cap-text { color: var(--ink-50); }

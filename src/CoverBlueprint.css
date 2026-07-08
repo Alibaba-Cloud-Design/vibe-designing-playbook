@@ -1,0 +1,158 @@
+/* ============================================================
+   CoverBlueprint —— 单色线性框内填充图
+   浅框 + 折面轮廓 + 斜线填充。直线、黑白灰、少量工程标注。
+   ============================================================ */
+.cbp {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  --cbp-strong: rgba(246, 246, 242, 0.82);
+  --cbp-mid: rgba(246, 246, 242, 0.34);
+  --cbp-faint: rgba(246, 246, 242, 0.16);
+  --cbp-bg: #08090a;
+}
+
+.cbp-line,
+.cbp-precision,
+.cbp-hatch-line {
+  stroke-linecap: square;
+  stroke-linejoin: miter;
+}
+
+.cbp-line {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.cbp-line-primary {
+  stroke: var(--cbp-strong);
+  stroke-width: 2.2;
+}
+
+.cbp-line-secondary {
+  stroke: rgba(246, 246, 242, 0.52);
+  stroke-width: 1.5;
+}
+
+.cbp-line-tertiary {
+  stroke: var(--cbp-mid);
+  stroke-width: 1.1;
+}
+
+.cbp-axis {
+  stroke: rgba(246, 246, 242, 0.14);
+  stroke-width: 1.2;
+}
+
+.cbp-precision {
+  stroke: var(--cbp-faint);
+  stroke-width: 1.1;
+}
+
+.cbp-hatch-line {
+  stroke: rgba(246, 246, 242, 0.18);
+  stroke-width: 1;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.cbp-frame-text,
+.cbp-callout {
+  fill: rgba(246, 246, 242, 0.42);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+}
+
+.cbp-anchor {
+  transform-box: view-box;
+  transform-origin: 500px 235px;
+}
+
+.cbp-anchor-plate {
+  fill: rgba(8, 9, 10, 0.9);
+  stroke: rgba(246, 246, 242, 0.55);
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: rotate(45deg);
+}
+
+.cbp-anchor-core {
+  fill: rgba(246, 246, 242, 0.72);
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.cbp:not(.enter) .cbp-precision,
+.cbp:not(.enter) .cbp-frame-text,
+.cbp:not(.enter) .cbp-anchor,
+.cbp:not(.enter) .cbp-callout {
+  opacity: 0;
+}
+
+@keyframes cbp-draw { to { stroke-dashoffset: 0; } }
+@keyframes cbp-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cbp-anchor-in {
+  0% { opacity: 0; transform: scale(0.55); }
+  72% { opacity: 1; transform: scale(1.08); }
+  100% { opacity: 1; transform: scale(1); }
+}
+@keyframes cbp-core-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.48; }
+}
+
+.cbp.enter .cbp-line-primary {
+  animation: cbp-draw 0.86s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+}
+
+.cbp.enter .cbp-line-secondary {
+  animation: cbp-draw 0.76s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+.cbp.enter .cbp-line-tertiary {
+  animation: cbp-draw 0.7s cubic-bezier(0.4, 0, 0.2, 1) 0.42s both;
+}
+
+.cbp.enter .cbp-axis {
+  animation: cbp-draw 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.56s both;
+}
+
+.cbp.enter .cbp-hatch-line {
+  animation: cbp-draw 0.5s cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0.44s) both;
+}
+
+.cbp.enter .cbp-precision,
+.cbp.enter .cbp-frame-text {
+  animation: cbp-fade 0.55s ease 0.78s both;
+}
+
+.cbp.enter .cbp-anchor {
+  animation: cbp-anchor-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.9s both;
+}
+
+.cbp.enter .cbp-anchor-core {
+  animation: cbp-core-pulse 3s ease-in-out 1.6s infinite;
+}
+
+.cbp.enter .cbp-callout {
+  animation: cbp-fade 0.55s ease 1.02s both;
+}
+
+.cbp.reduced .cbp-line {
+  stroke-dashoffset: 0 !important;
+}
+
+.cbp.reduced .cbp-hatch-line {
+  stroke-dashoffset: 0 !important;
+}
+
+.cbp.reduced * {
+  animation: none !important;
+  opacity: 1 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cbp .cbp-anchor-core { animation: none !important; }
+}

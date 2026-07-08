@@ -1,0 +1,217 @@
+/* ============================================================
+   全局常驻侧栏 —— 封面后 fixed 显示
+   v2-dark:深色皮 · mono 编号(001) · 发丝线账本分隔 · 亮度分层
+   保留 poolside 蓝块「擦入」hover 机制不动(仅深色下强调换亮一档靛蓝 #685CFF)。
+   参考:x.com/advertising 左导航(静默灰列表 + 生成式留白) + unmoth 目录发丝线账本。
+   ============================================================ */
+.sb{
+  --sb-highlight-bg: color(display-p3 0.6745 0.8842 0.9367);
+  --sb-highlight-ink: #1A1A1A;
+  --sb-active: var(--sb-highlight-bg);
+  --sb-hover-bg: var(--sb-highlight-bg);
+  --sb-hover-ink: var(--sb-highlight-ink);
+  --sb-inset: 14px;
+  /* X business 比例：左栏 208，正文不贴栏，另由 --content-gap 留出 56px 缓冲。 */
+  position:fixed; left:var(--site-edge); top:48px; bottom:48px; width:var(--nav-w); z-index:50;
+  box-sizing:border-box;
+  padding-left:0;
+  display:flex;
+  flex-direction:column;
+  opacity:0; pointer-events:none;
+  transition:opacity .4s ease;
+  font-family:var(--font-sans);
+}
+/* 亮色模式：高亮换品牌靛蓝 #4339FF(蓝块白字)；暗色保持青色版 */
+:root[data-theme="light"] .sb,
+:root:not([data-theme]) .sb{
+  --sb-highlight-bg: #4339FF;
+  --sb-highlight-ink: #FFFFFF;
+  --sb-active: #4339FF;
+}
+.sb.is-visible{ opacity:1; pointer-events:auto; }
+
+/* 品牌字标:mono 冷等宽 · 中性克制(不与蓝强调争夺) · 下衬发丝线收头 */
+.sb-brand{
+  position:relative;
+  padding:0 24px 18px var(--sb-inset); margin-bottom:10px;
+}
+.sb-brand::after{
+  content:"";
+  position:absolute;
+  left:calc(-1 * var(--site-edge));
+  right:0;
+  bottom:0;
+  height:1px;
+  background:var(--connector-line);
+}
+.sb-brand-name{
+  font-family:var(--font-mono); font-weight:500;
+  color:var(--ink-60); font-size:12px; letter-spacing:0.08em;
+  line-height:1.5; max-width:160px; display:inline-block;
+  margin-left:0;
+  text-transform:uppercase;
+}
+
+/* 三格并列的方格切换（参考格式：相邻方格共边、直角、激活格提亮） */
+.sb-theme-switch{
+  width:max-content;
+  margin-top:auto;
+  margin-bottom:0;
+  margin-left:var(--sb-inset);
+  display:flex;
+  align-items:center;
+}
+
+.sb-theme-btn{
+  width:32px;
+  height:32px;
+  display:grid;
+  place-items:center;
+  appearance:none;
+  border:1px solid var(--hairline);
+  border-radius:0;
+  background:transparent;
+  color:var(--ink-30);
+  cursor:pointer;
+  transition:color 150ms ease, border-color 150ms ease, background 150ms ease;
+}
+
+.sb-theme-btn + .sb-theme-btn{
+  margin-left:-1px;          /* 相邻格共一条边 */
+}
+
+.sb-theme-btn:hover,
+.sb-theme-btn:focus-visible{
+  color:var(--ink-60);
+  outline:none;
+}
+
+.sb-theme-btn.is-active{
+  position:relative;
+  z-index:1;                 /* 抬起共享边，四边完整 */
+  color:var(--ink);
+  border-color:var(--hairline-bold);
+  background:color-mix(in srgb, var(--ink), transparent 96%);
+}
+
+.sb-toc{
+  display:flex;
+  flex:0 0 auto;
+  flex-direction:column;
+}
+
+/* 侧栏导航不再使用逐项横线分隔，避免浅底下显得像表格。 */
+.sb-group{
+  display:flex; flex-direction:column;
+}
+
+.sb-item{
+  display:flex; align-items:baseline; gap:10px;
+  background:none; border:none; cursor:pointer; text-align:left;
+  color:var(--ink-70); font-family:var(--font-sans); padding:0; width:100%;
+  box-sizing:border-box;
+  transition:color .15s ease;
+}
+
+/* 顶层章:英文 mono 大写(2026-07 决议)；12px 保证最长项 DYNAMIC INTERACTION 不折行 */
+.sb-chapter{
+  font-family:var(--font-mono);
+  font-size:12px; font-weight:400; line-height:1.4;
+  letter-spacing:0.05em; text-transform:uppercase;
+  padding:14px 24px 14px var(--sb-inset);
+}
+
+/* poolside 蓝块「擦入」hover —— 覆盖层(白字蓝底)被 mask 从左→右逐列揭示。
+   --p 0%→100% 由 hover 驱动,文字随擦入逐字翻底。【机制不动:仅换深色强调色】 */
+@property --p{ syntax:"<percentage>"; inherits:false; initial-value:0%; }
+.sb-title{
+  position:relative;
+  display:inline-block;
+  flex:0 1 auto;
+  min-width:0;
+  max-width:100%;
+  color:inherit;
+}
+.sb-title-fill{
+  position:absolute;
+  left:0;
+  top:50%;
+  width:max-content;
+  max-width:100%;
+  transform:translateY(-50%);
+  padding:2px 0;
+  color:var(--sb-hover-ink);
+  background:var(--sb-hover-bg);
+  white-space:nowrap;
+  line-height:1.08;
+  pointer-events:none;
+  --p:0%;
+  -webkit-mask-image:linear-gradient(to right, #000 var(--p), transparent var(--p));
+          mask-image:linear-gradient(to right, #000 var(--p), transparent var(--p));
+  transition:--p 160ms cubic-bezier(0.22,1,0.36,1);  /* ease-out,进出对称 */
+}
+
+/* 子项:hover 展开;缩进对齐章标题(越过编号列) */
+.sb-children{
+  display:flex; flex-direction:column;
+  max-height:0; opacity:0; overflow:hidden;
+  padding-left:var(--sb-inset);
+  padding-right:16px;
+  transition:max-height .3s cubic-bezier(0.22,1,0.3,1), opacity .25s ease;
+}
+.sb-group.has-children:hover .sb-children{ max-height:260px; opacity:1; padding-bottom:10px; }
+/* 当前阅读章保持展开(2026-07 决议)：is-active 含"子节被 scroll-spy 命中"的情形 */
+.sb-group.has-children:has(.sb-chapter.is-active) .sb-children{ max-height:260px; opacity:1; padding-bottom:10px; }
+.sb-sub{
+  align-items:flex-start;
+  gap:8px;
+  font-size:12px;
+  color:var(--ink-60);
+  padding:6px 4px 6px 0;
+  line-height:1.42;
+  border-radius:0;
+}
+.sb-subno{
+  flex:0 0 auto; min-width:26px;
+  color:var(--ink-30); font-size:11px; letter-spacing:0.03em;
+  font-family:var(--font-mono);
+}
+
+/* hover / active:蓝块从左擦入(--p → 100%)。离开自动反向擦回(同一条 transition)。 */
+.sb-chapter.is-active,
+.sb-sub.is-active{
+  color:var(--sb-active);
+}
+
+.sb-sub.is-active .sb-subno{
+  color:var(--sb-active);
+}
+
+.sb-chapter:hover .sb-title-fill{ --p:100%; }
+
+/* 子项标题偏长，不能使用蓝底复制层；否则换行时会出现断裂的蓝块。 */
+.sb-sub .sb-title{
+  display:block;
+  flex:1 1 auto;
+  min-width:0;
+  overflow:hidden;
+  line-height:1.42;
+  line-break:strict;
+  text-wrap:balance;
+  word-break:normal;
+  overflow-wrap:break-word;
+}
+.sb-sub .sb-title-fill{
+  display:none;
+}
+.sb-sub:hover{
+  color:var(--ink);
+  background:color-mix(in srgb, var(--ink), transparent 94%);
+}
+.sb-sub.is-active{
+  color:var(--sb-active);
+}
+
+@media (max-width:860px){
+  .sb{ display:none; }   /* 手机暂隐藏,后续做汉堡菜单 */
+}

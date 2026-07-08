@@ -1,0 +1,279 @@
+/* ============================================================
+   Prose 组件样式 · v2-dark —— 软深色「技术文档」骨架
+   对标 unmoth / x.com/advertising / polar.sh:发丝线为主分隔、亮度分层、靛蓝唯一强调、
+   mono 承载编号 / 标签 / 图注、蓝图图版。所有值引用 prose-tokens.css 的 --prose-* 变量。
+   .pr-* 类同时供 ScrollArticle(真实手稿)复用,勿改类名。
+   ============================================================ */
+.prose{
+  font-family:var(--prose-sans);
+  color:var(--prose-ink);
+  text-rendering:optimizeLegibility;
+}
+
+/* ---------- 段落 ---------- */
+.pr-p{
+  margin:0 0 var(--prose-gap-p);
+  font-size:var(--prose-body); line-height:var(--prose-lh-body);
+  font-weight:400; color:var(--prose-ink);
+}
+.pr-p strong{ font-weight:600; color:var(--prose-ink-strong); }   /* 中文加重靠字重(600) */
+.pr-p a,
+.pr-quote a,
+.pr-li a,
+.pr-ol-li a{
+  color:var(--prose-accent-br);
+  text-decoration:none;
+  border-bottom:1px solid color-mix(in srgb, var(--prose-accent-br), transparent 42%);
+}
+
+/* 手稿用 <em> 承载代码标识 / 产品名 / 字体名(var(--*)、#fff、cloudai-picker、SF Pro…):
+   深色技术文档里统一给「轻 mono、不斜体」处理,读作机器声部而非强调 */
+.pr-p em, .pr-li em, .pr-quote em{
+  font-family:var(--prose-mono); font-style:normal;
+  font-size:0.88em; color:var(--prose-ink-strong);
+  letter-spacing:0; word-break:break-word;
+}
+
+/* ---------- inline code(深色芯片:抬升底 + 发丝边 + mono,直角) ---------- */
+.pr-inline-code{
+  font-family:var(--prose-mono); font-size:0.85em;
+  background:var(--prose-surface-2); color:var(--prose-ink-strong);
+  border:1px solid var(--prose-hair);
+  padding:1px 6px; border-radius:0;
+  white-space:nowrap;
+}
+
+/* ---------- 标题阶梯(sans 声部,与 P4 阅读壳节标题一致;靠字号 / 字重分层) ---------- */
+.pr-h1{
+  margin:0 0 24px; font-weight:600;
+  font-size:var(--prose-h1); line-height:1.15;
+  letter-spacing:var(--prose-h1-ls); color:var(--prose-ink-strong);
+}
+.pr-h2{
+  margin:64px 0 22px; font-weight:600;
+  font-size:var(--prose-h2); line-height:1.3;
+  letter-spacing:var(--prose-h2-ls); color:var(--prose-ink-strong);
+}
+.pr-h3{
+  margin:46px 0 16px; font-weight:600;
+  font-size:var(--prose-h3); line-height:1.4;
+  letter-spacing:var(--prose-h3-ls); color:var(--prose-ink-strong);
+}
+/* h3 常以「name —— 说明」写成:破折号后半句压灰,靠亮度分主次 */
+.pr-h3 em{ font-family:inherit; font-style:normal; color:var(--prose-ink-strong); }
+
+/* ---------- 同尺寸双色区块头(§2#2:两行同字号,亮行=标签 / 灰行=真标题) ---------- */
+.pr-dualhead{ margin:48px 0 24px; display:flex; flex-direction:column; }
+.pr-dualhead-kicker{
+  font-family:var(--prose-mono); font-size:var(--prose-mono-sm);
+  letter-spacing:0.08em; text-transform:uppercase;
+  color:var(--prose-accent-br); margin-bottom:14px;
+}
+.pr-dualhead-a, .pr-dualhead-b{
+  font-size:var(--prose-h2); line-height:1.28; font-weight:500;
+  letter-spacing:var(--prose-h2-ls);
+}
+.pr-dualhead-a{ color:var(--prose-ink-strong); }        /* 满亮:标签行 */
+.pr-dualhead-b{ color:var(--prose-ink-60); }      /* 60% 灰:真标题行 */
+/* 双色词强调(§2#3):句中次要词压灰,不加粗不变色造节奏 */
+.pr-dim{ color:var(--prose-ink-60); }
+
+/* ---------- 编号分节头(§2#1:发丝线 + 左 mono 标签 + 右 mono 编号,账本式) ---------- */
+.pr-rule{
+  display:flex; align-items:center; justify-content:space-between;
+  margin:64px 0 28px; padding-top:12px;
+  border-top:1px solid var(--prose-hair-bold);
+}
+.pr-rule-label{
+  font-family:var(--prose-mono); font-size:var(--prose-mono-sm);
+  letter-spacing:0.1em; text-transform:uppercase; color:var(--prose-ink-60);
+}
+.pr-rule-no{
+  font-family:var(--prose-mono); font-size:var(--prose-mono-sm);
+  letter-spacing:0.1em; color:var(--prose-ink-30);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 无序列表(靛蓝方块 bullet) ---------- */
+.pr-ul{ margin:0 0 var(--prose-gap-p); padding-left:28px; list-style:none; }
+.pr-li{
+  position:relative; padding-left:6px; margin-bottom:10px;
+  font-size:var(--prose-body); line-height:var(--prose-lh-body);
+  font-weight:400; color:var(--prose-ink);
+}
+.pr-li::before{
+  content:""; position:absolute; left:-16px; top:0.72em;
+  width:6px; height:6px; background:var(--prose-accent-br);   /* 靛蓝方块(深底亮一档) */
+}
+
+/* ---------- mono 编号列表(§2 技术文档:零填充 mono 序号 in 靛蓝) ---------- */
+.pr-ol{
+  margin:0 0 var(--prose-gap-p); padding:0; list-style:none;
+  counter-reset:pr-ol;
+}
+.pr-ol-li{
+  position:relative; counter-increment:pr-ol;
+  padding-left:44px; margin-bottom:12px;
+  font-size:var(--prose-body); line-height:var(--prose-lh-body);
+  color:var(--prose-ink);
+}
+.pr-ol-li::before{
+  content:counter(pr-ol, decimal-leading-zero);
+  position:absolute; left:0; top:0.18em;
+  font-family:var(--prose-mono); font-size:var(--prose-mono-sm);
+  letter-spacing:0.04em; color:var(--prose-accent-br);
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---------- 发丝线表(表头 2px 白线 / 行 1px 发丝线,深底,无竖线,全左) ---------- */
+.pr-table-wrap{ margin:0 0 24px; overflow-x:auto; }
+.pr-table{ width:100%; border-collapse:collapse; font-size:var(--prose-small); }
+/* Notion 式轻表(2026-07 决议):表头/行名退灰、全发丝分隔、内容才是主角 */
+.pr-table th{
+  text-align:left; font-weight:500; color:var(--prose-ink-50);
+  padding:0 16px 9px 0; white-space:nowrap;
+  border-bottom:1px solid var(--prose-hair);
+  font-size:var(--prose-small);                     /* 中文表头走 sans,不用 mono;字距归零(红线) */
+}
+.pr-table td{
+  text-align:left; padding:10px 16px 10px 0;
+  border-bottom:1px solid var(--prose-hair);        /* 行 1px 发丝线 */
+  color:var(--prose-ink-70); line-height:1.6; vertical-align:top;
+}
+.pr-table td:first-child{ color:var(--prose-ink-50); font-weight:400; white-space:nowrap; }  /* 行标签退灰 */
+.pr-table td:last-child{ padding-right:0; }
+.pr-table tr:last-child td{ border-bottom:none; }
+.pr-table code, .pr-table em{
+  font-family:var(--prose-mono); font-style:normal; font-size:0.92em; color:var(--prose-ink-strong);
+}
+
+/* ---------- 代码/模板块 —— Linear 式中性面板(2026-07:撤主题色染底与左脊) ----------
+   安静的浅面(3% 墨) + 发丝框 + 右上角 mono 语言小标;内容是唯一主角,无装饰。 */
+.pr-code{
+  position:relative;
+  margin:0 0 24px; padding:20px 22px;
+  background:color-mix(in srgb, var(--ink), transparent 97%);
+  border:1px solid var(--prose-hair);
+  border-radius:0; overflow-x:auto;
+}
+.pr-code::before{
+  content:attr(data-lang);
+  position:absolute; top:10px; right:14px;
+  font-family:var(--prose-mono); font-size:10px; letter-spacing:0.1em;
+  text-transform:uppercase; color:var(--prose-ink-30);
+  pointer-events:none;
+}
+.pr-code code{
+  font-family:var(--prose-mono); font-size:12.5px; line-height:1.8;
+  color:var(--prose-ink-70); white-space:pre;
+}
+
+/* ---------- 引用 / 旁注(2px 发丝线左脊 + 缩进,压灰,不斜体) ---------- */
+.pr-quote{
+  margin:24px 0; padding:2px 0 2px 24px;
+  border-left:2px solid var(--prose-hair-bold);
+  font-style:normal; font-size:var(--prose-body);
+  line-height:var(--prose-lh-body); color:var(--prose-ink-60);
+}
+.pr-quote p{
+  margin:0 0 12px;
+  white-space:pre-line;   /* 金句块保留手稿换行:中文/英文原文/署名 各占一行 */
+}
+.pr-quote p:last-child{
+  margin-bottom:0;
+}
+.pr-quote ul,
+.pr-quote ol{
+  margin:10px 0 0;
+  padding-left:22px;
+}
+.pr-quote strong{ font-weight:600; color:var(--prose-ink-strong); }
+
+/* ---------- 分隔线 ---------- */
+.pr-hr{ border:none; border-top:1px solid var(--prose-hair); margin:44px 0; }
+
+/* ---------- 图版(蓝图图版:发丝框 + 四角刻度 + mono 蓝图图注) ---------- */
+.pr-figure{ margin:36px 0; }
+.pr-figure-frame{
+  position:relative;
+  border:1px solid var(--prose-hair);
+  background:transparent;                 /* 透深底,让插画自身 #101011 卡片浮起 */
+  border-radius:0; overflow:hidden;
+  padding:12px;
+}
+/* 四角蓝图刻度已撤(2026-07 决议:图版只留发丝框,不加角标) */
+.pr-figure-inner{ position:relative; z-index:0; padding:16px 20px; }
+
+/* 图片型插图:无外框(素材自带留白) */
+.pr-figure-frame--bare{ border:0; padding:0; background:transparent; }
+
+/* 主题双图(亮/暗各一份素材,按 data-theme 显隐;供 SECTION_FIGURES img 用) */
+.fig-themed{ display:block; width:100%; height:auto; }
+.fig-themed--dark{ display:none; }
+:root[data-theme="dark"] .fig-themed--light{ display:none; }
+:root[data-theme="dark"] .fig-themed--dark{ display:block; }
+.pr-figure-frame:has(.design-io-art){
+  border:0;
+  padding:0;
+  background:transparent;
+}
+.pr-figure-frame:has(.design-io-art)::before{ display:none; }
+.design-io-art{
+  display:block;
+  width:100%;
+  background:var(--bg);
+}
+.design-io-art__img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.design-io-art__img--light{ display:none; }
+:root[data-theme="light"] .design-io-art{ background:var(--surface-1); }
+:root[data-theme="light"] .design-io-art__img--dark{ display:none; }
+:root[data-theme="light"] .design-io-art__img--light{ display:block; }
+.pr-figcap{
+  margin-top:14px; font-family:var(--prose-sans);   /* 图注含中文 → sans;图号 mono 见下 */
+  font-size:var(--prose-mono-sm); line-height:1.55; color:var(--prose-ink-50);
+  letter-spacing:0;
+  display:flex; align-items:baseline; gap:10px;
+}
+.pr-figcap-no{ font-family:var(--prose-mono); letter-spacing:0.02em; }
+/* 纯字符串图注(文章 renderBlock 用):前置一段靛蓝蓝图引导刻度 */
+.pr-figcap::before{
+  content:""; flex:none; width:16px; height:1px; background:var(--prose-accent-br);
+  transform:translateY(-0.34em);
+}
+/* lab 里可显式给图号(mono 靛蓝) */
+.pr-figcap-no{ color:var(--prose-accent-br); flex:none; }
+.pr-figcap-text{ color:var(--prose-ink-50); }
+
+/* ---------- label→value 规格行(§2#4:mono 标签 → 值 + 发丝线,账本式) ---------- */
+.pr-specs{
+  margin:32px 0; padding:0; list-style:none;
+  border-top:1px solid var(--prose-hair-bold);   /* 顶线(表头位) */
+}
+.pr-spec{
+  display:grid; grid-template-columns:200px 1fr; align-items:baseline;
+  gap:24px; padding:16px 0;
+  border-bottom:1px solid var(--prose-hair);
+}
+.pr-spec-label{
+  position:relative; padding-right:18px;
+  font-size:var(--prose-small);                     /* 中文标签走 sans(红线) */
+  color:var(--prose-ink-60); line-height:1.6;
+}
+.pr-spec-label::after{                            /* → 连接符,贴规格值 */
+  content:"→"; position:absolute; right:0; color:var(--prose-ink-30);
+}
+.pr-spec-value{
+  font-size:var(--prose-body); line-height:1.55; color:var(--prose-ink-strong);
+}
+.pr-spec-value em, .pr-spec-value code{
+  font-family:var(--prose-mono); font-style:normal; font-size:0.9em; color:var(--prose-ink-strong);
+}
+
+@media (max-width:760px){
+  .pr-spec{ grid-template-columns:1fr; gap:4px; }
+  .pr-spec-label::after{ display:none; }
+}

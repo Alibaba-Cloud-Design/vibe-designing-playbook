@@ -1,0 +1,185 @@
+/* ============================================================
+   二屏 · 书介绍（引言）—— v2-dark（对标 unmoth + x.com/advertising）
+   纵向版式：编号分节头（满宽）→ 标题区 → 正文区。
+     编号头   跨内容满宽：发丝线 + 左 mono 标签 + 右 mono 编号（账本式）
+     标题区   思源宋大标题 + 导语
+     正文区   引言正文（约 760，中文长读宽度）
+   层级靠亮度/留白，不靠颜色；发丝线为唯一分隔；中文不加负字距、正文行高 1.8。
+   ============================================================ */
+.rs{
+  --rs-title-to-lede:480px;
+  --rs-title-height:110px;
+  --rs-lede-height:84px;
+  --rs-visual-width:clamp(420px, 40vw, 860px);
+  --rs-visual-top:75px;
+  --rs-body-line-top:calc(var(--rs-visual-top) + 64px + var(--rs-title-height) + var(--rs-title-to-lede) + var(--rs-lede-height) + 64px);
+  position:relative;
+  background:transparent;          /* 深底 + 制图点阵由 #smooth-content 供给，透出并随滚 */
+  color:var(--ink);
+  font-family:var(--font-sans);
+  /* X business 比例：左侧导航列后留 56px 缓冲，再进入正文栅格。 */
+  padding:37px var(--content-right) 128px var(--content-left);
+  display:block;
+}
+
+/* ---------- 编号分节头：跨内容满宽的发丝线账本条 ---------- */
+.rs-sechead{
+  position:relative;
+  display:flex; align-items:baseline; justify-content:space-between;
+  gap:16px;
+  /* 横线全宽贯通；文字仍从正文栅格开始。 */
+  padding-left:0;
+  padding-bottom:18px; margin-bottom:64px;
+}
+.rs-sechead::after{
+  content:"";
+  position:absolute;
+  left:calc(var(--main-left) - var(--content-left));  /* 横线起于导航右缘竖线，不越入导航底下 */
+  right:calc(-1 * var(--content-right));
+  bottom:0;
+  height:1px;
+  background:var(--connector-line);
+  pointer-events:none;
+}
+/* 标签：CJK 走 sans（0 字距）、拉丁走 mono（大写 + 放宽）——分声部拼一个眉标 */
+.rs-sechead-label{ display:inline-flex; align-items:baseline; gap:10px; }
+.rs-sechead-cn{
+  font-family:var(--font-sans); font-weight:400;
+  font-size:13px; letter-spacing:0; color:var(--ink-60);
+}
+.rs-sechead-en{
+  font-family:var(--font-mono); font-weight:500;
+  font-size:12px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-60);
+}
+/* 编号：mono 折叠页码感（弱一档，像 folio） */
+.rs-sechead-no{
+  font-family:var(--font-mono); font-weight:500;
+  font-size:12px; letter-spacing:0.08em; color:var(--ink-30);
+}
+
+/* ---------- 标题区：思源宋大标题 + 导语 ---------- */
+.rs-hero{
+  position:relative;
+  z-index:1;
+  max-width:760px;
+  padding-left:0;
+}
+/* 思源宋暖文学标题：weight 400（大字用最细可用档），中文零字距，靠字号+留白分层 */
+.rs-hero-title{
+  margin:0;
+  font-family:var(--font-serif); font-weight:400;
+  font-size:44px; line-height:1.25; letter-spacing:0; color:var(--ink);
+}
+.rs-hero-title span{
+  display:block;
+}
+/* 引言连接线已撤(2026-07:正文上提后该线横穿文字区,决议删除) */
+/* 立方体链列左缘竖线:独立画一根贯到板块底,不随视觉容器高度截断(修"半途断开") */
+.rs::before{
+  content:"";
+  position:absolute;
+  top:var(--rs-visual-top);
+  bottom:0;
+  right:var(--rs-visual-width);   /* 与视觉列左缘同轴 */
+  width:1px;
+  background:var(--connector-line);
+  pointer-events:none;
+}
+
+.rs-visual{
+  position:absolute;
+  z-index:0;
+  top:var(--rs-visual-top);
+  right:0;
+  width:var(--rs-visual-width);
+  height:calc(var(--rs-body-line-top) - var(--rs-visual-top));
+  box-sizing:border-box;
+  pointer-events:none;
+  overflow:hidden;
+  contain:layout style paint;
+  opacity:0.88;
+}
+/* 双色词强调工具：亮键词（--ink 100）/ 灰陈述（--ink-60）——只用亮度分主次，不加粗不变色 */
+.rs-key{ color:var(--ink); font-weight:inherit; }
+.rs-dim{ color:var(--ink-60); font-weight:inherit; }
+
+/* ---------- 正文区：放到标题下方，使用同一条左轴 ---------- */
+.rs-body{
+  --rs-prose-col:560px;
+  --rs-prose-ink:rgba(25,26,27,0.66);
+  --rs-prose-muted:rgba(25,26,27,0.48);
+  --rs-prose-strong:rgba(25,26,27,0.88);
+}
+/* 暗色主题：引言正文墨色翻转(修复暗底下深字不可读) */
+:root[data-theme="dark"] .rs-body{
+  --rs-prose-ink:rgba(232,232,230,0.66);
+  --rs-prose-muted:rgba(232,232,230,0.45);
+  --rs-prose-strong:rgba(232,232,230,0.9);
+}
+.rs-body{
+  position:relative;
+  z-index:1;
+  max-width:var(--rs-prose-col);
+  margin:72px 0 0;
+  padding-left:0;
+}
+/* 正文上提贴标题(导语已撤)：顶部满宽横线一并撤掉,避免横切右侧立方体链视觉 */
+/* 正文参考 tweakkit：窄栏、低对比、短段距，像文档而不是海报。 */
+.rs-body p{
+  max-width:var(--rs-prose-col);
+  margin:0 0 20px;
+  font-size:14px;
+  line-height:1.78;
+  font-weight:400;
+  color:var(--rs-prose-ink);
+  text-wrap:pretty;
+}
+.rs-body p:last-child{ margin-bottom:0; }
+.rs-body .rs-lead{
+  position:relative;
+  width:auto;
+  max-width:var(--rs-prose-col);
+  margin:0 0 38px;
+}
+.rs-body .rs-lead-copy{
+  max-width:var(--rs-prose-col);
+  margin:0 0 16px;
+  font-size:14px;
+  line-height:1.82;
+  color:var(--rs-prose-ink);
+  line-break:strict;
+}
+.rs-body .rs-lead-copy span{
+  display:block;
+}
+.rs-body .rs-lead-copy--term{
+  max-width:520px;
+  margin-top:18px;
+  color:var(--rs-prose-muted);
+}
+
+/* ---------- 入场：编号头/标题/正文「模糊渐现」（原地 blur 渐清，无位移，错峰）---------- */
+.rs-reveal{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .7s ease, transform .7s cubic-bezier(.165,.84,.44,1);
+  will-change:opacity, transform;
+}
+.rs-sechead.rs-reveal{ transition-delay:0s; }
+.rs-hero.rs-reveal{ transition-delay:.08s; }
+.rs-body.rs-reveal{ transition-delay:.16s; }
+.rs.rs-in .rs-reveal{ opacity:1; transform:none; }
+@media (prefers-reduced-motion:reduce){
+  .rs-reveal{ opacity:1; transform:none; transition:none; }
+}
+
+/* ---------- 手机：单列堆叠 ---------- */
+@media (max-width:860px){
+  .rs{ display:block; padding:32px 24px 72px; }
+  .rs-sechead{ margin-bottom:32px; }
+  .rs-sechead::after{ left:-24px; right:-24px; }
+  .rs-hero-title{ font-size:32px; line-height:1.3; }
+  .rs-visual{ display:none; }
+  .rs-body{ margin-top:32px; }
+  .rs-body .rs-lead{ width:auto; }
+}

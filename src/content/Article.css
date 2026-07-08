@@ -1,0 +1,289 @@
+/* ============================================================
+   文章阅读视图 —— poolside.ai/blog 板式
+   暖白纸张 · 左常驻目录 · 右单栏正文(~680) · 富排版块
+   配色 P2 深色化：底 #08090A / 正文暖灰 / 强调靛蓝 / 灰 60%白
+   ============================================================ */
+.ar {
+  /* P2 深色化：本作用域旧暖白令牌翻成深色（值同全局 index.css 令牌），
+     令 .ar 容器与被借用的 ar-* 块级排版在深底上成立。 */
+  --paper: var(--bg);
+  --dim: var(--ink-60);
+  --faint: var(--ink-30);
+  --line: var(--hairline);
+
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter', -apple-system, 'PingFang SC', system-ui, sans-serif;
+  overflow-x: hidden;          /* 几何向右出血,裁掉溢出不产生横向滚动 */
+  display: grid;
+  /* 左边距 | 侧栏 | 固定间隙(不再吃满 slack) | 内容区(标题+正文) | 右侧 slug 列 | 右边距
+     内容左锚定贴着侧栏,slack 全部留到右边(放大几何/本节目录),不再让内容浮在中间留大左白 */
+  grid-template-columns:
+    96px               /* 左边距 */
+    216px              /* 侧栏 */
+    72px               /* 固定间隙 */
+    minmax(0, 760px)   /* 内容区:标题/正文 */
+    minmax(220px, 1fr) /* 右列:版头几何 + 本节目录 的容纳/留白 */
+    72px;              /* 右边距 */
+  column-gap: 0;
+  align-items: start;
+}
+
+/* ---------- 左侧常驻目录：列 2 ---------- */
+.ar-sidebar {
+  grid-column: 2 / 3;
+  position: sticky;
+  top: 0;
+  align-self: start;
+  padding: 56px 0;
+  display: flex;
+  flex-direction: column;
+}
+.ar-brand {
+  display: flex; align-items: flex-start; gap: 8px;
+  background: none; border: none; cursor: pointer; padding: 0; text-align: left;
+  margin-bottom: 36px;
+}
+.ar-brand-mark { color: var(--accent); font-size: 12px; line-height: 1.6; }
+.ar-brand-name {
+  font-family: 'JetBrains Mono', monospace; font-weight: 500;
+  color: var(--accent); font-size: 13px; letter-spacing: 0.3px;
+  line-height: 1.5; max-width: 150px;
+}
+
+.ar-toc-chapterhead {
+  display: flex; align-items: baseline; gap: 9px;
+  padding-bottom: 14px; margin-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+.ar-toc-cno {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--faint);
+}
+.ar-toc-ctitle {
+  font-family: 'JetBrains Mono', monospace; font-size: 13px; font-weight: 500;
+  letter-spacing: 0.3px; color: var(--ink);
+}
+
+.ar-toc { display: flex; flex-direction: column; }
+.ar-toc-item {
+  display: flex; align-items: baseline; gap: 9px;
+  background: none; border: none; cursor: pointer; text-align: left;
+  color: var(--dim); font-family: inherit; padding: 8px 0; width: 100%;
+  transition: color .15s ease;
+}
+.ar-toc-no {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--faint);
+  min-width: 26px; transition: color .15s ease;
+}
+.ar-toc-title { font-size: 13px; line-height: 1.4; }
+.ar-toc-item:hover { color: var(--accent); }
+.ar-toc-item:hover .ar-toc-title {
+  background: var(--accent); color: #fff;
+  box-shadow: 2px 0 0 var(--accent), -2px 0 0 var(--accent);
+}
+.ar-toc-item.is-active { color: var(--accent); }
+.ar-toc-item.is-active .ar-toc-no { color: var(--accent); }
+.ar-toc-item.is-active .ar-toc-title { font-weight: 500; }
+
+.ar-back {
+  margin-top: 40px; padding: 0;
+  background: none; border: none; cursor: pointer; text-align: left;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint);
+  transition: color .15s ease;
+}
+.ar-back:hover { color: var(--ink); }
+
+/* ---------- 右侧内容：跨 内容列+右列(列 4→6)，正文阅读宽放宽到 ~760 ---------- */
+.ar-main { grid-column: 4 / 6; padding: 64px 0 120px; }
+/* 版头/导语之后的块回到舒适阅读宽 */
+.ar-body, .ar-pager { max-width: 760px; }
+
+/* ── 版头(poolside 版头):小眉标 + 大两色标题块 + 右侧出血大几何 ── */
+.ar-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 38%);
+  align-items: center; gap: 32px;
+  margin-bottom: 60px;
+}
+.ar-kicker {
+  display: flex; align-items: baseline; gap: 12px;
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 1px;
+  text-transform: uppercase; color: var(--accent); margin-bottom: 26px;
+}
+.ar-kicker-no { color: var(--faint); }
+/* 标题块:黑标题 + 灰副句,同一字阶连读(poolside 两色陈述) */
+.ar-title {
+  margin: 0; font-weight: 400;
+  font-size: 52px; line-height: 1.12; letter-spacing: -1.6px; color: var(--ink);
+}
+.ar-title-sub { display: block; color: var(--ink-60); margin-top: 6px; }
+/* 大几何:立方堆叠,轻微向右出血 */
+.ar-head-figure {
+  align-self: center; justify-self: end;
+  width: 108%; margin-right: -8%;
+}
+.ar-head-figure svg { display: block; width: 100%; }
+
+/* ── 导语行:开头段落 + 右侧本节小目录 ── */
+.ar-intro {
+  display: grid;
+  grid-template-columns: minmax(0, 760px) 220px;
+  gap: 64px; align-items: start;
+  margin-bottom: 60px;
+  padding-top: 32px; border-top: 1px solid var(--line);
+}
+.ar-intro-lede .ar-p {
+  font-size: 18px; line-height: 1.75; color: var(--ink); margin-bottom: 20px;
+}
+.ar-intro-lede .ar-p:last-child { margin-bottom: 0; }
+.ar-onpage {
+  display: flex; flex-direction: column; gap: 14px;
+  padding-top: 4px;
+}
+.ar-onpage-item {
+  display: flex; gap: 12px; align-items: baseline;
+  font-size: 14px; line-height: 1.45; color: var(--faint);
+}
+.ar-onpage-no {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--ink-30);
+  min-width: 20px;
+}
+
+/* 正文块 */
+.ar-body { font-size: 16px; }
+/* 正文基底对齐 poolside：16px、行距中文 1.7、纯黑、段距 20px */
+.ar-p {
+  margin: 0 0 20px; line-height: 1.7; color: var(--ink);
+  font-size: 16px; word-break: break-word;
+}
+.ar-p strong { font-weight: 600; }
+/* inline 强调：poolside inline code = JetBrains Mono + 极浅暖灰底 + 直角 */
+.ar-p em, .ar-quote em {
+  font-style: normal;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.92em;
+  background: var(--surface-2); padding: 1px 5px; border-radius: 0; color: var(--ink-60);
+}
+
+/* 标题阶梯对齐 poolside：统一 weight 400，靠字号 + 渐进负字距 + 上留白分层 */
+.ar-h2 {
+  margin: 64px 0 24px; font-weight: 400; font-size: 30px; line-height: 1.3;
+  letter-spacing: -1.2px; color: var(--ink);
+}
+.ar-h3 {
+  margin: 48px 0 16px; font-weight: 400; font-size: 22px; line-height: 1.4;
+  letter-spacing: -0.6px; color: var(--ink);
+}
+
+/* 代码块：抬升面 surface-1 平涂底、直角、无边框（P2 深色化） */
+.ar-code {
+  margin: 0 0 24px; padding: 16px 18px;
+  background: var(--surface-1); border: none; border-radius: 0;
+  overflow-x: auto;
+}
+.ar-code code {
+  font-family: 'JetBrains Mono', 'Chivo Mono', ui-monospace, monospace;
+  font-size: 13px; line-height: 1.8; color: var(--ink); white-space: pre;
+}
+
+/* 引用对齐 poolside：1px 浅暖灰左边线 + 32px 缩进、不斜体、无底色、黑字 */
+.ar-quote {
+  margin: 0 0 24px; padding: 0 0 0 32px;
+  border-left: 1px solid var(--hairline);
+  font-size: 16px; line-height: 1.7; color: var(--ink);
+}
+.ar-quote strong { color: var(--ink); font-weight: 600; }
+
+/* 分隔线 */
+.ar-hr { border: none; border-top: 1px solid var(--line); margin: 44px 0; }
+
+/* 列表对齐 poolside 标志细节：统一靛蓝方块 bullet + 黑字 16px */
+.ar-body ul, .sa-body ul { margin: 0 0 20px; padding-left: 28px; list-style: none; }
+.ar-body ul li, .sa-body ul li {
+  position: relative; font-size: 16px; line-height: 1.7; color: var(--ink);
+  margin-bottom: 8px; padding-left: 6px;
+}
+.ar-body ul li::before {
+  content: ""; position: absolute; left: -16px; top: 0.66em;
+  width: 6px; height: 6px; background: var(--accent);   /* 靛蓝方块（非圆点） */
+}
+.sa-body ul li::before {
+  content: ""; position: absolute; left: -16px; top: 0.66em;
+  width: 6px; height: 6px; background: var(--accent);
+}
+
+/* 表格对齐 poolside：只横线（表头下 2px 黑、行间 1px 黑、末行不封底），
+   无竖线无背景，全左对齐，首列不加粗(400)，14px */
+.ar-table-wrap { margin: 0 0 24px; overflow-x: auto; }
+.ar-table {
+  width: 100%; border-collapse: collapse; font-size: 14px;
+}
+.ar-table th {
+  text-align: left; font-weight: 500; color: var(--ink);
+  padding: 0 8px 8px 0; border-bottom: 2px solid var(--ink);
+  font-size: 14px; letter-spacing: normal;
+}
+.ar-table td {
+  padding: 8px 8px 8px 0; border-bottom: 1px solid var(--ink);
+  color: var(--ink); line-height: 1.5; vertical-align: top;
+}
+.ar-table tr:last-child td { border-bottom: none; }
+.ar-table td:first-child { font-weight: 400; }   /* poolside 首列不加粗 */
+
+/* 插画 figure 对齐 poolside：暖黑 12% 细描边、无圆角、等宽不出血 */
+.ar-figure { margin: 32px 0; padding: 16px 0; }
+.ar-figure-frame {
+  border: 1px solid var(--hairline); background: var(--surface-1);
+  border-radius: 0; overflow: hidden;
+}
+.ar-figcap {
+  margin-top: 12px; font-size: 12.5px; line-height: 1.5; color: var(--faint);
+  font-family: 'JetBrains Mono', monospace; letter-spacing: 0.2px;
+}
+
+/* 上/下节翻页 */
+.ar-pager {
+  display: flex; justify-content: space-between; gap: 24px;
+  margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
+}
+.ar-pager-btn {
+  display: flex; flex-direction: column; gap: 5px;
+  background: none; border: none; cursor: pointer; padding: 0;
+  text-align: left; max-width: 48%;
+}
+.ar-pager-next { text-align: right; align-items: flex-end; }
+.ar-pager-dir {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--faint);
+  transition: color .15s ease;
+}
+.ar-pager-t { font-size: 14px; color: var(--ink); line-height: 1.4; }
+.ar-pager-btn:hover .ar-pager-dir { color: var(--accent); }
+.ar-pager-btn:hover .ar-pager-t { color: var(--accent); }
+
+/* ---------- 中等宽度:标题略缩,几何收一点出血 ---------- */
+@media (max-width: 1200px) {
+  .ar-head { grid-template-columns: minmax(0, 1fr) minmax(320px, 42%); }
+  .ar-title { font-size: 44px; }
+  .ar-head-figure { width: 110%; margin-right: -10%; }
+}
+
+/* ---------- 手机:版头转单列,几何置顶,目录沉到段后 ---------- */
+@media (max-width: 900px) {
+  .ar { display: block; }
+  .ar-sidebar {
+    position: static; padding: 28px 24px 0; border-bottom: 1px solid var(--line);
+  }
+  .ar-main { grid-column: auto; padding: 32px 24px 80px; }
+  .ar-body, .ar-pager { max-width: none; }
+  .ar-head {
+    grid-template-columns: 1fr; gap: 24px; margin-bottom: 40px;
+  }
+  .ar-head-figure { order: -1; width: 100%; max-width: 320px; margin-right: 0; }
+  .ar-title { font-size: 32px; letter-spacing: -1px; }
+  .ar-intro {
+    grid-template-columns: 1fr; gap: 28px; margin-bottom: 40px;
+  }
+  .ar-intro-lede .ar-p { font-size: 16px; }
+  .ar-toc { flex-direction: row; flex-wrap: wrap; gap: 4px 16px; }
+  .ar-back { margin-top: 20px; }
+}

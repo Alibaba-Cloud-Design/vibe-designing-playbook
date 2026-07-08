@@ -1,0 +1,47 @@
+/* ============================================================
+   prose tokens · v2-dark —— 软深色「技术文档」富文本骨架
+   对标 unmoth.com + x.com/advertising + polar.sh。
+   值与全局 index.css 令牌同源,但在 .prose 作用域内自持(不依赖全局名),
+   这样 prose-lab.html(不加载 index.css)也能独立正确渲染。
+   层级律:靠亮度 / 不透明度分层(100→60→40→30→10),发丝线为唯一主分隔,靛蓝唯一强调。
+   中文长读安全垫:底 #08090A 非纯黑、正文 #E8E8E6 非纯白、行高放大、中文不加负字距不用 mono。
+   ============================================================ */
+.prose{
+  /* —— 字族(三声部;中文正文走苹方,标签编号走 mono) —— */
+  --prose-sans:  'PingFang SC', 'Noto Sans SC', 'Hanken Grotesk', -apple-system, system-ui, sans-serif;
+  --prose-mono:  'JetBrains Mono', 'Chivo Mono', ui-monospace, monospace;
+
+  /* —— 色:软深底 + 不透明度阶梯 —— */
+  --prose-bg:        var(--bg, #08090A);              /* 画布深底(软近黑) */
+  --prose-surface-1: var(--surface-1, #0D0E0E);       /* 抬升面(代码框) */
+  --prose-surface-2: var(--surface-2, #141516);       /* 更高抬升(inline code 芯片) */
+  --prose-ink:       var(--ink-70, rgba(218,216,210,0.80)); /* 正文:随主题切换 */
+  --prose-ink-strong:var(--ink, #DAD8D2);             /* 标题 / strong */
+  --prose-ink-70:    var(--ink-70, rgba(218,216,210,0.70));
+  --prose-ink-60:    var(--ink-60, rgba(218,216,210,0.60)); /* 次级正文 / 灰副句 = 60 */
+  --prose-ink-50:    var(--ink-50, rgba(218,216,210,0.50)); /* 图注 / meta = 50 */
+  --prose-ink-30:    var(--ink-30, rgba(218,216,210,0.30)); /* 编号 / 眉标 = 30 */
+  --prose-accent:    var(--la-accent, #4339FF);       /* 唯一高亮 = 主题重点色(亮蓝/暗青绿) */
+  --prose-accent-br: var(--la-accent, #4339FF);       /* 强调/编号/图注号同走主题重点色 */
+
+  /* —— 发丝线三档(全站唯一主分隔件) —— */
+  --prose-hair:      var(--hairline, rgba(218,216,210,0.105)); /* 行分隔 / 弱框 */
+  --prose-hair-mid:  color-mix(in srgb, var(--ink, #DAD8D2), transparent 84%);
+  --prose-hair-bold: var(--hairline-bold, rgba(218,216,210,0.24));
+
+  /* —— 字号阶梯(中文放大版;正文一字号一行高) —— */
+  /* 字距归零:prose 标题多为中文,中文一律不加负字距(§0 红线);负字距只给拉丁 / 数字 */
+  --prose-h1: 44px;  --prose-h1-ls: 0;
+  --prose-h2: 30px;  --prose-h2-ls: 0;
+  --prose-h3: 21px;  --prose-h3-ls: 0;
+  --prose-body: 16px;
+  --prose-small: 14px;              /* 表格 */
+  --prose-mono-sm: 12.5px;          /* mono 标签 / 编号 / 图注 */
+
+  /* —— 行高:深底中文正文放大到 1.8 —— */
+  --prose-lh-body: 1.9;
+  --prose-gap-p: 28px;
+
+  /* 图版角标色(blueprint corner ticks) */
+  --prose-tick: var(--ink-30, rgba(218,216,210,0.28));
+}

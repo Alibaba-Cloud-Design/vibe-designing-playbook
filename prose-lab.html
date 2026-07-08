@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="data:," />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prose 组件预览 · v2-dark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    html,body{ margin:0; background:#08090A; }
+    /* 极淡制图点阵纹理(与全站 §1 一致),让深底不死板 */
+    body{
+      background-image:radial-gradient(#121314 .6px, transparent 1.4px);
+      background-size:22px 22px;
+    }
+    #root{ max-width:720px; margin:0 auto; padding:96px 32px 160px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/content/prose/prose-lab.tsx"></script>
+</body>
+</html>

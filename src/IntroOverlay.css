@@ -1,0 +1,178 @@
+/* ============================================================
+   IntroOverlay — 1:1 复刻 poetic.com 页面入场（毫秒/像素级）
+   机制/时序/缓动照 poetic；颜色读取全局靛蓝 token、文字换
+   「vibe designing playbook」、拉幕揭示我们现有的深色封面。
+
+   纯 CSS @keyframes 驱动，动画时钟锚定 overlay 首帧（t=0）：
+     0 ── 500 ─────────────── 1500 ─────────────── 2460ms
+     │ 黑屏hold │  组装(logo+方块) │   四层拉幕 reveal   │
+   React 只做：测量 wordmark 宽度、reveal+260ms 发封面入场信号、
+   2460ms 卸载 + 恢复滚动。
+   ============================================================ */
+
+.intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200; /* 高于 Sidebar / 一切 */
+  overflow: hidden;
+  background: transparent; /* 黑由 layer-1 提供；拉幕后本容器透明不挡封面 */
+}
+
+/* ---- 拉幕层：4 个全屏层，向右滑出 translateX 0→100% ---- */
+.intro-layer {
+  position: absolute;
+  inset: 0;
+  will-change: transform;
+  /* 0.72s cubic-bezier(0.7,0,0.3,1)，错峰 80ms，z 倒挂（顶层先走） */
+  animation: intro-cover-wipe 0.72s cubic-bezier(0.7, 0, 0.3, 1) both;
+}
+
+/* 层 1：黑底 + wordmark（承载 P1 组装的 logo/方块），先走 */
+.intro-layer-1 {
+  z-index: 104;
+  background: var(--bg);
+  animation-delay: 1.5s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* 层 2/3/4：三档蓝（深→浅），delay 递增、后走 */
+.intro-layer-2 {
+  z-index: 103;
+  background: var(--accent-deep);
+  animation-delay: 1.58s;
+}
+.intro-layer-3 {
+  z-index: 102;
+  background: var(--accent);
+  animation-delay: 1.66s;
+}
+.intro-layer-4 {
+  z-index: 101;
+  background: var(--accent-bright);
+  animation-delay: 1.74s;
+}
+
+@keyframes intro-cover-wipe {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ---- P1 组装：logo 淡入 + 方块横扫（都在 layer-1 上）---- */
+.intro-logo-wrap {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.intro-logo {
+  display: block;
+  font-family: "Hanken Grotesk", -apple-system, system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 44px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--ink);
+  /* 1s linear delay 0.5s：opacity 0 → 1（0%→70%→100%） */
+  animation: intro-logo 1s linear 0.5s both;
+}
+
+/* 方块 = wordmark cap-height 的正方形；left:0 锚在 wordmark 左缘，
+   translateX 从 -[cap]（文字左）扫到 +[wordmark宽]（词尾右停靠）。
+   --sq / --wm 由 JS 实测后写在 .intro-logo-wrap 上。 */
+.intro-square {
+  position: absolute;
+  left: 0;
+  top: var(--sq-top, 50%);
+  width: var(--sq, 32px);
+  height: var(--sq, 32px);
+  background: var(--accent);
+  /* 1s cubic-bezier(0.4,0,0.2,1) delay 0.5s */
+  animation: intro-bar 1s cubic-bezier(0.4, 0, 0.2, 1) 0.5s both;
+}
+
+@keyframes intro-logo {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* 方块横扫 + 停靠 + 原地闪 3 次（poetic intro-bar 1:1）。
+   0%→50% translateX -sq→+wm（横扫 500–1000ms）；50%→78% 停靠；
+   80/83/85/88/90/93/95/98% 关/开三闪；100% 收尾关闭。 */
+@keyframes intro-bar {
+  0% {
+    opacity: 0;
+    transform: translateX(calc(-1 * var(--sq, 32px)));
+  }
+  12% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(var(--wm, 300px));
+  }
+  78% {
+    opacity: 1;
+    transform: translateX(var(--wm, 300px));
+  }
+  80% {
+    opacity: 0;
+  }
+  83% {
+    opacity: 0;
+  }
+  85% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0;
+  }
+  93% {
+    opacity: 0;
+  }
+  95% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(var(--wm, 300px));
+  }
+}
+
+/* 窄屏：缩小 wordmark 避免溢出（JS 实测宽度会随之自适应，方块横扫轨迹自动跟随） */
+@media (max-width: 760px) {
+  .intro-logo {
+    font-size: clamp(22px, 7vw, 44px);
+  }
+}
+
+/* ---- reduced-motion 降级：跳过拉幕，0.45s 黑屏 fade-out 露封面 ---- */
+.intro-overlay.intro-reduced {
+  background: var(--bg);
+  animation: intro-reduced-fade 0.45s ease both;
+}
+@keyframes intro-reduced-fade {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

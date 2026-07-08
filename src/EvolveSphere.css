@@ -1,0 +1,39 @@
+/* ============================================================
+   自我进化动画 —— 线框球「环一圈圈生长扩散」
+   纸感调:暖白底(由格子提供)+ 细灰线;末环靛蓝点睛(taste 收敛)
+   运动逻辑全在 EvolveSphere.tsx 的 rAF 里;此处仅样式
+   ============================================================ */
+.evs {
+  --line: var(--ink-30);           /* 深底细线(克制不抢);P9 再做幽灵轨道二层 */
+  --accent: var(--accent-bright);  /* taste 收敛点睛 */
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+/* 透视舞台:给环的深度(translateZ)纵深 */
+.evs-scene {
+  width: 260px; height: 260px;
+  perspective: 900px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* 固定俯视角,球不转;只有环在生长(对齐参考的轻俯视) */
+.evs-stage {
+  position: relative;
+  width: 100%; height: 100%;
+  transform-style: preserve-3d;
+  transform: rotateX(18deg) rotateY(-12deg);
+}
+
+/* 每个环:细灰描边正圆;尺寸/位置/透明度由 JS 实时算 */
+.evs-ring {
+  position: absolute; top: 50%; left: 50%;
+  border: 1.3px solid var(--line);
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  will-change: width, height, transform, opacity;
+}
+
+/* 最新长出的那一圈:靛蓝点睛 */
+.evs-ring--accent { border-color: var(--accent); }
