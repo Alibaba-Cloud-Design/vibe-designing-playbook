@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Vibe Designing Playbook · 封面</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:wght@500;600&family=Chivo+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{background:#000;height:100%;}
+  body{
+    min-height:100vh;color:#fff;
+    font-family:'Figtree',-apple-system,'PingFang SC',system-ui,sans-serif;
+    overflow-x:hidden;
+    display:flex;align-items:center;justify-content:center;
+  }
+
+  /* ============================================================
+     1:1 还原 Figma node 13:295 —— 画布固定 1600×900
+     全部元素绝对 px 定位（照搬 Figma 坐标），
+     整块 .stage 用 transform:scale() 等比缩放适配任意屏宽。
+     中央灰块 = 书本组件槽位（.book-slot）。
+     ============================================================ */
+  .frame{
+    position:relative;
+    width:100vw;
+    aspect-ratio:1600/900;
+    max-height:100vh;
+    overflow:hidden;
+    background:#000;
+  }
+  .stage{
+    position:absolute;top:0;left:0;
+    width:1600px;height:900px;
+    transform-origin:top left;
+    transform:scale(calc(100vw / 1600));
+  }
+
+  /* ---------- 文字层（绝对定位，照搬 Figma px）---------- */
+  .el{ position:absolute; z-index:2; }
+
+  /* 等宽小字（Chivo Mono 16 / 行高 20 / 字距 1.28 / 白80% / uppercase） */
+  .mono{
+    font-family:'Chivo Mono',monospace;font-weight:400;
+    color:rgba(255,255,255,0.8);
+    font-size:16px;line-height:20px;letter-spacing:1.28px;
+    text-transform:uppercase;white-space:nowrap;
+  }
+
+  /* 顶部 running head：2026 左上 / INTENT 右上（y=28） */
+  .rh-l{ left:29px;  top:28px; }
+  .rh-r{ left:1412px;top:28px; }
+
+  /* 巨型标题：x=30 y=68 w=1570 h=202 */
+  .title{
+    left:30px; top:68px; width:1570px;
+    font-family:'Instrument Serif',serif;font-weight:400;
+    color:#fff;text-transform:capitalize;
+    font-size:206.795px;line-height:202px;
+    letter-spacing:-8.27px;white-space:nowrap;
+  }
+
+  /* 左中三章词：x=33 y=352 / ↓↓ x=552 y=352 */
+  .chapters{ left:33px; top:352px; width:384px; white-space:normal;line-height:20px; }
+  .arrows{ left:552px; top:352px; letter-spacing:8px; }
+
+  /* 右中副标题组：x=1361 y=352 w=212 h=81 */
+  .sub{ left:1361px; top:352px; width:212px; height:81px; }
+  .sub-text{
+    position:absolute; right:0; top:0; text-align:right;
+    font-family:'Figtree',sans-serif;font-weight:500;color:#fff;
+  }
+  .sub-en{ font-size:31.1px;line-height:40px; }
+  .sub-cn{ font-size:30px;line-height:40px;letter-spacing:1.2px; }
+  .sub-bar{
+    position:absolute; left:66px; top:47px;   /* 1427-1361, 399-352 */
+    width:9.86px; height:26.53px;
+    background:linear-gradient(196.557deg, #ffffff 4.9%, #7afce4 141.59%);
+  }
+
+  /* ---------- 中央书本组件槽位（Figma 灰块 13:329：x=649 y=332 w=301 h=401）---------- */
+  .book-slot{
+    left:649px; top:332px; width:301px; height:401px;
+    z-index:1;
+    background:#d9d9d9;            /* 占位灰，组件接入后由组件自身背景替换 */
+    display:flex;align-items:center;justify-content:center;
+    overflow:hidden;
+  }
+
+  /* 底部：ACD标 左下(x=29 y=845 42×23) / NOT DESIGN 居中(x=710 y=841) / 出品 右下(x=1418 y=845) */
+  .acd{ left:29px; top:845px; width:42px; height:23px; }
+  .acd img{ width:100%;height:100%;display:block;object-fit:contain; }
+  .notdesign{ left:710px; top:841px; }
+  .imprint{ left:1418px; top:845px; }
+
+  /* ============================================================
+     手机 / 窄屏：转竖版（放弃 1:1，H5 排版）
+     ============================================================ */
+  @media (max-width:760px){
+    body{ display:block; }
+    .frame{ width:100vw;aspect-ratio:auto;min-height:100svh;max-height:none; }
+    .stage{ position:relative;width:100vw;height:100svh;transform:none; }
+    .mono{ font-size:12px;letter-spacing:1px;line-height:18px; }
+    .rh-l{ left:24px;top:24px; }
+    .rh-r{ left:auto;right:24px;top:24px; }
+    .title{
+      left:24px;top:84px;width:calc(100vw - 48px);
+      font-size:clamp(48px,15vw,104px);line-height:0.92;
+      letter-spacing:-0.03em;white-space:normal;
+    }
+    .chapters{ left:24px;top:auto;top:240px;width:60vw; }
+    .arrows{ display:none; }
+    /* 书本槽：移到中部居中、按屏宽缩放保持 3:4 偏瘦比例 */
+    .book-slot{
+      left:50%;top:auto;top:320px;transform:translateX(-50%);
+      width:min(62vw,301px);height:auto;aspect-ratio:301/401;
+    }
+    .sub{ left:auto;right:24px;top:auto;bottom:120px;width:auto;height:auto; }
+    .sub-bar{ left:-22px;top:6px;width:7px;height:38px; }
+    .sub-en{ font-size:20px;line-height:26px; }
+    .sub-cn{ font-size:19px;line-height:26px; }
+    .acd{ left:24px;top:auto;bottom:14px;width:40px;height:22px; }
+    .notdesign{ left:50%;top:auto;bottom:40px;transform:translateX(-50%); }
+    .imprint{ left:auto;right:24px;top:auto;bottom:14px; }
+  }
+</style>
+</head>
+<body>
+  <div class="frame">
+  <div class="stage">
+
+    <!-- 顶部 running head -->
+    <div class="el mono rh-l">2026</div>
+    <div class="el mono rh-r">Intent becomes form.</div>
+
+    <!-- 巨型标题 -->
+    <h1 class="el title">Vibe Designing Playbook</h1>
+
+    <!-- 左中三章词 / 箭头 -->
+    <div class="el mono chapters">Engineering, Interaction,<br>and Evolution.</div>
+    <div class="el mono arrows">↓ ↓</div>
+
+    <!-- 右中副标题 + 渐变条 -->
+    <div class="el sub">
+      <span class="sub-text">
+        <span class="sub-en">Vibe Designing</span><br>
+        <span class="sub-cn">设计指南</span>
+      </span>
+      <span class="sub-bar"></span>
+    </div>
+
+    <!-- ⭐ 中央书本组件槽位（占位灰块，等组件代码接入） -->
+    <div class="el book-slot" data-node-id="13:329">
+      <!-- BOOK COMPONENT GOES HERE -->
+    </div>
+
+    <!-- 底部：ACD标 / NOT DESIGN / 出品 -->
+    <div class="el acd"><img src="assets/cover/acd-logo.png" alt="ACD · 阿里云设计中心" /></div>
+    <div class="el mono notdesign">Not Design Just Future</div>
+    <div class="el mono imprint">阿里云设计中心出品</div>
+
+  </div>
+  </div>
+
+  <script>
+  /* stage 按 frame 实宽 / 1600 等比缩放（精确，无累积误差） */
+  (function () {
+    var frame = document.querySelector('.frame');
+    var stage = document.querySelector('.stage');
+    var mq    = window.matchMedia('(max-width:760px)');
+    function fit(){
+      if (mq.matches){ stage.style.transform = 'none'; return; }
+      stage.style.transform = 'scale(' + (frame.clientWidth / 1600) + ')';
+    }
+    fit();
+    window.addEventListener('resize', fit);
+  })();
+  </script>
+</body>
+</html>
