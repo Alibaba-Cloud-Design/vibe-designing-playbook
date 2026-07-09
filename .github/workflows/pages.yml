@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5   # 把 Pages 从分支模式切到 workflow 构建模式
       - uses: actions/setup-node@v4
         with:
           node-version: 20
