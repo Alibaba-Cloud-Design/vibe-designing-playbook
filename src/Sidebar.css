@@ -217,9 +217,9 @@
   position:fixed; top:0; left:0; right:0; z-index:60;
   align-items:center; gap:14px;
   height:52px; padding:0 10px 0 16px;
-  background:color-mix(in srgb, var(--bg), transparent 6%);
-  -webkit-backdrop-filter:blur(12px);
-  backdrop-filter:blur(12px);
+  /* 纯不透明底(原 94% 不透明 + blur12:blur 几乎不可见却每帧重绘;.sbm 仅移动端出现,
+     正是 backdrop-filter 最吃亏处,直接去掉。Emil STANDARDS:heavy blur is expensive, esp. Safari) */
+  background:var(--bg);
   border-bottom:1px solid var(--hairline);
   opacity:0; transform:translateY(-8px); pointer-events:none;
   transition:opacity .3s ease, transform .3s ease;
