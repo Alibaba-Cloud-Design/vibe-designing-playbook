@@ -45,3 +45,13 @@
 
 .slx-body { max-width: 980px; }
 .slx-body .lex-section { padding: 40px 0; }
+
+/* ---------- 移动端(≤860):去掉给左侧栏留的 316 内距,版头收紧 ---------- */
+@media (max-width: 860px) {
+  .slx { padding: 0 20px 88px; }
+  .slx-hero { padding: 72px 0 36px; }
+  .slx-hero-title { font-size: 30px; }
+  .slx-hero-lede { font-size: 14px; }
+  .slx-hero-art { height: 220px; }
+  .slx-body .lex-section { padding: 28px 0; }
+}

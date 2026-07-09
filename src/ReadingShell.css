@@ -73,17 +73,20 @@
 .rs-hero-title span{
   display:block;
 }
-/* 引言连接线已撤(2026-07:正文上提后该线横穿文字区,决议删除) */
-/* 立方体链列左缘竖线:独立画一根贯到板块底,不随视觉容器高度截断(修"半途断开") */
-.rs::before{
+/* 连接线：只铺视觉列下缘(2026-07-09 决议:不再从导航缘起横穿正文),
+   与 .rs-visual 左缘竖线在列底交汇成 ⊥ */
+.rs::after{
   content:"";
   position:absolute;
-  top:var(--rs-visual-top);
-  bottom:0;
-  right:var(--rs-visual-width);   /* 与视觉列左缘同轴 */
-  width:1px;
+  right:0;
+  width:var(--rs-visual-width);
+  top:var(--rs-body-line-top);
+  height:1px;
   background:var(--connector-line);
   pointer-events:none;
+}
+@media (max-width:860px){
+  .rs::after{ display:none; }   /* 手机隐藏视觉列,线随之撤 */
 }
 
 .rs-visual{
@@ -93,12 +96,15 @@
   right:0;
   width:var(--rs-visual-width);
   height:calc(var(--rs-body-line-top) - var(--rs-visual-top));
+  border-left:1px solid var(--connector-line);
   box-sizing:border-box;
   pointer-events:none;
   overflow:hidden;
   contain:layout style paint;
   opacity:0.88;
 }
+/* 暗色主题:序列帧重着色(墨线→白 / 品牌蓝→青绿),滤镜定义见 ReadingShell.tsx #rs-cc-dark */
+:root[data-theme="dark"] .rs-visual .cc-canvas{ filter:url(#rs-cc-dark); }
 /* 双色词强调工具：亮键词（--ink 100）/ 灰陈述（--ink-60）——只用亮度分主次，不加粗不变色 */
 .rs-key{ color:var(--ink); font-weight:inherit; }
 .rs-dim{ color:var(--ink-60); font-weight:inherit; }

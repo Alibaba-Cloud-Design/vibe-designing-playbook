@@ -76,62 +76,86 @@ function TwoClasses() {
   );
 }
 
-/** ③ skill 解剖 —— poolside 软卡片 2×2 网格:每格一个 mono 标签 + 迷你实物 + 点线连接 */
+/** ③ skill 解剖 —— fp 手绘制式(2026-07):发丝方格 2×2 + 迷你线稿 + 虚线串联 + 青点强调 */
 function SkillAnatomy() {
-  // 网格几何:卡片 232×148,水平间隙 64,垂直间隙 40
+  const FL = "var(--fp-line)", FD = "var(--fp-dot)", FI = "var(--fp-ink)", FS = "var(--fp-sub)", FC = "var(--fp-card)";
   const cw = 232, ch = 148, gx = 64, gy = 40;
   const x0 = 70, y0 = 16;
   const col = (c: number) => x0 + c * (cw + gx);
   const row = (r: number) => y0 + r * (ch + gy);
   const cellCenter = (c: number, r: number) => ({ cx: col(c) + cw / 2, cy: row(r) + ch / 2 + 8 });
+  const Cell = ({ c, r, label }: { c: number; r: number; label: string }) => (
+    <g>
+      <rect className="fp-stroke" pathLength={1} x={col(c)} y={row(r)} width={cw} height={ch}
+        fill="none" stroke={FL} strokeWidth="1" />
+      <text className="fp-wash" x={col(c) + cw / 2} y={row(r) + 26} fontSize="11" fill={FS} textAnchor="middle"
+        fontFamily={MONO} letterSpacing="1.2">{label}</text>
+    </g>
+  );
+  const Link = ({ x1, y1, x2, y2 }: { x1: number; y1: number; x2: number; y2: number }) => (
+    <line className="fp-dash" pathLength={1} x1={x1} y1={y1} x2={x2} y2={y2}
+      stroke={FL} strokeWidth="1" strokeDasharray="0.05 0.05" />
+  );
   return (
     <svg viewBox="0 0 700 392" width="100%" role="img" aria-label="一个 skill 的四个组成部分">
-      {/* 点线连接(横/竖,串起四格) */}
-      <Dots x1={col(0) + cw} y1={row(0) + ch / 2} x2={col(1)} y2={row(0) + ch / 2} />
-      <Dots x1={col(0) + cw} y1={row(1) + ch / 2} x2={col(1)} y2={row(1) + ch / 2} />
-      <Dots x1={col(0) + cw / 2} y1={row(0) + ch} x2={col(0) + cw / 2} y2={row(1)} />
-      <Dots x1={col(1) + cw / 2} y1={row(0) + ch} x2={col(1) + cw / 2} y2={row(1)} />
+      <Link x1={col(0) + cw} y1={row(0) + ch / 2} x2={col(1)} y2={row(0) + ch / 2} />
+      <Link x1={col(0) + cw} y1={row(1) + ch / 2} x2={col(1)} y2={row(1) + ch / 2} />
+      <Link x1={col(0) + cw / 2} y1={row(0) + ch} x2={col(0) + cw / 2} y2={row(1)} />
+      <Link x1={col(1) + cw / 2} y1={row(0) + ch} x2={col(1) + cw / 2} y2={row(1)} />
 
-      {/* 左上：触发时机 —— 一道"信号脉冲" + 光标 */}
-      <Card x={col(0)} y={row(0)} w={cw} h={ch} label="触发时机" />
+      {/* 左上：触发时机 —— 信号脉冲 + 青点光标 */}
+      <Cell c={0} r={0} label="触发时机" />
       {(() => { const { cx, cy } = cellCenter(0, 0); return (
         <g>
-          <polyline points={`${cx - 46},${cy} ${cx - 22},${cy} ${cx - 10},${cy - 20} ${cx + 6},${cy + 18} ${cx + 18},${cy} ${cx + 42},${cy}`}
-            fill="none" stroke={INK} strokeWidth="1.5" strokeLinejoin="round" strokeLinecap="round" />
-          <rect x={cx + 34} y={cy - 8} width="3" height="16" fill={ACCENT} />
+          <polyline className="fp-stroke" pathLength={1}
+            points={`${cx - 46},${cy} ${cx - 22},${cy} ${cx - 10},${cy - 20} ${cx + 6},${cy + 18} ${cx + 18},${cy} ${cx + 42},${cy}`}
+            fill="none" stroke={FI} strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" />
+          <circle className="fp-dot" cx={cx + 42} cy={cy} r={4.5} fill={FD} />
         </g>
       ); })()}
 
-      {/* 右上：判断流程 —— 三步流程节点 */}
-      <Card x={col(1)} y={row(0)} w={cw} h={ch} label="判断流程" />
+      {/* 右上：判断流程 —— 三步节点,末步青点 */}
+      <Cell c={1} r={0} label="判断流程" />
       {(() => { const { cx, cy } = cellCenter(1, 0); const xs = [cx - 40, cx, cx + 40]; return (
         <g>
-          <line x1={xs[0]} y1={cy} x2={xs[2]} y2={cy} stroke={INK} strokeWidth="1.5" />
-          {xs.map((x, i) => <circle key={i} cx={x} cy={cy} r="6" fill={i === 2 ? ACCENT : CARD} stroke={i === 2 ? ACCENT : INK} strokeWidth="1.5" />)}
+          <line className="fp-stroke" pathLength={1} x1={xs[0]} y1={cy} x2={xs[2]} y2={cy} stroke={FI} strokeWidth="1" />
+          {xs.slice(0, 2).map((x, i) => (
+            <circle key={i} className="fp-stroke" pathLength={1} cx={x} cy={cy} r="6" fill={FC} stroke={FI} strokeWidth="1" />
+          ))}
+          <circle className="fp-dot" cx={xs[2]} cy={cy} r={6} fill={FD} />
         </g>
       ); })()}
 
-      {/* 左下：按需细节 —— 叠放的文档(主文件 + 按需引用) */}
-      <Card x={col(0)} y={row(1)} w={cw} h={ch} label="按需细节" />
+      {/* 左下：按需细节 —— 叠放文档 */}
+      <Cell c={0} r={1} label="按需细节" />
       {(() => { const { cx, cy } = cellCenter(0, 1); return (
-        <g stroke={INK} strokeWidth="1.5" fill={CARD}>
-          <rect x={cx - 34} y={cy - 18} width="46" height="40" rx="3" />
-          <rect x={cx - 22} y={cy - 26} width="46" height="40" rx="3" fill={CARD} />
-          <rect x={cx - 10} y={cy - 34} width="46" height="40" rx="3" fill="var(--surface-2)" />
-          <line x1={cx} y1={cy - 24} x2={cx + 26} y2={cy - 24} strokeWidth="1.2" />
-          <line x1={cx} y1={cy - 16} x2={cx + 26} y2={cy - 16} strokeWidth="1.2" />
+        <g stroke={FI} strokeWidth="1">
+          <rect className="fp-stroke" pathLength={1} x={cx - 34} y={cy - 18} width="46" height="40" fill={FC} />
+          <rect className="fp-stroke" pathLength={1} x={cx - 22} y={cy - 26} width="46" height="40" fill={FC} />
+          <rect className="fp-stroke" pathLength={1} x={cx - 10} y={cy - 34} width="46" height="40" fill="var(--fp-wash)" />
+          <line className="fp-stroke" pathLength={1} x1={cx} y1={cy - 24} x2={cx + 26} y2={cy - 24} strokeWidth="1" />
+          <line className="fp-stroke" pathLength={1} x1={cx} y1={cy - 16} x2={cx + 26} y2={cy - 16} strokeWidth="1" />
         </g>
       ); })()}
 
-      {/* 右下：沉淀的坑 —— 勾掉的清单(踩过的坑只犯一次) */}
-      <Card x={col(1)} y={row(1)} w={cw} h={ch} label="沉淀的坑" />
-      {(() => { const { cx, cy } = cellCenter(1, 1); const rows = [-16, 0, 16]; return (
+      {/* 右下：沉淀的坑 —— 勾掉的清单,首项青点勾 */}
+      <Cell c={1} r={1} label="沉淀的坑" />
+      {(() => { const { cx, cy } = cellCenter(1, 1); const rows2 = [-16, 0, 16]; return (
         <g>
-          {rows.map((dy, i) => (
+          {rows2.map((dy, i) => (
             <g key={i}>
-              <rect x={cx - 36} y={cy + dy - 6} width="12" height="12" rx="2" fill={i === 0 ? ACCENT : CARD} stroke={i === 0 ? ACCENT : INK} strokeWidth="1.5" />
-              {i === 0 && <path d={`M${cx - 33} ${cy + dy} l2.5 2.5 l4 -5`} fill="none" stroke="var(--ink)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />}
-              <line x1={cx - 16} y1={cy + dy} x2={cx + 36} y2={cy + dy} stroke={INK} strokeWidth="1.5" opacity={i === 0 ? 0.35 : 1} />
+              {i === 0 ? (
+                <g>
+                  <circle className="fp-dot" cx={cx - 30} cy={cy + dy} r={6.5} fill={FD} />
+                  <path className="fp-stroke" pathLength={1} d={`M${cx - 33.5} ${cy + dy} l2.5 2.5 l4.5 -5.5`}
+                    fill="none" stroke={FI} strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+                </g>
+              ) : (
+                <rect className="fp-stroke" pathLength={1} x={cx - 36} y={cy + dy - 6} width="12" height="12"
+                  fill="none" stroke={FI} strokeWidth="1" />
+              )}
+              <line className="fp-stroke" pathLength={1} x1={cx - 16} y1={cy + dy} x2={cx + 36} y2={cy + dy}
+                stroke={FI} strokeWidth="1" opacity={i === 0 ? 0.35 : 1} />
             </g>
           ))}
         </g>

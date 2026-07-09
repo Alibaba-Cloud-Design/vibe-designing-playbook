@@ -101,7 +101,30 @@ export function Sidebar({ active, onSelect }: { active: string; onSelect: (id: s
     }
   }, [theme]);
 
+  /* 三格主题切换(桌面侧栏与移动顶栏共用同一份状态与标记) */
+  const themeSwitch = (
+    <div className="sb-theme-switch" role="radiogroup" aria-label="主题模式">
+      {THEMES.map((item) => {
+        const Icon = item.id === "auto" ? Monitor : item.id === "light" ? Sun : Moon;
+        return (
+          <button
+            key={item.id}
+            className={"sb-theme-btn" + (theme === item.id ? " is-active" : "")}
+            type="button"
+            role="radio"
+            aria-checked={theme === item.id}
+            aria-label={item.label}
+            onClick={() => setTheme(item.id)}
+          >
+            <Icon aria-hidden="true" size={14} strokeWidth={1.33} />
+          </button>
+        );
+      })}
+    </div>
+  );
+
   return (
+    <>
     <aside className={"sb" + (visible ? " is-visible" : "")}>
       <div className="sb-brand">
         <span className="sb-brand-name">PLAYBOOK</span>
@@ -143,25 +166,28 @@ export function Sidebar({ active, onSelect }: { active: string; onSelect: (id: s
           </div>
         ))}
       </nav>
-      {/* 三格主题切换：跟随系统 / 亮 / 暗 —— 相邻方格共边，激活格提亮 */}
-      <div className="sb-theme-switch" role="radiogroup" aria-label="主题模式">
-        {THEMES.map((item) => {
-          const Icon = item.id === "auto" ? Monitor : item.id === "light" ? Sun : Moon;
-          return (
-            <button
-              key={item.id}
-              className={"sb-theme-btn" + (theme === item.id ? " is-active" : "")}
-              type="button"
-              role="radio"
-              aria-checked={theme === item.id}
-              aria-label={item.label}
-              onClick={() => setTheme(item.id)}
-            >
-              <Icon aria-hidden="true" size={14} strokeWidth={1.33} />
-            </button>
-          );
-        })}
-      </div>
+      {themeSwitch}
     </aside>
+
+    {/* 移动端顶栏(≤860,替代左侧栏)：品牌 + 章节横滑条 + 主题切换,复用同一份状态 */}
+    <div className={"sbm" + (visible ? " is-visible" : "")}>
+      <span className="sbm-brand">PLAYBOOK</span>
+      <nav className="sbm-strip" aria-label="章节导航">
+        {TOC.map((ch) => (
+          <button
+            key={ch.id}
+            className={
+              "sbm-item" +
+              ((active === ch.id || ch.children.some((c) => c.id === active)) ? " is-active" : "")
+            }
+            onClick={() => onSelect(ch.id)}
+          >
+            {ch.title}
+          </button>
+        ))}
+      </nav>
+      {themeSwitch}
+    </div>
+    </>
   );
 }

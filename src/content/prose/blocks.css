@@ -53,17 +53,17 @@
   border: 1px solid var(--prose-hair); border-radius: 0;
   background: var(--prose-bg); color: var(--prose-ink-strong);
   text-decoration: none;
-  transition: border-color .24s ease, background .24s ease,
-    transform .24s cubic-bezier(0.22,1,0.36,1), box-shadow .24s ease;
+  transition: border-color .2s ease, background .2s ease,
+    transform .2s cubic-bezier(0.22,1,0.36,1);
 }
 .pr-att-card::after {                        /* 顶部靛蓝进度脊（下载态揭示）*/
   content: ""; position: absolute; left: -1px; top: -1px; height: 2px; width: 0;
   background: var(--prose-accent-br); transition: width .28s ease;
 }
+/* 悬停:仅描边提亮 + 2px 上浮(站内语言无投影;彩色光晕投影已撤,2026-07 动效审查) */
 .pr-att-card:hover {
   border-color: var(--prose-accent); background: var(--prose-surface-1);
   transform: translateY(-2px);
-  box-shadow: 0 6px 18px -12px color-mix(in srgb, var(--prose-accent), transparent 30%);
 }
 .pr-att-card:hover::after { width: calc(100% + 2px); }
 .pr-att-card:active { transform: translateY(0); }
@@ -127,6 +127,17 @@
   border: 1px solid var(--prose-hair);
   background: color-mix(in srgb, var(--ink), transparent 97.5%);
 }
+/* 对照卡眉标(02ux 新增):mono 小标 + 短横;ch1 旧卡以「对照卡…」前缀命名,tsx 侧默认隐藏 */
+.pr-compare-cap {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 4px;
+  font-family: var(--prose-mono); font-size: 11px; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--prose-ink-50);
+}
+.pr-compare-mk { flex: none; width: 16px; height: 1px; background: var(--prose-accent-br); }
+.pr-compare-body .pr-table-wrap { margin-bottom: 6px; }
+.pr-compare-body .pr-table th:not(:first-child),
+.pr-compare-body .pr-table td:not(:first-child) { padding-left: 20px; }
+
 .pr-compare-body .pr-table-wrap { margin-bottom: 0; }
 /* 表头吃掉卡片顶部内距(分隔线借表头单元格边框贯通到顶) */
 .pr-compare-body .pr-table th { padding-top: 16px; }

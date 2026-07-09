@@ -140,9 +140,15 @@ export function GlossaryCard({ term, en, body }: { term: string; en?: string; bo
 
 /* ---------- 对照卡（🃏 双栏并置）容器；内部表格沿用 pr-table ---------- */
 export function CompareCard({ caption, children }: { caption: string; children: ReactNode }) {
-  /* 注记行已撤(2026-07 决议:表格自足);caption 降级为无障碍标签 */
+  const shouldShowCaption = caption && !/^(对照卡|案例卡|分层卡|示例卡)/.test(caption);
   return (
-    <aside className="pr-compare sa-reveal" aria-label={caption}>
+    <aside className="pr-compare sa-reveal">
+      {shouldShowCaption && (
+        <div className="pr-compare-cap">
+          <span className="pr-compare-mk" aria-hidden="true" />
+          {caption}
+        </div>
+      )}
       <div className="pr-compare-body">{children}</div>
     </aside>
   );

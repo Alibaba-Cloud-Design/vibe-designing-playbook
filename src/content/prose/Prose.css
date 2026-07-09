@@ -201,6 +201,9 @@
   border-radius:0; overflow:hidden;
   padding:12px;
 }
+/* 正文锚点标题:原生 hash 跳转时给顶部导航留出余量 */
+.pr-h2[id] { scroll-margin-top: 120px; }
+
 /* 四角蓝图刻度已撤(2026-07 决议:图版只留发丝框,不加角标) */
 .pr-figure-inner{ position:relative; z-index:0; padding:16px 20px; }
 
@@ -276,4 +279,109 @@
 @media (max-width:760px){
   .pr-spec{ grid-template-columns:1fr; gap:4px; }
   .pr-spec-label::after{ display:none; }
+}
+
+/* ---------- 代码高亮中性化(02ux 引入 SyntaxHighlighter;inline 主题色压回站内墨阶) ----------
+   纪律:代码块只用亮度分层,不引入红橙绿语法色;亮暗随 --prose-* 自动翻转 */
+.pr-code .pr-code-inner{ font-family:var(--prose-mono); background:transparent; }
+/* 防类名撞车(全局 .title 等通用类 110px 会命中 prism 的 token title):一律继承代码块度量 */
+.pr-code .token{ font-size:inherit !important; font-family:inherit !important; line-height:inherit !important; letter-spacing:inherit !important; }
+.pr-code .token.comment, .pr-code .token.prolog, .pr-code .token.doctype, .pr-code .token.cdata{
+  color:var(--prose-ink-50) !important; font-style:normal !important;
+}
+.pr-code .token.title, .pr-code .token.important, .pr-code .token.keyword,
+.pr-code .token.selector, .pr-code .token.tag, .pr-code .token.bold{
+  color:var(--prose-ink-strong) !important; font-weight:500 !important;
+}
+.pr-code .token.string, .pr-code .token.attr-value, .pr-code .token.char,
+.pr-code .token.number, .pr-code .token.boolean, .pr-code .token.list{
+  color:var(--prose-ink-70) !important;
+}
+.pr-code .token.function, .pr-code .token.property, .pr-code .token.attr-name,
+.pr-code .token.class-name, .pr-code .token.builtin, .pr-code .token.url{
+  color:var(--prose-ink-70) !important;
+}
+.pr-code .token.punctuation, .pr-code .token.operator{ color:var(--prose-ink-50) !important; }
+.pr-code .token{ background:transparent !important; text-decoration:none !important; }
+
+/* ---------- 02ux 双主题可缩放图版(ZoomableImageFigure)机制样式(合并时误退,补回) ---------- */
+.theme-image-art{
+  display:block;
+  width:100%;
+  background:var(--bg);
+}
+.theme-image-zoom-trigger{
+  display:block;
+  width:100%;
+  padding:0;
+  margin:0;
+  border:0;
+  color:inherit;
+  background:transparent;
+  cursor:zoom-in;
+  text-align:inherit;
+}
+.theme-image-zoom-trigger:focus-visible{
+  outline:2px solid var(--prose-accent-br);
+  outline-offset:4px;
+}
+.theme-image-zoom-trigger .theme-image-art{
+  transition:transform .18s ease;
+}
+.theme-image-art__img{
+  display:block;
+  width:100%;
+  height:auto;
+}
+.theme-image-art__img--light{ display:none; }
+:root[data-theme="light"] .theme-image-art{ background:var(--surface-1); }
+:root[data-theme="light"] .theme-image-art__img--dark{ display:none; }
+:root[data-theme="light"] .theme-image-art__img--light{ display:block; }
+body.is-figure-zoom-open{ overflow:hidden; }
+.theme-image-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:999;
+  display:grid;
+  place-items:center;
+  padding:clamp(20px,4vw,56px);
+  border:0;
+  background:color-mix(in srgb, var(--bg), #000 18%);
+  cursor:zoom-out;
+}
+.theme-image-lightbox__frame{
+  display:block;
+  width:min(1180px, calc(100vw - 56px));
+  max-height:calc(100vh - 56px);
+  overflow:auto;
+  border:1px solid var(--prose-hair-bold);
+  background:var(--bg);
+  box-shadow:0 24px 80px rgba(0,0,0,.28);
+}
+.theme-image-lightbox .theme-image-art__img{
+  width:100%;
+  max-height:calc(100vh - 58px);
+  object-fit:contain;
+}
+.pr-figcap{
+  margin-top:14px; font-family:var(--prose-sans);   /* 图注含中文 → sans;图号 mono 见下 */
+  font-size:var(--prose-mono-sm); line-height:1.55; color:var(--prose-ink-50);
+  letter-spacing:0;
+  display:flex; align-items:baseline; gap:10px;
+}
+.pr-figcap-no{ font-family:var(--prose-mono); letter-spacing:0.02em; }
+/* 纯字符串图注(文章 renderBlock 用):前置一段靛蓝蓝图引导刻度 */
+.pr-figcap::before{
+  content:""; flex:none; width:16px; height:1px; background:var(--prose-accent-br);
+  transform:translateY(-0.34em);
+}
+/* lab 里可显式给图号(mono 靛蓝) */
+.pr-figcap-no{ color:var(--prose-accent-br); flex:none; }
+.pr-figcap-text{ color:var(--prose-ink-50); }
+@media (max-width: 1180px){
+  .pr-figure--wide{
+    width:100%;
+    margin-left:0;
+    transform:none;
+  }
 }

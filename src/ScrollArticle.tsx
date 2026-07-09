@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { lexer, marked, parser, Parser, type Token, type Tokens } from "marked";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -14,14 +15,17 @@ import {
 } from "./content/prose/blocks";
 import { DiagramFigure, matchDiagram } from "./content/prose/diagrams";
 import { LINEAR_ART } from "./content/signature/LinearArt";
-import { asset } from "./asset";
 import "./content/prose/prose-tokens.css";
 import "./content/prose/Prose.css";
+import { asset } from "./asset";
 import "./ScrollArticle.css";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const MARKED_OPTIONS = { gfm: true, breaks: false };
+
+/* 第三章 evaluator 配图:手稿 markdown 图链 → public/figures/fig-3-x-{light,dark}.svg */
+const FIG3 = new Set(["3-1", "3-2", "3-3", "3-4", "3-5", "3-6", "3-7"]);
 
 const SECTION_FIGURES: Partial<
   Record<string, { kind?: FigureKind; img?: { light: string; dark: string; w?: number; h?: number }; caption: string }>
@@ -33,7 +37,6 @@ const SECTION_FIGURES: Partial<
     caption: "设计声明定义什么是好，执行契约规定怎么做出来。",
   },
   "1.3": { kind: "skill-anatomy", caption: "Skill 把触发时机、判断流程和经验细节封装成可调度能力。" },
-  "2.2": { kind: "interfaces", caption: "A2UI 把意图、数据、规则和运行时组件连接起来。" },
 };
 
 function inlineHtml(token: { tokens?: Token[]; text: string }) {
@@ -54,6 +57,15 @@ function markdownTokens(markdown: string) {
     }
     return token.type !== "space";
   });
+}
+
+function normalizeCodeLanguage(lang?: string) {
+  if (!lang) return "text";
+  const raw = lang.trim().toLowerCase();
+  if (raw === "js") return "javascript";
+  if (raw === "ts") return "typescript";
+  if (raw === "tsx" || raw === "jsx" || raw === "json" || raw === "css" || raw === "html") return raw;
+  return raw;
 }
 
 function renderTable(token: Tokens.Table, key: string) {
@@ -96,7 +108,7 @@ function renderList(token: Tokens.List, key: string) {
   );
 }
 
-/* 把正文里指向 manuscript/attachments/*.md 的相对链接，改写成 public 下可直接下载的链接(接部署 base)。 */
+/* 把正文里指向 manuscript/attachments/*.md 的相对链接，改写成 public 下可直接下载的绝对链接。 */
 function rewriteAttachmentLinks(html: string) {
   return html.replace(/href="([^"]*attachments\/[^"]+\.md)"/g, (_m, href: string) => {
     const abs = asset(String(href).replace(/^.*attachments\//, "/attachments/"));
@@ -159,6 +171,37 @@ function extractToc(markdown: string, anchorPrefix: string) {
     if (label && label !== "接下来") items.push({ id: `${anchorPrefix}-h${i}`, label });
   });
   return items;
+}
+
+/* —— 「接下来」→ 关联板块预告卡(2026-07,参考 poolside NEXT IN SERIES) ——
+   双发丝框 + 居中 mono 眉标 + 衬线标题(目标板块名) + ↓;整卡可点,走 nav-scroll-to。 */
+function nextTarget(sectionId: string): { nav: string; kicker: string; title: string } | null {
+  if (sectionId === "outro")
+    return { nav: "appendix", kicker: "NEXT · LEXICON", title: "设计提示词词典" };
+  const flat = PLAYBOOK_CHAPTERS.flatMap((ch) => ch.sections.map((s) => ({ s, ch })));
+  const i = flat.findIndex((f) => f.s.id === sectionId);
+  if (i === -1) return null;
+  const nxt = flat[i + 1];
+  if (!nxt) return { nav: "outro", kicker: "NEXT · CLOSING", title: PLAYBOOK_OUTRO.title };
+  if (nxt.ch.id !== flat[i].ch.id)
+    return { nav: nxt.ch.id, kicker: `NEXT · CHAPTER ${nxt.ch.no}`, title: nxt.ch.title };
+  return { nav: nxt.s.id, kicker: `NEXT · ${nxt.s.id}`, title: nxt.s.title };
+}
+
+function NextTeaser({ sectionId }: { sectionId: string }) {
+  const target = nextTarget(sectionId);
+  if (!target) return null;
+  return (
+    <button
+      type="button"
+      className="nx sa-reveal"
+      onClick={() => window.dispatchEvent(new CustomEvent("nav-scroll-to", { detail: target.nav }))}
+    >
+      <span className="nx-kicker">{target.kicker}</span>
+      <span className="nx-title">{target.title}</span>
+      <span className="nx-arrow" aria-hidden="true">↓</span>
+    </button>
+  );
 }
 
 function SectionToc({ items, no }: { items: { id: string; label: string }[]; no: string }) {
@@ -240,7 +283,19 @@ function renderMarkdown(markdown: string, anchorPrefix?: string) {
     (t) => t.type === "heading" && (t as Tokens.Heading).depth <= 2 && (t as Tokens.Heading).text.trim() === "接下来",
   );
   if (cut !== -1) tokens = tokens.slice(0, cut);
+  /* 图 3-x:图片段落后紧跟的重复图注段落不直排(图注已由图版渲染);只跳"与 alt 全等"的行 */
+  const skipIdx = new Set<number>();
+  const norm = (t: string) => t.replace(/[–—]/g, "-").replace(/\s+/g, "").trim();
+  tokens.forEach((tk, idx) => {
+    if (tk.type !== "paragraph") return;
+    const pt = tk as Tokens.Paragraph;
+    const solo = pt.tokens?.length === 1 && pt.tokens[0].type === "image" ? (pt.tokens[0] as Tokens.Image) : null;
+    if (!solo || !/图\s*3-\d+/.test(solo.text ?? "")) return;
+    const nxt = tokens[idx + 1];
+    if (nxt?.type === "paragraph" && norm((nxt as Tokens.Paragraph).text ?? "") === norm(solo.text ?? "")) skipIdx.add(idx + 1);
+  });
   return tokens.map((token, i) => {
+    if (skipIdx.has(i)) return null;
     const key = `${token.type}-${i}`;
 
     switch (token.type) {
@@ -256,16 +311,44 @@ function renderMarkdown(markdown: string, anchorPrefix?: string) {
       }
       case "paragraph": {
         const paragraph = token as Tokens.Paragraph;
+        /* 第三章手稿用 ![图 3-x 标题](…/evaluator-xxx.png) 直插图片:
+           拦截"整段只有一张图"的段落,升级成 ch2 同款可缩放亮暗双主题图版(素材 fig-3-x-light/dark.svg) */
+        const solo = paragraph.tokens?.length === 1 && paragraph.tokens[0].type === "image"
+          ? (paragraph.tokens[0] as Tokens.Image) : null;
+        if (solo) {
+          const m = /图\s*(3-\d+)/.exec(solo.text ?? "");
+          const no = m?.[1];
+          if (no && FIG3.has(no)) {
+            const caption = (solo.text ?? "").replace(/^图\s*3-\d+\s*/, "").trim();
+            return (
+              <DiagramFigure key={key} no={no}
+                spec={{ render: "image", light: `/figures/fig-${no}-light.svg`, dark: `/figures/fig-${no}-dark.svg`, caption }} />
+            );
+          }
+        }
         return <p key={key} className="pr-p sa-reveal" dangerouslySetInnerHTML={{ __html: rewriteAttachmentLinks(inlineHtml(paragraph)) }} />;
       }
       case "blockquote":
         return routeBlockquote(token as Tokens.Blockquote, key);
       case "code": {
         const code = token as Tokens.Code;
+        const lang = normalizeCodeLanguage(code.lang);
+        /* useInlineStyles=false:只输出 token 类名,配色由 Prose.css 的站内墨阶接管
+           (行内主题色会带来红橙语法色,且暗色模式不翻转) */
         return (
-          <pre key={key} className="pr-code sa-reveal" data-lang={code.lang || "text"}>
-            <code>{code.text}</code>
-          </pre>
+          <div key={key} className="pr-code sa-reveal" data-lang={lang}>
+            <SyntaxHighlighter
+              language={lang}
+              useInlineStyles={false}
+              PreTag="div"
+              CodeTag="code"
+              wrapLongLines={false}
+              customStyle={{ margin: 0, padding: 0, background: "transparent" }}
+              codeTagProps={{ className: "pr-code-inner" }}
+            >
+              {code.text}
+            </SyntaxHighlighter>
+          </div>
         );
       }
       case "list":
@@ -354,37 +437,6 @@ function ChapterSpread({ chapter }: { chapter: (typeof PLAYBOOK_CHAPTERS)[number
         metaRight: `${chapter.navNo} · ${chapter.sections.length.toString().padStart(2, "0")} sections`,
       }}
     />
-  );
-}
-
-/* —— 「接下来」→ 关联板块预告卡(2026-07,参考 poolside NEXT IN SERIES) ——
-   双发丝框 + 居中 mono 眉标 + 衬线标题(目标板块名) + ↓;整卡可点,走 nav-scroll-to。 */
-function nextTarget(sectionId: string): { nav: string; kicker: string; title: string } | null {
-  if (sectionId === "outro")
-    return { nav: "appendix", kicker: "NEXT · LEXICON", title: "设计提示词词典" };
-  const flat = PLAYBOOK_CHAPTERS.flatMap((ch) => ch.sections.map((s) => ({ s, ch })));
-  const i = flat.findIndex((f) => f.s.id === sectionId);
-  if (i === -1) return null;
-  const nxt = flat[i + 1];
-  if (!nxt) return { nav: "outro", kicker: "NEXT · CLOSING", title: PLAYBOOK_OUTRO.title };
-  if (nxt.ch.id !== flat[i].ch.id)
-    return { nav: nxt.ch.id, kicker: `NEXT · CHAPTER ${nxt.ch.no}`, title: nxt.ch.title };
-  return { nav: nxt.s.id, kicker: `NEXT · ${nxt.s.id}`, title: nxt.s.title };
-}
-
-function NextTeaser({ sectionId }: { sectionId: string }) {
-  const target = nextTarget(sectionId);
-  if (!target) return null;
-  return (
-    <button
-      type="button"
-      className="nx sa-reveal"
-      onClick={() => window.dispatchEvent(new CustomEvent("nav-scroll-to", { detail: target.nav }))}
-    >
-      <span className="nx-kicker">{target.kicker}</span>
-      <span className="nx-title">{target.title}</span>
-      <span className="nx-arrow" aria-hidden="true">↓</span>
-    </button>
   );
 }
 

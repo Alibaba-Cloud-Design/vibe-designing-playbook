@@ -82,8 +82,7 @@
 
 .sb-theme-btn:hover,
 .sb-theme-btn:focus-visible{
-  color:var(--ink-60);
-  outline:none;
+  color:var(--ink-60);   /* 焦点环由全局 :focus-visible 提供,不再抑制 outline */
 }
 
 .sb-theme-btn.is-active{
@@ -211,6 +210,45 @@
 .sb-sub.is-active{
   color:var(--sb-active);
 }
+
+/* ---------- 移动端顶栏(≤860):品牌 + 章节横滑 + 主题切换 ---------- */
+.sbm{
+  display:none;
+  position:fixed; top:0; left:0; right:0; z-index:60;
+  align-items:center; gap:14px;
+  height:52px; padding:0 10px 0 16px;
+  background:color-mix(in srgb, var(--bg), transparent 6%);
+  -webkit-backdrop-filter:blur(12px);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--hairline);
+  opacity:0; transform:translateY(-8px); pointer-events:none;
+  transition:opacity .3s ease, transform .3s ease;
+}
+.sbm.is-visible{ opacity:1; transform:none; pointer-events:auto; }
+.sbm-brand{
+  flex:none;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:.14em;
+  color:var(--ink);
+}
+.sbm-strip{
+  flex:1; min-width:0;
+  display:flex; gap:18px;
+  overflow-x:auto;
+  scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;
+}
+.sbm-strip::-webkit-scrollbar{ display:none; }
+.sbm-item{
+  flex:none;
+  background:none; border:0; padding:16px 2px; cursor:pointer;   /* 触控高≥44 */
+  font-family:var(--font-mono); font-size:10px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--ink-50);
+  transition:color .15s ease;
+}
+.sbm-item.is-active{ color:var(--sb-active); }
+/* 顶栏里的主题切换收紧(沿用桌面按钮样式,仅去掉上下文余量);按钮放大到触控级 */
+.sbm .sb-theme-switch{ margin:0; flex:none; }
+.sbm .sb-theme-btn{ width:42px; height:42px; }
 
 @media (max-width:860px){
   .sb{ display:none; }   /* 手机暂隐藏,后续做汉堡菜单 */

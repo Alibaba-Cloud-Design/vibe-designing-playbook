@@ -51,6 +51,10 @@ export function ScrollLexicon() {
           </p>
           <input
             className="lex-search slx-search"
+            type="search"
+            name="lexicon-search"
+            aria-label="搜索设计术语"
+            autoComplete="off"
             placeholder="搜索术语 / Search…"
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -85,7 +89,7 @@ export function ScrollLexicon() {
             </section>
           );
         })}
-        {filtered.length === 0 && <p className="lex-empty">没有匹配「{q}」的术语。</p>}
+        {filtered.length === 0 && <p className="lex-empty" role="status">没有匹配「{q}」的术语。</p>}
       </div>
     </section>
   );

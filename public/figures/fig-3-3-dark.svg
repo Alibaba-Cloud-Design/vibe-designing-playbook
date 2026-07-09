@@ -1,0 +1,1063 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+      }
+
+      .cls-5 {
+        fill: #fff;
+        font-size: 32px;
+      }
+
+      .cls-5, .cls-6 {
+        font-family: HelveticaNeue, 'Helvetica Neue';
+      }
+
+      .cls-2 {
+        stroke: #434343;
+        stroke-dasharray: 4 4;
+      }
+
+      .cls-2, .cls-3 {
+        stroke-width: 2px;
+      }
+
+      .cls-7 {
+        isolation: isolate;
+        opacity: .2;
+      }
+
+      .cls-8 {
+        fill: #56b6a8;
+      }
+
+      .cls-9, .cls-10 {
+        fill: #a9a9a9;
+      }
+
+      .cls-10, .cls-11 {
+        font-family: PingFangSC-Regular-GBpc-EUC-H, 'PingFang SC';
+      }
+
+      .cls-10, .cls-6 {
+        font-size: 24px;
+      }
+
+      .cls-12 {
+        fill: #a9d9ed;
+      }
+
+      .cls-13 {
+        fill: #fe8759;
+      }
+
+      .cls-14 {
+        fill: #e7abd0;
+      }
+
+      .cls-15 {
+        clip-path: url(#clippath-17);
+      }
+
+      .cls-16 {
+        clip-path: url(#clippath-19);
+      }
+
+      .cls-17 {
+        clip-path: url(#clippath-11);
+      }
+
+      .cls-18 {
+        clip-path: url(#clippath-16);
+      }
+
+      .cls-19 {
+        clip-path: url(#clippath-18);
+      }
+
+      .cls-20 {
+        clip-path: url(#clippath-10);
+      }
+
+      .cls-21 {
+        clip-path: url(#clippath-15);
+      }
+
+      .cls-22 {
+        clip-path: url(#clippath-13);
+      }
+
+      .cls-23 {
+        clip-path: url(#clippath-14);
+      }
+
+      .cls-24 {
+        clip-path: url(#clippath-12);
+      }
+
+      .cls-25 {
+        clip-path: url(#clippath-61);
+      }
+
+      .cls-26 {
+        clip-path: url(#clippath-67);
+      }
+
+      .cls-27 {
+        clip-path: url(#clippath-68);
+      }
+
+      .cls-28 {
+        clip-path: url(#clippath-60);
+      }
+
+      .cls-29 {
+        clip-path: url(#clippath-65);
+      }
+
+      .cls-30 {
+        clip-path: url(#clippath-62);
+      }
+
+      .cls-31 {
+        clip-path: url(#clippath-64);
+      }
+
+      .cls-32 {
+        clip-path: url(#clippath-66);
+      }
+
+      .cls-33 {
+        clip-path: url(#clippath-63);
+      }
+
+      .cls-34 {
+        clip-path: url(#clippath-76);
+      }
+
+      .cls-35 {
+        clip-path: url(#clippath-78);
+      }
+
+      .cls-36 {
+        clip-path: url(#clippath-75);
+      }
+
+      .cls-37 {
+        clip-path: url(#clippath-79);
+      }
+
+      .cls-38 {
+        clip-path: url(#clippath-50);
+      }
+
+      .cls-39 {
+        clip-path: url(#clippath-55);
+      }
+
+      .cls-40 {
+        clip-path: url(#clippath-52);
+      }
+
+      .cls-41 {
+        clip-path: url(#clippath-57);
+      }
+
+      .cls-42 {
+        clip-path: url(#clippath-54);
+      }
+
+      .cls-43 {
+        clip-path: url(#clippath-56);
+      }
+
+      .cls-44 {
+        clip-path: url(#clippath-53);
+      }
+
+      .cls-45 {
+        clip-path: url(#clippath-70);
+      }
+
+      .cls-46 {
+        clip-path: url(#clippath-77);
+      }
+
+      .cls-47 {
+        clip-path: url(#clippath-74);
+      }
+
+      .cls-48 {
+        clip-path: url(#clippath-71);
+      }
+
+      .cls-49 {
+        clip-path: url(#clippath-73);
+      }
+
+      .cls-50 {
+        clip-path: url(#clippath-72);
+      }
+
+      .cls-51 {
+        clip-path: url(#clippath-51);
+      }
+
+      .cls-52 {
+        clip-path: url(#clippath-58);
+      }
+
+      .cls-53 {
+        clip-path: url(#clippath-59);
+      }
+
+      .cls-54 {
+        clip-path: url(#clippath-31);
+      }
+
+      .cls-55 {
+        clip-path: url(#clippath-32);
+      }
+
+      .cls-56 {
+        clip-path: url(#clippath-33);
+      }
+
+      .cls-57 {
+        clip-path: url(#clippath-34);
+      }
+
+      .cls-58 {
+        clip-path: url(#clippath-35);
+      }
+
+      .cls-59 {
+        clip-path: url(#clippath-39);
+      }
+
+      .cls-60 {
+        clip-path: url(#clippath-30);
+      }
+
+      .cls-61 {
+        clip-path: url(#clippath-36);
+      }
+
+      .cls-62 {
+        clip-path: url(#clippath-37);
+      }
+
+      .cls-63 {
+        clip-path: url(#clippath-38);
+      }
+
+      .cls-64 {
+        clip-path: url(#clippath-27);
+      }
+
+      .cls-65 {
+        clip-path: url(#clippath-29);
+      }
+
+      .cls-66 {
+        clip-path: url(#clippath-26);
+      }
+
+      .cls-67 {
+        clip-path: url(#clippath-28);
+      }
+
+      .cls-68 {
+        clip-path: url(#clippath-20);
+      }
+
+      .cls-69 {
+        clip-path: url(#clippath-21);
+      }
+
+      .cls-70 {
+        clip-path: url(#clippath-22);
+      }
+
+      .cls-71 {
+        clip-path: url(#clippath-23);
+      }
+
+      .cls-72 {
+        clip-path: url(#clippath-24);
+      }
+
+      .cls-73 {
+        clip-path: url(#clippath-25);
+      }
+
+      .cls-74 {
+        clip-path: url(#clippath-69);
+      }
+
+      .cls-75 {
+        clip-path: url(#clippath-41);
+      }
+
+      .cls-76 {
+        clip-path: url(#clippath-42);
+      }
+
+      .cls-77 {
+        clip-path: url(#clippath-43);
+      }
+
+      .cls-78 {
+        clip-path: url(#clippath-44);
+      }
+
+      .cls-79 {
+        clip-path: url(#clippath-45);
+      }
+
+      .cls-80 {
+        clip-path: url(#clippath-49);
+      }
+
+      .cls-81 {
+        clip-path: url(#clippath-40);
+      }
+
+      .cls-82 {
+        clip-path: url(#clippath-46);
+      }
+
+      .cls-83 {
+        clip-path: url(#clippath-47);
+      }
+
+      .cls-84 {
+        clip-path: url(#clippath-48);
+      }
+
+      .cls-85 {
+        clip-path: url(#clippath-90);
+      }
+
+      .cls-86 {
+        clip-path: url(#clippath-93);
+      }
+
+      .cls-87 {
+        clip-path: url(#clippath-85);
+      }
+
+      .cls-88 {
+        clip-path: url(#clippath-86);
+      }
+
+      .cls-89 {
+        clip-path: url(#clippath-87);
+      }
+
+      .cls-90 {
+        clip-path: url(#clippath-80);
+      }
+
+      .cls-91 {
+        clip-path: url(#clippath-89);
+      }
+
+      .cls-92 {
+        clip-path: url(#clippath-81);
+      }
+
+      .cls-93 {
+        clip-path: url(#clippath-82);
+      }
+
+      .cls-94 {
+        clip-path: url(#clippath-83);
+      }
+
+      .cls-95 {
+        clip-path: url(#clippath-84);
+      }
+
+      .cls-96 {
+        clip-path: url(#clippath-88);
+      }
+
+      .cls-97 {
+        clip-path: url(#clippath-92);
+      }
+
+      .cls-98 {
+        clip-path: url(#clippath-91);
+      }
+
+      .cls-99 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-100 {
+        clip-path: url(#clippath-3);
+      }
+
+      .cls-101 {
+        clip-path: url(#clippath-4);
+      }
+
+      .cls-102 {
+        clip-path: url(#clippath-2);
+      }
+
+      .cls-103 {
+        clip-path: url(#clippath-7);
+      }
+
+      .cls-104 {
+        clip-path: url(#clippath-6);
+      }
+
+      .cls-105 {
+        clip-path: url(#clippath-9);
+      }
+
+      .cls-106 {
+        clip-path: url(#clippath-8);
+      }
+
+      .cls-107 {
+        clip-path: url(#clippath-5);
+      }
+
+      .cls-11 {
+        font-size: 22px;
+      }
+
+      .cls-11, .cls-6 {
+        fill: #434343;
+      }
+
+      .cls-3 {
+        stroke: #fff;
+      }
+
+      .cls-108 {
+        fill: #ed5045;
+      }
+
+      .cls-109 {
+        letter-spacing: -.09em;
+      }
+
+      .cls-110 {
+        fill: #3c85f3;
+      }
+
+      .cls-4 {
+        stroke: #a9a9a9;
+      }
+
+      .cls-111 {
+        clip-path: url(#clippath);
+      }
+    </style>
+    <clipPath id="clippath">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-2">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-3">
+      <rect class="cls-1" x="343.41" y="338.17" width="8" height="783.22"/>
+    </clipPath>
+    <clipPath id="clippath-4">
+      <rect class="cls-1" x="345" y="341" width="353" height="739"/>
+    </clipPath>
+    <clipPath id="clippath-5">
+      <rect class="cls-1" x="683.02" y="437.31" width="310.64" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-6">
+      <rect class="cls-1" x="683.94" y="558.38" width="285.29" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-7">
+      <rect class="cls-1" x="710.15" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-8">
+      <rect class="cls-1" x="691.34" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-9">
+      <rect class="cls-1" x="702.65" y="379.42" width="9.49" height="9.53"/>
+    </clipPath>
+    <clipPath id="clippath-10">
+      <rect class="cls-1" x="1002.99" y="437.31" width="310.64" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-11">
+      <rect class="cls-1" x="1003.91" y="558.38" width="308.8" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-12">
+      <rect class="cls-1" x="1011.31" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-13">
+      <rect class="cls-1" x="1030.12" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-14">
+      <rect class="cls-1" x="1022.62" y="379.42" width="9.49" height="9.53"/>
+    </clipPath>
+    <clipPath id="clippath-15">
+      <rect class="cls-1" x="43.09" y="437.31" width="247.95" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-16">
+      <rect class="cls-1" x="44.01" y="558.38" width="308.8" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-17">
+      <rect class="cls-1" x="51.41" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-18">
+      <rect class="cls-1" x="70.21" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-19">
+      <rect class="cls-1" x="70.21" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-20">
+      <rect class="cls-1" x="51.41" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-21">
+      <rect class="cls-1" x="62.71" y="379.42" width="9.49" height="9.53"/>
+    </clipPath>
+    <clipPath id="clippath-22">
+      <rect class="cls-1" x="363.05" y="437.31" width="249.48" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-23">
+      <rect class="cls-1" x="363.97" y="558.38" width="308.8" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-24">
+      <rect class="cls-1" x="371.37" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-25">
+      <rect class="cls-1" x="390.18" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-26">
+      <rect class="cls-1" x="390.18" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-27">
+      <rect class="cls-1" x="371.37" y="386.97" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-28">
+      <rect class="cls-1" x="1322.96" y="437.31" width="186.28" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-29">
+      <rect class="cls-1" x="1323.88" y="558.38" width="308.8" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-30">
+      <rect class="cls-1" x="1331.28" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-31">
+      <rect class="cls-1" x="1350.09" y="368.13" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-32">
+      <rect class="cls-1" x="1342.59" y="379.42" width="9.49" height="20.82"/>
+    </clipPath>
+    <clipPath id="clippath-33">
+      <rect class="cls-1" x="1642.93" y="437.31" width="257.55" height="94.64"/>
+    </clipPath>
+    <clipPath id="clippath-34">
+      <rect class="cls-1" x="1643.85" y="558.38" width="276.15" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-35">
+      <rect class="cls-1" x="1651.25" y="386.79" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-36">
+      <rect class="cls-1" x="1670.06" y="386.79" width="13.19" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-37">
+      <rect class="cls-1" x="1651.25" y="368.13" width="31.73" height="13.26"/>
+    </clipPath>
+    <clipPath id="clippath-38">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-39">
+      <rect class="cls-1" x="663.37" y="338.17" width="8" height="783.22"/>
+    </clipPath>
+    <clipPath id="clippath-40">
+      <rect class="cls-1" x="665" y="341" width="673" height="739"/>
+    </clipPath>
+    <clipPath id="clippath-41">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-42">
+      <rect class="cls-1" x="983.34" y="338.17" width="8" height="783.22"/>
+    </clipPath>
+    <clipPath id="clippath-43">
+      <rect class="cls-1" x="985" y="341" width="935" height="739"/>
+    </clipPath>
+    <clipPath id="clippath-44">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-45">
+      <rect class="cls-1" x="1303.31" y="338.17" width="8" height="783.22"/>
+    </clipPath>
+    <clipPath id="clippath-46">
+      <rect class="cls-1" x="1305" y="341" width="615" height="739"/>
+    </clipPath>
+    <clipPath id="clippath-47">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-48">
+      <rect class="cls-1" x="1623.28" y="338.17" width="8" height="783.22"/>
+    </clipPath>
+    <clipPath id="clippath-49">
+      <rect class="cls-1" x="1625" y="341" width="295" height="739"/>
+    </clipPath>
+    <clipPath id="clippath-50">
+      <rect class="cls-1" x="44.01" y="737.23" width="158" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-51">
+      <rect class="cls-1" x="44.01" y="788.99" width="158" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-52">
+      <rect class="cls-1" x="44.01" y="840.75" width="158" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-53">
+      <rect class="cls-1" x="44.01" y="892.52" width="158" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-54">
+      <rect class="cls-1" x="683.94" y="737.23" width="113.25" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-55">
+      <rect class="cls-1" x="683.94" y="788.99" width="113.25" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-56">
+      <rect class="cls-1" x="683.94" y="840.75" width="113.25" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-57">
+      <rect class="cls-1" x="683.94" y="892.52" width="113.25" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-58">
+      <rect class="cls-1" x="1003.91" y="737.23" width="143.86" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-59">
+      <rect class="cls-1" x="1003.91" y="788.99" width="143.86" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-60">
+      <rect class="cls-1" x="1003.91" y="840.75" width="143.86" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-61">
+      <rect class="cls-1" x="1003.91" y="892.52" width="143.86" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-62">
+      <rect class="cls-1" x="363.97" y="737.23" width="139.1" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-63">
+      <rect class="cls-1" x="363.97" y="788.99" width="139.1" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-64">
+      <rect class="cls-1" x="363.97" y="840.75" width="139.1" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-65">
+      <rect class="cls-1" x="363.97" y="892.52" width="139.1" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-66">
+      <rect class="cls-1" x="1323.88" y="737.23" width="167.81" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-67">
+      <rect class="cls-1" x="1323.88" y="788.99" width="132.84" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-68">
+      <rect class="cls-1" x="1323.88" y="840.75" width="132.84" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-69">
+      <rect class="cls-1" x="1323.88" y="892.52" width="132.84" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-70">
+      <rect class="cls-1" x="1643.85" y="737.23" width="172.47" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-71">
+      <rect class="cls-1" x="1643.85" y="788.99" width="172.47" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-72">
+      <rect class="cls-1" x="1643.85" y="840.75" width="218.61" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-73">
+      <rect class="cls-1" x="1643.85" y="892.52" width="172.47" height="56.4"/>
+    </clipPath>
+    <clipPath id="clippath-74">
+      <rect class="cls-1" x="1645.26" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-75">
+      <rect class="cls-1" x="1325.29" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-76">
+      <rect class="cls-1" x="1005.32" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-77">
+      <rect class="cls-1" x="685.35" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-78">
+      <rect class="cls-1" x="365.38" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-79">
+      <rect class="cls-1" x="45.42" y="688.88" width="150.95" height="48.65"/>
+    </clipPath>
+    <clipPath id="clippath-80">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-81">
+      <rect class="cls-1" x="686.34" y="188.92" width="42" height="20.99"/>
+    </clipPath>
+    <clipPath id="clippath-82">
+      <rect class="cls-1" x="685.86" y="193.54" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-83">
+      <rect class="cls-1" x="685.86" y="182.7" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-84">
+      <rect class="cls-1" x="46.41" y="194.09" width="42" height="20.99"/>
+    </clipPath>
+    <clipPath id="clippath-85">
+      <rect class="cls-1" x="45.93" y="188.54" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-86">
+      <rect class="cls-1" x="45.93" y="182.7" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-87">
+      <rect class="cls-1" x="1326.28" y="183.26" width="42" height="20.99"/>
+    </clipPath>
+    <clipPath id="clippath-88">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-89">
+      <rect class="cls-1" x="1325.8" y="187.7" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-90">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-91">
+      <rect class="cls-1" x="1325.8" y="193.54" width="42.96" height="22.1"/>
+    </clipPath>
+    <clipPath id="clippath-92">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+    <clipPath id="clippath-93">
+      <rect class="cls-1" width="1920" height="1080"/>
+    </clipPath>
+  </defs>
+  <g class="cls-111">
+    <rect width="1920" height="1080"/>
+  </g>
+  <g class="cls-99">
+    <text class="cls-10" transform="translate(110.37 207.51)"><tspan x="0" y="0">业务语义层</tspan></text>
+    <text class="cls-10" transform="translate(750.31 207.51)"><tspan x="0" y="0">⽤</tspan></text>
+    <text class="cls-10" transform="translate(774.31 207.51)"><tspan x="0" y="0">户任务层</tspan></text>
+    <text class="cls-10" transform="translate(1390.248 207.5114)"><tspan x="0" y="0">界</tspan></text>
+    <text class="cls-10" transform="translate(1414.248 207.5114)"><tspan x="0" y="0">⾯</tspan></text>
+    <text class="cls-10" transform="translate(1438.248 207.5114)"><tspan x="0" y="0">实现层</tspan></text>
+  </g>
+  <g class="cls-102">
+    <g class="cls-7">
+      <g class="cls-100">
+        <g class="cls-101">
+          <line class="cls-3" x1="347.41" y1="1117.39" x2="347.41" y2="342.17"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="cls-107">
+    <text class="cls-5" transform="translate(692.34 476.92)"><tspan x="0" y="0">INFORM</tspan><tspan class="cls-109" x="123.87" y="0">A</tspan><tspan x="141.66" y="0">TION </tspan></text>
+    <text class="cls-5" transform="translate(692.34 514.92)"><tspan x="0" y="0">ARCHITECTURE</tspan></text>
+  </g>
+  <g class="cls-104">
+    <text class="cls-10" transform="translate(692.34 591.62)"><tspan x="0" y="0">信息架构</tspan></text>
+  </g>
+  <g class="cls-103">
+    <rect class="cls-110" x="711.15" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-106">
+    <rect class="cls-110" x="692.34" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-105">
+    <rect class="cls-110" x="703.65" y="380.42" width="7.49" height="7.53"/>
+  </g>
+  <g class="cls-20">
+    <text class="cls-5" transform="translate(1012.311 476.9155)"><tspan x="0" y="0">INTERACTION </tspan></text>
+    <text class="cls-5" transform="translate(1012.311 514.9155)"><tspan x="0" y="0">READINESS</tspan></text>
+  </g>
+  <g class="cls-17">
+    <text class="cls-10" transform="translate(1012.311 591.6239)"><tspan x="0" y="0">交互就绪</tspan></text>
+  </g>
+  <g class="cls-24">
+    <rect class="cls-108" x="1012.31" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-22">
+    <rect class="cls-108" x="1031.12" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-23">
+    <rect class="cls-108" x="1023.62" y="380.42" width="7.49" height="7.53"/>
+  </g>
+  <g class="cls-21">
+    <text class="cls-5" transform="translate(52.41 476.92)"><tspan x="0" y="0">PRODUCT </tspan></text>
+    <text class="cls-5" transform="translate(52.41 514.92)"><tspan x="0" y="0">INTENT</tspan></text>
+  </g>
+  <g class="cls-18">
+    <text class="cls-10" transform="translate(52.41 591.62)"><tspan x="0" y="0">产品意图</tspan></text>
+  </g>
+  <g class="cls-15">
+    <rect class="cls-8" x="52.41" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-19">
+    <rect class="cls-8" x="71.21" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-16">
+    <rect class="cls-8" x="71.21" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-68">
+    <rect class="cls-8" x="52.41" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-69">
+    <rect class="cls-8" x="63.71" y="380.42" width="7.49" height="7.53"/>
+  </g>
+  <g class="cls-70">
+    <text class="cls-5" transform="translate(372.37 476.92)"><tspan x="0" y="0">TRUST &amp; </tspan></text>
+    <text class="cls-5" transform="translate(372.37 514.92)"><tspan x="0" y="0">DOMAIN FIT</tspan></text>
+  </g>
+  <g class="cls-71">
+    <text class="cls-10" transform="translate(372.37 591.62)"><tspan x="0" y="0">业务可信</tspan></text>
+  </g>
+  <g class="cls-72">
+    <rect class="cls-12" x="372.37" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-73">
+    <rect class="cls-12" x="391.18" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-66">
+    <rect class="cls-12" x="391.18" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-64">
+    <rect class="cls-12" x="372.37" y="387.97" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-67">
+    <text class="cls-5" transform="translate(1332.28 476.9155)"><tspan x="0" y="0">SYSTEM </tspan></text>
+    <text class="cls-5" transform="translate(1332.28 514.9155)"><tspan x="0" y="0">CRAFT</tspan></text>
+  </g>
+  <g class="cls-65">
+    <text class="cls-10" transform="translate(1332.28 591.6239)"><tspan x="0" y="0">系统</tspan></text>
+    <text class="cls-10" transform="translate(1380.28 591.6239)"><tspan x="0" y="0">⼯</tspan></text>
+    <text class="cls-10" transform="translate(1404.28 591.6239)"><tspan x="0" y="0">艺</tspan></text>
+  </g>
+  <g class="cls-60">
+    <rect class="cls-14" x="1332.28" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-54">
+    <rect class="cls-14" x="1351.09" y="369.13" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-55">
+    <rect class="cls-14" x="1343.59" y="380.42" width="7.49" height="18.82"/>
+  </g>
+  <g class="cls-56">
+    <text class="cls-5" transform="translate(1652.248 476.9155)"><tspan x="0" y="0">VISUAL &amp; </tspan></text>
+    <text class="cls-5" transform="translate(1652.248 514.9155)"><tspan x="0" y="0">BRAND</tspan></text>
+  </g>
+  <g class="cls-57">
+    <text class="cls-10" transform="translate(1652.248 591.6239)"><tspan x="0" y="0">视觉品牌</tspan></text>
+  </g>
+  <g class="cls-58">
+    <rect class="cls-13" x="1652.25" y="387.79" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-61">
+    <rect class="cls-13" x="1671.06" y="387.79" width="11.19" height="11.26"/>
+  </g>
+  <g class="cls-62">
+    <rect class="cls-13" x="1652.25" y="369.13" width="29.73" height="11.26"/>
+  </g>
+  <g class="cls-63">
+    <g class="cls-7">
+      <g class="cls-59">
+        <g class="cls-81">
+          <line class="cls-3" x1="667.37" y1="1117.39" x2="667.37" y2="342.17"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="cls-75">
+    <g class="cls-7">
+      <g class="cls-76">
+        <g class="cls-77">
+          <line class="cls-3" x1="987.34" y1="1117.39" x2="987.34" y2="342.17"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="cls-78">
+    <g class="cls-7">
+      <g class="cls-79">
+        <g class="cls-82">
+          <line class="cls-3" x1="1307.31" y1="1117.39" x2="1307.31" y2="342.17"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="cls-83">
+    <g class="cls-7">
+      <g class="cls-84">
+        <g class="cls-80">
+          <line class="cls-3" x1="1627.28" y1="1117.39" x2="1627.28" y2="342.17"/>
+        </g>
+      </g>
+    </g>
+  </g>
+  <g class="cls-38">
+    <text class="cls-10" transform="translate(52.41 770.47)"><tspan x="0" y="0">产品价值</tspan></text>
+  </g>
+  <g class="cls-51">
+    <text class="cls-10" transform="translate(52.41 822.23)"><tspan x="0" y="0">⽬</tspan></text>
+    <text class="cls-10" transform="translate(76.41 822.23)"><tspan x="0" y="0">标</tspan></text>
+    <text class="cls-10" transform="translate(100.41 822.23)"><tspan x="0" y="0">⽤</tspan></text>
+    <text class="cls-10" transform="translate(124.41 822.23)"><tspan x="0" y="0">户</tspan></text>
+  </g>
+  <g class="cls-40">
+    <text class="cls-10" transform="translate(52.41 873.99)"><tspan x="0" y="0">主任务</tspan></text>
+  </g>
+  <g class="cls-44">
+    <text class="cls-10" transform="translate(52.41 925.76)"><tspan x="0" y="0">⾸</tspan></text>
+    <text class="cls-10" transform="translate(76.41 925.76)"><tspan x="0" y="0">屏重点</tspan></text>
+  </g>
+  <g class="cls-42">
+    <text class="cls-10" transform="translate(692.34 770.47)"><tspan x="0" y="0">⻚</tspan></text>
+    <text class="cls-10" transform="translate(716.34 770.47)"><tspan x="0" y="0">⾯</tspan></text>
+    <text class="cls-10" transform="translate(740.34 770.47)"><tspan x="0" y="0">结构</tspan></text>
+  </g>
+  <g class="cls-39">
+    <text class="cls-10" transform="translate(692.34 822.23)"><tspan x="0" y="0">信息分组</tspan></text>
+  </g>
+  <g class="cls-43">
+    <text class="cls-10" transform="translate(692.34 873.99)"><tspan x="0" y="0">主次层级</tspan></text>
+  </g>
+  <g class="cls-41">
+    <text class="cls-10" transform="translate(692.34 925.76)"><tspan x="0" y="0">导航路径</tspan></text>
+  </g>
+  <g class="cls-52">
+    <text class="cls-10" transform="translate(1012.311 770.4705)"><tspan x="0" y="0">关键路径</tspan></text>
+  </g>
+  <g class="cls-53">
+    <text class="cls-10" transform="translate(1012.311 822.2326)"><tspan x="0" y="0">主操作</tspan></text>
+  </g>
+  <g class="cls-28">
+    <text class="cls-10" transform="translate(1012.311 873.9946)"><tspan x="0" y="0">状态反馈</tspan></text>
+  </g>
+  <g class="cls-25">
+    <text class="cls-10" transform="translate(1012.311 925.7567)"><tspan x="0" y="0">异常处理</tspan></text>
+  </g>
+  <g class="cls-30">
+    <text class="cls-10" transform="translate(372.37 770.47)"><tspan x="0" y="0">安全合规</tspan></text>
+  </g>
+  <g class="cls-33">
+    <text class="cls-10" transform="translate(372.37 822.23)"><tspan x="0" y="0">⻛</tspan></text>
+    <text class="cls-10" transform="translate(396.37 822.23)"><tspan x="0" y="0">险提示</tspan></text>
+  </g>
+  <g class="cls-31">
+    <text class="cls-10" transform="translate(372.37 873.99)"><tspan x="0" y="0">术语准确</tspan></text>
+  </g>
+  <g class="cls-29">
+    <text class="cls-10" transform="translate(372.37 925.76)"><tspan x="0" y="0">⾏</tspan></text>
+    <text class="cls-10" transform="translate(396.37 925.76)"><tspan x="0" y="0">业规则</tspan></text>
+  </g>
+  <g class="cls-32">
+    <text class="cls-10" transform="translate(1332.28 770.4705)"><tspan x="0" y="0">组件</tspan></text>
+    <text class="cls-10" transform="translate(1380.28 770.4705)"><tspan x="0" y="0">⼀</tspan></text>
+    <text class="cls-10" transform="translate(1404.28 770.4705)"><tspan x="0" y="0">致性</tspan></text>
+  </g>
+  <g class="cls-26">
+    <text class="cls-10" transform="translate(1332.28 822.2326)"><tspan x="0" y="0">间距字体</tspan></text>
+  </g>
+  <g class="cls-27">
+    <text class="cls-10" transform="translate(1332.28 873.9946)"><tspan x="0" y="0">状态样式</tspan></text>
+  </g>
+  <g class="cls-74">
+    <text class="cls-10" transform="translate(1332.28 925.7567)"><tspan x="0" y="0">响应式</tspan></text>
+  </g>
+  <g class="cls-45">
+    <text class="cls-10" transform="translate(1652.248 770.4705)"><tspan x="0" y="0">品牌识别</tspan></text>
+  </g>
+  <g class="cls-48">
+    <text class="cls-10" transform="translate(1652.248 822.2326)"><tspan x="0" y="0">视觉层级</tspan></text>
+  </g>
+  <g class="cls-50">
+    <text class="cls-10" transform="translate(1652.248 873.9946)"><tspan x="0" y="0">⾊</tspan></text>
+    <text class="cls-10" transform="translate(1676.248 873.9946)"><tspan x="0" y="0">彩与图标</tspan></text>
+  </g>
+  <g class="cls-49">
+    <text class="cls-10" transform="translate(1652.248 925.7567)"><tspan x="0" y="0">完成度</tspan></text>
+  </g>
+  <g class="cls-47">
+    <text class="cls-6" transform="translate(1652.248 719.0845)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-36">
+    <text class="cls-6" transform="translate(1332.28 719.0845)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-34">
+    <text class="cls-6" transform="translate(1012.311 719.0845)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-46">
+    <text class="cls-6" transform="translate(692.34 719.08)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-35">
+    <text class="cls-6" transform="translate(372.37 719.08)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-37">
+    <text class="cls-6" transform="translate(52.41 719.08)"><tspan x="0" y="0">SUBCHECK</tspan></text>
+  </g>
+  <g class="cls-90">
+    <line class="cls-2" x1="667.37" y1="-29.87" x2="667.37" y2="342.17"/>
+    <line class="cls-2" x1="1307.31" y1="-29.87" x2="1307.31" y2="342.17"/>
+  </g>
+  <g class="cls-92">
+    <polygon class="cls-9" points="687.34 199.41 707.34 208.91 727.34 199.41 707.34 189.92 687.34 199.41"/>
+  </g>
+  <g class="cls-93">
+    <polygon class="cls-4" points="688 204.59 707.34 214.08 726.69 204.59 707.34 195.09 688 204.59"/>
+  </g>
+  <g class="cls-94">
+    <polygon class="cls-4" points="688 193.75 707.34 203.25 726.69 193.75 707.34 184.26 688 193.75"/>
+  </g>
+  <g class="cls-95">
+    <polygon class="cls-9" points="47.41 204.59 67.41 214.08 87.41 204.59 67.41 195.09 47.41 204.59"/>
+  </g>
+  <g class="cls-87">
+    <polygon class="cls-4" points="48.06 199.59 67.41 209.08 86.75 199.59 67.41 190.09 48.06 199.59"/>
+  </g>
+  <g class="cls-88">
+    <polygon class="cls-4" points="48.06 193.75 67.41 203.25 86.75 193.75 67.41 184.26 48.06 193.75"/>
+  </g>
+  <g class="cls-89">
+    <g class="cls-96">
+      <polygon class="cls-9" points="1327.28 193.75 1347.28 184.26 1367.28 193.75 1347.28 203.25 1327.28 193.75"/>
+    </g>
+  </g>
+  <g class="cls-91">
+    <g class="cls-85">
+      <polygon class="cls-4" points="1327.94 198.75 1347.28 189.26 1366.63 198.75 1347.28 208.25 1327.94 198.75"/>
+    </g>
+  </g>
+  <g class="cls-98">
+    <g class="cls-97">
+      <polygon class="cls-4" points="1327.94 204.59 1347.28 195.09 1366.63 204.59 1347.28 214.08 1327.94 204.59"/>
+    </g>
+  </g>
+  <g class="cls-86">
+    <text class="cls-11" transform="translate(110.37 257.17)"><tspan x="0" y="0">这个</tspan></text>
+    <text class="cls-11" transform="translate(154.37 257.17)"><tspan x="0" y="0">⻚</tspan></text>
+    <text class="cls-11" transform="translate(176.37 257.17)"><tspan x="0" y="0">⾯</tspan></text>
+    <text class="cls-11" transform="translate(198.37 257.17)"><tspan x="0" y="0">表达的业务是否成</tspan></text>
+    <text class="cls-11" transform="translate(374.37 257.17)"><tspan x="0" y="0">⽴</tspan></text>
+    <text class="cls-11" transform="translate(750.31 257.17)"><tspan x="0" y="0">⽤</tspan></text>
+    <text class="cls-11" transform="translate(772.31 257.17)"><tspan x="0" y="0">户能不能理解信息，并且顺利完成任务</tspan></text>
+    <text class="cls-11" transform="translate(1390.248 257.1712)"><tspan x="0" y="0">这个</tspan></text>
+    <text class="cls-11" transform="translate(1434.248 257.1712)"><tspan x="0" y="0">⻚</tspan></text>
+    <text class="cls-11" transform="translate(1456.248 257.1712)"><tspan x="0" y="0">⾯</tspan></text>
+    <text class="cls-11" transform="translate(1478.248 257.1712)"><tspan x="0" y="0">是否以成熟、系统化的</tspan></text>
+    <text class="cls-11" transform="translate(1698.248 257.1712)"><tspan x="0" y="0">⽅</tspan></text>
+    <text class="cls-11" transform="translate(1720.248 257.1712)"><tspan x="0" y="0">式被呈现出来</tspan></text>
+  </g>
+</svg>

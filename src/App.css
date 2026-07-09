@@ -187,6 +187,11 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
 .stage.atr-enter .cf-cornermark{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .32s forwards; }
 .stage.atr-enter .cf-year{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .4s forwards; }
 .stage.atr-enter .cf-tags{ animation:cf-soft-in .9s cubic-bezier(.22,1,.36,1) .48s forwards; }
+@keyframes cf-cursor-blink{ 0%,58%{ opacity:1; } 59%,100%{ opacity:0; } }
+@media (prefers-reduced-motion: reduce){
+  .cf-w-playbook::after{ animation:none; opacity:1; }
+}
+
 .stage.atr-enter .cf-w-vibe{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .44s forwards; }
 .stage.atr-enter .cf-w-designing{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .58s forwards; }
 .stage.atr-enter .cf-w-playbook{ animation:cf-word-in 1.05s cubic-bezier(.22,1,.36,1) .72s forwards; }
@@ -563,7 +568,16 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   .cf-year{ left:auto; right:20px; top:22px; }
   .cf-tags{ left:20px; top:118px; white-space:normal; }
   .cf-wordmark{ left:20px; right:20px; top:auto; bottom:72px; white-space:nowrap; }
-  .cf-w{ font-size:clamp(52px,14.5vw,116px); line-height:0.94; }
+  .cf-w{ font-size:clamp(60px,18vw,132px); line-height:0.96; }
+  /* 移动端:光标改为内联下划线,永远跟在 Playbook 末尾(桌面绝对定位版隐藏) */
+  .cf-blue{ display:none; }
+  .cf-w-playbook::after{
+    content:"_";
+    display:inline-block;
+    margin-left:0.06em;
+    color:var(--accent-bright, #685CFF);
+    animation:cf-cursor-blink 1.15s steps(1) infinite;
+  }
   .cf-blue{ left:20px; top:auto; bottom:28px; width:32px; height:42px; font-size:34px; }
   .cf-blue-measure,
   .cf-blue-overlay{ bottom:2px; }

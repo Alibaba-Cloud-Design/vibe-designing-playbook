@@ -99,6 +99,24 @@
   display: block;
 }
 
+/* 素材动图变体(深底白线红高亮的 GIF):混合模式抠底 + 色相旋转对齐主题高亮
+   暗色:screen 丢掉黑底,红(≈5°)转青绿(+190°);亮色:invert 后 multiply 丢掉白底,
+   反相出的青色再 +61° 转品牌蓝 —— 线条即墨色,高亮即主题色 */
+.lart--img {
+  object-fit: contain;
+  mix-blend-mode: screen;
+  /* contrast 先把原片 #1E1E1E 底压到纯黑,screen 才能完全丢底;
+     线的减淡走 filter 的 opacity()(混合前生效)——不能用 opacity 属性,
+     它会被 .lart 的 la-breathe 动画(动 opacity)覆盖 */
+  filter: contrast(1.34) hue-rotate(190deg) saturate(1.05) opacity(0.34);
+}
+:root[data-theme="light"] .lart--img {
+  mix-blend-mode: multiply;
+  /* invert 后底是 88% 灰,brightness 推到纯白,multiply 才能完全丢底;
+     opacity() 把纯黑线压到族内墨色(--la-line 亮版≈墨 38%,合成灰≈160) */
+  filter: invert(1) brightness(1.2) hue-rotate(61deg) saturate(1.15) opacity(0.36);
+}
+
 /* mono 小标签(INTENT/FORM、坐标注记) —— 参考里的仪器注字
    (对齐方式由各 text 的 textAnchor 属性决定,此处不设 text-anchor) */
 .lart-label text {
@@ -121,6 +139,49 @@
 @keyframes la-breathe {
   0%, 100% { transform: translateY(0); opacity: 1; }
   50% { transform: translateY(-3px); opacity: 0.93; }
+}
+
+/* —— LinearArt 入场/常驻(2026-07,LartSvg 进入视口加 .is-in) ——
+   实线:超长虚线滑入=描边生长,长线自然后至(免逐元素标注);
+   虚线/实心点/箭头/标签:错峰淡入;重点色圆点:常驻缓浮。 */
+/* 三组互斥:A=实线(生长) B=虚线(淡入) C=实心/标签/文字(淡入) */
+.lart [stroke][fill="none"]:not([stroke-dasharray]),
+.lart [stroke]:not([fill]):not([stroke-dasharray]) {
+  stroke-dasharray: 1600;
+  stroke-dashoffset: 1600;
+}
+.lart [stroke-dasharray],
+.lart [fill]:not([fill="none"]),
+.lart text { opacity: 0; }
+
+.lart.is-in [stroke][fill="none"]:not([stroke-dasharray]),
+.lart.is-in [stroke]:not([fill]):not([stroke-dasharray]) {
+  animation: lart-draw 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+.lart.is-in [stroke-dasharray],
+.lart.is-in text { animation: lart-fade 0.7s ease-out 0.55s forwards; }
+.lart.is-in [fill]:not([fill="none"]) { animation: lart-fade 0.55s ease-out 0.5s forwards; }
+.lart circle[fill="var(--la-accent)"] { transform-box: fill-box; transform-origin: center; }
+.lart.is-in circle[fill="var(--la-accent)"] {
+  animation:
+    lart-fade 0.5s ease-out 0.6s forwards,
+    lart-float 8s ease-in-out 1.5s infinite;
+}
+
+@keyframes lart-draw { to { stroke-dashoffset: 0; } }
+@keyframes lart-fade { to { opacity: 1; } }
+@keyframes lart-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lart [stroke][fill="none"]:not([stroke-dasharray]),
+  .lart [stroke]:not([fill]):not([stroke-dasharray]) { stroke-dasharray: none; stroke-dashoffset: 0; animation: none; }
+  .lart [stroke-dasharray],
+  .lart [fill]:not([fill="none"]),
+  .lart text { opacity: 1; animation: none; }
+  .lart.is-in circle[fill="var(--la-accent)"] { animation: none; }
 }
 
 /* 文字列：编号顶对齐面板顶，标题+描述在剩余空间里垂直居中（X 的 info 列节奏） */

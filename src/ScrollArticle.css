@@ -30,16 +30,7 @@
   isolation: isolate;
 }
 
-.sa-chapter-spread::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  background:
-    radial-gradient(circle at 82% 18%, var(--accent-soft), transparent 28%),
-    linear-gradient(180deg, color-mix(in srgb, var(--ink), transparent 96%), transparent 42%);
-  opacity: 0.74;
-}
+/* 章扉装饰底(右上径向浮光+顶部墨洗)已撤(2026-07 决议:暗色下与全站底色形成断层,通体保持同一张底) */
 
 /* 章扉底线已撤(2026-07 决议:与目录区同规,板块间不再压横线) */
 
@@ -110,6 +101,7 @@
 /* 收敛的思源宋标题（从 88 收到 ~60），中文归零字距 */
 .sa-spread-title {
   margin: 0;
+  text-wrap: balance;
   max-width: 15ch;
   font-family: var(--font-serif);
   font-weight: 400;
@@ -169,6 +161,8 @@
    ch3 宽幅图本就撑满井宽,不放大以免裁掉轴端刻度 */
 .sa-spread-figure-well .lart { scale: 1.25; }
 .sa-chapter-spread[data-chapter="ch3"] .sa-spread-figure-well .lart { scale: none; }
+/* ch1 线圈是纵向构图,放大会裁顶,整图呈现 */
+.sa-chapter-spread[data-chapter="ch1"] .sa-spread-figure-well .lart { scale: none; }
 
 /* ---------- 「下一节」关联卡(poolside NEXT IN SERIES 式)：双发丝框、居中、整卡可点 ---------- */
 .nx {
@@ -184,8 +178,9 @@
   cursor: pointer;
   border: 1px solid var(--hairline-bold);
   text-align: center;
-  transition: border-color 0.18s ease;
+  transition: border-color 0.18s ease, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.nx:active { transform: scale(0.995); }   /* 按压微缩(即时反馈,Emil 原则) */
 .nx::before {
   content: "";
   position: absolute;
@@ -231,7 +226,7 @@
 .sa-section-line {
   position: absolute;
   top: 0;
-  left: var(--main-left);   /* 分割线左缘止于导航右描边(全站铁律) */
+  left: 0;
   right: 0;
   height: 1px;
   background: var(--connector-line);
@@ -278,9 +273,13 @@
   color: var(--prose-ink);
 }
 
-/* ---------- 标题按行揭开 ---------- */
+/* ---------- 标题按行揭开 ----------
+   行盒 overflow:hidden 是"掀开"遮罩;衬线字的上下伸部(如 g 的尾巴、/ 的上探)会越出行盒,
+   用 padding 外扩 + 负 margin 回收的方式给字形留余量(2026-07 修复:字体本地化后度量到位,截断显形) */
 .sa-title-reveal .sa-line {
   overflow: hidden;
+  padding: 0.12em 0.08em;
+  margin: -0.12em -0.08em;
 }
 
 :where(.no-gsap) .sa-title-reveal {
@@ -344,13 +343,6 @@
     display: block;
     padding: 74px 24px 72px;
   }
-
-  .sa-chapter-spread::before {
-    background:
-      radial-gradient(circle at 76% 16%, var(--accent-soft), transparent 34%),
-      linear-gradient(180deg, color-mix(in srgb, var(--ink), transparent 96%), transparent 48%);
-  }
-
 
   .sa-spread-line {
     left: 0;
@@ -443,10 +435,7 @@
   pointer-events: auto;
 }
 .sa-toc-item {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  width: 100%;
+  display: block;
   padding: 4px 0;
   border: 0;
   background: none;
@@ -458,7 +447,6 @@
   color: var(--ink-40);
   transition: color 0.18s ease;
 }
-
 /* 层级编号(1.1.1 / 1.1.2 …)：mono、更弱一档、随条目 hover/active 提亮 */
 .sa-toc-no {
   flex: none;

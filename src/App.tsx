@@ -140,6 +140,9 @@ export default function App() {
 
   return (
     <>
+    {/* 跳转链接:键盘/读屏用户跳过导航直达正文(视觉隐藏,聚焦时浮现) */}
+    <a className="skip-link" href="#sec-intro">跳到正文</a>
+
     {/* 全局常驻侧栏（封面后显示）—— 放在 smooth-content 外,固定定位不被平滑变换影响 */}
     <Sidebar active={active} onSelect={handleSelect} />
     <GridOverlay />

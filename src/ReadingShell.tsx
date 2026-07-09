@@ -59,6 +59,20 @@ export function ReadingShell() {
       </header>
 
       <div className="rs-visual rs-reveal" aria-hidden="true">
+        {/* 暗色主题重映射滤镜:序列帧里烘死的颜色(墨线 rgb(21,22,24)/品牌蓝 rgb(62,53,243))
+            无法吃 CSS 变量,用 feColorMatrix 按 (b-g) 蓝度信号做仿射映射:
+            墨线→白(可见) / 蓝→--la-accent 同款青绿(sRGB≈157,227,241);α 行 ×2.2 补暗底对比 */}
+        <svg width="0" height="0" style={{ position: "absolute" }} aria-hidden="true">
+          <filter id="rs-cc-dark" colorInterpolationFilters="sRGB">
+            <feColorMatrix
+              type="matrix"
+              values="0 0.517  -0.517  0 1
+                      0 0.148  -0.148  0 1
+                      0 0.0738 -0.0738 0 1
+                      0 0       0     2.2 0"
+            />
+          </filter>
+        </svg>
         <CubeChain background="transparent" fit="cover" />
       </div>
 

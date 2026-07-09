@@ -37,6 +37,17 @@
 .fig-frame:has(.design-io-art) { border: 0; padding: 0; background: transparent; }
 .fig-frame:has(.design-io-art)::before { display: none; }
 
+.fig-image-2-10 .theme-image-zoom-trigger {
+  overflow: hidden;
+}
+
+.fig-image-2-10 .theme-image-art__img {
+  width: 112%;
+  max-width: none;
+  margin-left: -2%;
+  margin-bottom: -22%;
+}
+
 /* 图注：mono 图号（靛蓝）+ sans 图注文（含中文），前置靛蓝引导刻度 */
 .fig-cap {
   margin-top: 14px;

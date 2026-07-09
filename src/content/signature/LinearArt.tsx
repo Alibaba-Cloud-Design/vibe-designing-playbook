@@ -11,7 +11,42 @@
  *          自我进化=相切圆链(X hero 式,宽幅) / 结语=点阵显影(帧框+坐标) / 词典=词条行+垂线束
  */
 
+import { useEffect, useRef, type ReactNode, type SVGProps } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { asset } from "../../asset";
+
+gsap.registerPlugin(ScrollTrigger);
+
 const NS = { vectorEffect: "non-scaling-stroke" } as const;
+
+/* 入场门:进入视口给 svg 加 .is-in(触发描边生长/淡入,见 Chapters.css);
+   ScrollSmoother 下原生 IntersectionObserver 不可靠,统一走 ScrollTrigger。
+   prefers-reduced-motion:直接完整呈现。 */
+function LartSvg({ children, ...rest }: SVGProps<SVGSVGElement> & { children: ReactNode }) {
+  const ref = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      el.classList.add("is-in");
+      return;
+    }
+    const st = ScrollTrigger.create({
+      trigger: el,
+      start: "top 88%",
+      once: true,
+      onEnter: () => el.classList.add("is-in"),
+    });
+    const t = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+    return () => { window.clearTimeout(t); st.kill(); };
+  }, []);
+  return (
+    <svg ref={ref} className="lart" aria-hidden="true" {...rest}>
+      {children}
+    </svg>
+  );
+}
 
 /* 方向小箭头（沿圆周/轴线的三角标）—— 全族重点色(亮=蓝/暗=青绿) */
 function Arrow({ x, y, a = 0, s = 5 }: { x: number; y: number; a?: number; s?: number }) {
@@ -25,66 +60,22 @@ function Arrow({ x, y, a = 0, s = 5 }: { x: number; y: number; a?: number; s?: n
   );
 }
 
-/* 圆弧采样成 polyline 点串（避开 SVG A 指令的 flag 歧义） */
-const arcPts = (cx: number, cy: number, r: number, a0: number, a1: number, n = 48) =>
-  Array.from({ length: n + 1 }, (_, i) => {
-    const a = a0 + ((a1 - a0) * i) / n;
-    return `${(cx + r * Math.cos(a)).toFixed(2)},${(cy + r * Math.sin(a)).toFixed(2)}`;
-  }).join(" ");
-
-/* 圆 A 被圆 B 遮住的弧段角度区间 [入, 出]（A 上朝向 B 的那段） */
-function hiddenArc(
-  ax: number, ay: number, ra: number,
-  bx: number, by: number, rb: number,
-): [number, number] {
-  const dx = bx - ax, dy = by - ay;
-  const d = Math.hypot(dx, dy);
-  const base = Math.atan2(dy, dx);
-  const alpha = Math.acos((d * d + ra * ra - rb * rb) / (2 * d * ra));
-  return [base - alpha, base + alpha];
-}
-
-/* 带遮挡的圆：被 occluder 挡住的弧段虚线，其余实线 */
-function OccludedCircle({ c, o }: { c: [number, number, number]; o: [number, number, number] }) {
-  const [h0, h1] = hiddenArc(c[0], c[1], c[2], o[0], o[1], o[2]);
-  return (
-    <>
-      <polyline
-        points={arcPts(c[0], c[1], c[2], h1, h0 + Math.PI * 2)}
-        fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS}
-      />
-      <polyline
-        points={arcPts(c[0], c[1], c[2], h0, h1, 24)}
-        fill="none" stroke="var(--la-soft)" strokeWidth={1} strokeDasharray="3 5" {...NS}
-      />
-    </>
-  );
-}
-
-/* ============ 01 设计工程 · 三圆滚线(链路上的推进) ============ */
+/* ============ 01 设计工程 · 虚线织带(多工序汇成一条链路) ============
+   参考用户手稿:相位错开的正弦虚线束横贯画面织成网,一串节点沿单条链行进;
+   线宽/明度/重点色严格走家族规格(1px 发丝线 + --la-line/--la-soft + --la-accent 节点) */
 export function ArtEngineering() {
-  // 基线 y=340；圆1(小)/圆3(中)与大圆相交,被挡弧段虚线 —— 参考的核心空间语言
-  const c1: [number, number, number] = [124, 278, 62];
-  const c2: [number, number, number] = [278, 222, 118];
-  const c3: [number, number, number] = [424, 294, 46];
+  /* 素材动图:十点上的九角/七角星回旋线(jing.library MRD5Z3Y602MS3)。
+     原片深底白线红高亮 —— 主题适配走 CSS(Chapters.css .lart--img):
+     暗色 screen 去黑底 + 红→青绿;亮色 invert+multiply 变黑线 + 红→品牌蓝 */
   return (
-    <svg className="lart" viewBox="0 0 500 430" aria-hidden="true">
-      {/* 基线（起点圆点 → 终点小箭头）—— 起点重点色 */}
-      <circle cx={40} cy={340} r={3.2} fill="var(--la-accent)" />
-      <line x1={48} y1={340} x2={462} y2={340} stroke="var(--la-line)" strokeWidth={1} {...NS} />
-      <Arrow x={462} y={340} a={0} s={4.5} />
-      {/* 大圆在前(整圆实线)；小/中圆被它遮住的弧段自动转虚线 */}
-      <OccludedCircle c={c1} o={c2} />
-      <circle cx={c2[0]} cy={c2[1]} r={c2[2]} fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS} />
-      <OccludedCircle c={c3} o={c2} />
-      {/* 圆顶方向箭头(滚动方向) */}
-      <Arrow x={124} y={216} a={12} />
-      <Arrow x={278} y={104} a={10} />
-      <Arrow x={424} y={248} a={14} s={4} />
-      {/* 基线上的接触小箭头 */}
-      <Arrow x={186} y={340} a={0} s={3.6} />
-      <Arrow x={396} y={340} a={0} s={3.6} />
-    </svg>
+    <img
+      className="lart lart--img"
+      src={asset("/art/star-ten-points.gif")}
+      alt=""
+      aria-hidden="true"
+      loading="lazy"
+      decoding="async"
+    />
   );
 }
 
@@ -102,7 +93,7 @@ export function ArtInteraction() {
   ];
   const bridge: [number, number][][] = [[L[1], R[0]], [L[3], R[2]]];
   return (
-    <svg className="lart" viewBox="0 0 500 430" aria-hidden="true">
+    <LartSvg viewBox="0 0 500 430">
       {/* 虚点网格底(横+竖双向,严格对称:竖线中轴 x=250、横线中轴 y=215) */}
       <g stroke="var(--la-grid)" strokeWidth={1}>
         {[75, 145, 215, 285, 355].map((y) => (
@@ -137,7 +128,7 @@ export function ArtInteraction() {
           <circle key={i} cx={x} cy={y} r={6} fill="var(--la-node)" stroke="none" />
         ))}
       </g>
-    </svg>
+    </LartSvg>
   );
 }
 
@@ -152,7 +143,7 @@ export function ArtEvolution() {
     { cx: 904, r: 96 },   // 808+96
   ];
   return (
-    <svg className="lart" viewBox="0 0 1200 320" aria-hidden="true">
+    <LartSvg viewBox="0 0 1200 320">
       {/* 横轴 + 端部刻度簇 */}
       <line x1={30} y1={CY} x2={1170} y2={CY} stroke="var(--la-line)" strokeWidth={1} {...NS} />
       <g stroke="var(--la-line)" strokeWidth={1}>
@@ -189,7 +180,7 @@ export function ArtEvolution() {
       <Arrow x={454} y={CY - 62} a={-8} s={4} />
       <Arrow x={904} y={CY - 96} a={8} s={4.5} />
       <Arrow x={296} y={CY - 96} a={-8} s={4.5} />
-    </svg>
+    </LartSvg>
   );
 }
 
@@ -226,7 +217,7 @@ export function ArtOutro() {
     return d;
   };
   return (
-    <svg className="lart" viewBox="0 0 500 430" aria-hidden="true">
+    <LartSvg viewBox="0 0 500 430">
       {LINES.map((y) => {
         const node = NODES.find((n) => n.cy === y);
         return node ? (
@@ -252,7 +243,7 @@ export function ArtOutro() {
           <Arrow x={X1} y={y} a={0} s={3.2} />
         </g>
       ))}
-    </svg>
+    </LartSvg>
   );
 }
 
@@ -277,7 +268,7 @@ export function ArtLexicon() {
       );
     });
   return (
-    <svg className="lart" viewBox="0 0 500 430" aria-hidden="true">
+    <LartSvg viewBox="0 0 500 430">
       {/* 虚点网格底 */}
       <g stroke="var(--la-grid)" strokeWidth={1}>
         {[88, 158, 228, 298, 368].map((y) => (
@@ -307,7 +298,7 @@ export function ArtLexicon() {
       {/* 一枚方块节点（词条锚,自条2垂线挂下） */}
       <rect x={404} y={300} width={22} height={22} fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS} />
       <path d="M 415 262 v 38" stroke="var(--la-soft)" strokeWidth={1} fill="none" {...NS} />
-    </svg>
+    </LartSvg>
   );
 }
 
