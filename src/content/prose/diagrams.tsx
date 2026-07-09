@@ -770,7 +770,7 @@ function A2UIMessageMapBlueprint() {
           <div style={{ color: DIM, fontFamily: MONO, fontSize: 10, letterSpacing: "0.16em" }}>RENDERED FLEXCARD</div>
         </div>
         <img
-          src="/figures/fig-2-8-flexcard.png"
+          src={asset("/figures/fig-2-8-flexcard.png")}
           alt="FlexCard 实例运行异常卡片"
           style={{
             display: "block",
@@ -1291,8 +1291,8 @@ function ZoomableImageFigure({ light, dark, caption, no, wide = false }: { light
 
   const imagePair = (
     <span className="theme-image-art">
-      <img className="theme-image-art__img theme-image-art__img--light" src={light} alt={caption} loading="lazy" decoding="async" />
-      <img className="theme-image-art__img theme-image-art__img--dark" src={dark} alt={caption} loading="lazy" decoding="async" />
+      <img className="theme-image-art__img theme-image-art__img--light" src={asset(light)} alt={caption} loading="lazy" decoding="async" />
+      <img className="theme-image-art__img theme-image-art__img--dark" src={asset(dark)} alt={caption} loading="lazy" decoding="async" />
     </span>
   );
 

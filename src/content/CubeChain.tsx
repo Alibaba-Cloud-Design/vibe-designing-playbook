@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { asset } from "../asset";
 import "./CubeChain.css";
 
 type CubeChainProps = {
@@ -21,7 +22,7 @@ const KEEP_AHEAD = 4;
 const ATLAS_VERSION = "1000-small-v1";
 const MAX_CANVAS_PIXELS = 1_400_000;
 const DRAW_INTERVAL = 1000 / 30;
-const atlasUrl = (index: number) => `/animations/cube-atlas-${index}.png?v=${ATLAS_VERSION}`;
+const atlasUrl = (index: number) => asset(`/animations/cube-atlas-${index}.png?v=${ATLAS_VERSION}`);
 type AtlasImage = ImageBitmap | HTMLImageElement;
 
 function isTransparent(color: string) {
