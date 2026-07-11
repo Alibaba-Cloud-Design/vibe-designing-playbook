@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="./docs/hero.png" alt="Vibe Designing Playbook" width="100%" />
+<img src="./docs/hero.gif" alt="Vibe Designing Playbook" width="100%" />
 
 <br/>
 
