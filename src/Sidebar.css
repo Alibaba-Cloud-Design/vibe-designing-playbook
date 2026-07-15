@@ -6,10 +6,7 @@
    ============================================================ */
 .sb{
   --sb-highlight-bg: color(display-p3 0.6745 0.8842 0.9367);
-  --sb-highlight-ink: #1A1A1A;
   --sb-active: var(--sb-highlight-bg);
-  --sb-hover-bg: var(--sb-highlight-bg);
-  --sb-hover-ink: var(--sb-highlight-ink);
   --sb-inset: 14px;
   /* X business 比例：左栏 208，正文不贴栏，另由 --content-gap 留出 56px 缓冲。 */
   position:fixed; left:var(--site-edge); top:48px; bottom:48px; width:var(--nav-w); z-index:50;
@@ -120,9 +117,41 @@
   padding:14px 24px 14px var(--sb-inset);
 }
 
-/* poolside 蓝块「擦入」hover —— 覆盖层(白字蓝底)被 mask 从左→右逐列揭示。
-   --p 0%→100% 由 hover 驱动,文字随擦入逐字翻底。【机制不动:仅换深色强调色】 */
-@property --p{ syntax:"<percentage>"; inherits:false; initial-value:0%; }
+/* 一级导航 hover：随机字符在固定 30 帧内从左向右恢复，细下划线同步展开。 */
+.sb-scramble{
+  position:relative;
+  display:inline-flex;
+  white-space:pre;
+}
+.sb-scramble::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-3px;
+  height:1px;
+  background:currentColor;
+  transform:scaleX(0);
+  transform-origin:right center;
+  transition:transform 260ms cubic-bezier(.22,1,.36,1);
+}
+.sb-chapter:hover .sb-scramble::after,
+.sb-chapter:focus-visible .sb-scramble::after{
+  transform:scaleX(1);
+  transform-origin:left center;
+}
+.sb-scramble-char{
+  display:inline-block;
+  transform:scale(1);
+  transform-origin:center bottom;
+  transition:color 80ms linear, transform 80ms linear;
+}
+.sb-scramble-char.is-scrambled{
+  color:var(--ink-40);
+  transform:scale(1.06);
+}
+
+/* 二级导航继续使用原有的纯文字结构。 */
 .sb-title{
   position:relative;
   display:inline-block;
@@ -130,24 +159,6 @@
   min-width:0;
   max-width:100%;
   color:inherit;
-}
-.sb-title-fill{
-  position:absolute;
-  left:0;
-  top:50%;
-  width:max-content;
-  max-width:100%;
-  transform:translateY(-50%);
-  padding:2px 0;
-  color:var(--sb-hover-ink);
-  background:var(--sb-hover-bg);
-  white-space:nowrap;
-  line-height:1.08;
-  pointer-events:none;
-  --p:0%;
-  -webkit-mask-image:linear-gradient(to right, #000 var(--p), transparent var(--p));
-          mask-image:linear-gradient(to right, #000 var(--p), transparent var(--p));
-  transition:--p 160ms cubic-bezier(0.22,1,0.36,1);  /* ease-out,进出对称 */
 }
 
 /* 子项:hover 展开;缩进对齐章标题(越过编号列) */
@@ -176,7 +187,6 @@
   font-family:var(--font-mono);
 }
 
-/* hover / active:蓝块从左擦入(--p → 100%)。离开自动反向擦回(同一条 transition)。 */
 .sb-chapter.is-active,
 .sb-sub.is-active{
   color:var(--sb-active);
@@ -186,9 +196,7 @@
   color:var(--sb-active);
 }
 
-.sb-chapter:hover .sb-title-fill{ --p:100%; }
-
-/* 子项标题偏长，不能使用蓝底复制层；否则换行时会出现断裂的蓝块。 */
+/* 子项标题偏长，保持自然换行。 */
 .sb-sub .sb-title{
   display:block;
   flex:1 1 auto;
@@ -200,15 +208,17 @@
   word-break:normal;
   overflow-wrap:break-word;
 }
-.sb-sub .sb-title-fill{
-  display:none;
-}
 .sb-sub:hover{
   color:var(--ink);
   background:color-mix(in srgb, var(--ink), transparent 94%);
 }
 .sb-sub.is-active{
   color:var(--sb-active);
+}
+
+@media (prefers-reduced-motion: reduce){
+  .sb-scramble::after,
+  .sb-scramble-char{ transition:none; }
 }
 
 /* ---------- 移动端顶栏(≤860):品牌 + 章节横滑 + 主题切换 ---------- */

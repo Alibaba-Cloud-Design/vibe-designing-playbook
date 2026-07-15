@@ -82,7 +82,7 @@ export function ArtEngineering() {
 /* ============ 02 动态交互 · CONTEXT → INTENT → FORM ============ */
 export function ArtInteraction() {
   return (
-    <LartSvg viewBox="0 0 500 430" className="lart--interaction">
+    <LartSvg viewBox="45 70 410 290" className="lart--interaction">
       <line x1={86} y1={215} x2={332} y2={215} fill="none" stroke="var(--la-soft)" strokeWidth={1} {...NS} />
 
       <g id="context">
@@ -123,9 +123,19 @@ export function ArtEvolution() {
     { cx: 975, r: 70, opacity: 0.48 },
   ];
   return (
-    <LartSvg viewBox="0 0 1200 320">
+    <LartSvg viewBox="0 0 1200 320" className="lart--evolution">
       <g fill="none" stroke="var(--la-line)" {...NS}>
-        <ellipse cx={600} cy={CY} rx={500} ry={118} strokeWidth={1} opacity={0.38} />
+        <ellipse
+          cx={600}
+          cy={CY}
+          rx={600}
+          ry={118}
+          fill="none"
+          stroke="var(--la-line)"
+          strokeWidth={1}
+          opacity={0.38}
+          style={{ strokeDasharray: 2800, strokeDashoffset: 2800 }}
+        />
         {circles.map(({ cx, r, opacity }) => (
           <circle key={cx} cx={cx} cy={CY} r={r} strokeWidth={1} opacity={opacity} />
         ))}

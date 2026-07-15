@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -42,6 +42,94 @@ function readTheme(): ThemeMode {
   const saved = window.localStorage.getItem("playbook-theme");
   // 默认亮色（与现有默认外观一致）；dark token 块已补齐，若默认 dark 会连带翻黑全站
   return THEMES.some((item) => item.id === saved) ? (saved as ThemeMode) : "light";
+}
+
+const SCRAMBLE_POOL = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%&*+-?";
+const SCRAMBLE_FRAMES = 30;
+const SCRAMBLE_FRAME_MS = 22;
+
+type ScrambleGlyph = { value: string; scrambled: boolean };
+
+function originalGlyphs(title: string): ScrambleGlyph[] {
+  return Array.from(title, (value) => ({ value, scrambled: false }));
+}
+
+function scrambleGlyphs(title: string, frame: number): ScrambleGlyph[] {
+  const characters = Array.from(title);
+  const count = characters.filter((character) => character !== " ").length;
+  const restoredCount = Math.floor((Math.min(frame, SCRAMBLE_FRAMES) / SCRAMBLE_FRAMES) * count);
+  let characterIndex = 0;
+
+  return characters.map((character) => {
+    if (character === " ") return { value: character, scrambled: false };
+
+    const restored = characterIndex < restoredCount;
+    characterIndex += 1;
+    return {
+      value: restored
+        ? character
+        : SCRAMBLE_POOL[Math.floor(Math.random() * SCRAMBLE_POOL.length)],
+      scrambled: !restored,
+    };
+  });
+}
+
+function PrimaryNavButton({
+  title,
+  isActive,
+  onClick,
+}: {
+  title: string;
+  isActive: boolean;
+  onClick: () => void;
+}) {
+  const [glyphs, setGlyphs] = useState(() => originalGlyphs(title));
+  const timerRef = useRef<number | null>(null);
+
+  const clearTimer = useCallback(() => {
+    if (timerRef.current === null) return;
+    window.clearInterval(timerRef.current);
+    timerRef.current = null;
+  }, []);
+
+  const startScramble = useCallback(() => {
+    clearTimer();
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      setGlyphs(originalGlyphs(title));
+      return;
+    }
+
+    let frame = 0;
+    setGlyphs(scrambleGlyphs(title, frame));
+    timerRef.current = window.setInterval(() => {
+      frame += 1;
+      setGlyphs(frame >= SCRAMBLE_FRAMES ? originalGlyphs(title) : scrambleGlyphs(title, frame));
+      if (frame >= SCRAMBLE_FRAMES) clearTimer();
+    }, SCRAMBLE_FRAME_MS);
+  }, [clearTimer, title]);
+
+  useEffect(() => clearTimer, [clearTimer]);
+
+  return (
+    <button
+      className={"sb-item sb-chapter" + (isActive ? " is-active" : "")}
+      onClick={onClick}
+      onMouseEnter={startScramble}
+      onFocus={startScramble}
+    >
+      <span className="sb-scramble" aria-label={title}>
+        {glyphs.map((glyph, index) => (
+          <span
+            key={index}
+            className={"sb-scramble-char" + (glyph.scrambled ? " is-scrambled" : "")}
+            aria-hidden="true"
+          >
+            {glyph.value}
+          </span>
+        ))}
+      </span>
+    </button>
+  );
 }
 
 export function Sidebar({ active, onSelect }: { active: string; onSelect: (id: string) => void }) {
@@ -132,20 +220,12 @@ export function Sidebar({ active, onSelect }: { active: string; onSelect: (id: s
       <nav className="sb-toc">
         {TOC.map((ch) => (
           <div key={ch.id} className={"sb-group" + (ch.children.length ? " has-children" : "")}>
-            <button
-              className={
-                "sb-item sb-chapter" +
-                // 父章高亮:自身命中,或它的某个子节正被 scroll-spy 选中
-                ((active === ch.id || ch.children.some((c) => c.id === active)) ? " is-active" : "")
-              }
+            <PrimaryNavButton
+              title={ch.title}
+              // 父章高亮:自身命中,或它的某个子节正被 scroll-spy 选中
+              isActive={active === ch.id || ch.children.some((c) => c.id === active)}
               onClick={() => onSelect(ch.id)}
-            >
-              {/* poolside 蓝块擦入：底层文字 + 覆盖层(白字蓝底，mask 左→右揭示) */}
-              <span className="sb-title">
-                {ch.title}
-                <span className="sb-title-fill" aria-hidden="true">{ch.title}</span>
-              </span>
-            </button>
+            />
             {ch.children.length > 0 && (
               <div className="sb-children">
                 {ch.children.map((c) => (
@@ -155,10 +235,7 @@ export function Sidebar({ active, onSelect }: { active: string; onSelect: (id: s
                     onClick={() => onSelect(c.id)}
                   >
                     <span className="sb-subno">{c.id}</span>
-                    <span className="sb-title">
-                      {c.title}
-                      <span className="sb-title-fill" aria-hidden="true">{c.title}</span>
-                    </span>
+                    <span className="sb-title">{c.title}</span>
                   </button>
                 ))}
               </div>

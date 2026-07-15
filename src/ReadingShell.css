@@ -73,8 +73,7 @@
 .rs-hero-title span{
   display:block;
 }
-/* 连接线：只铺视觉列下缘(2026-07-09 决议:不再从导航缘起横穿正文),
-   与 .rs-visual 左缘竖线在列底交汇成 ⊥ */
+/* 连接线：只铺视觉列下缘(2026-07-09 决议:不再从导航缘起横穿正文)。 */
 .rs::after{
   content:"";
   position:absolute;
@@ -96,15 +95,12 @@
   right:0;
   width:var(--rs-visual-width);
   height:calc(var(--rs-body-line-top) - var(--rs-visual-top));
-  border-left:1px solid var(--connector-line);
   box-sizing:border-box;
   pointer-events:none;
   overflow:hidden;
   contain:layout style paint;
   opacity:0.88;
 }
-/* 暗色主题:序列帧重着色(墨线→白 / 品牌蓝→青绿),滤镜定义见 ReadingShell.tsx #rs-cc-dark */
-:root[data-theme="dark"] .rs-visual .cc-canvas{ filter:url(#rs-cc-dark); }
 /* 双色词强调工具：亮键词（--ink 100）/ 灰陈述（--ink-60）——只用亮度分主次，不加粗不变色 */
 .rs-key{ color:var(--ink); font-weight:inherit; }
 .rs-dim{ color:var(--ink-60); font-weight:inherit; }

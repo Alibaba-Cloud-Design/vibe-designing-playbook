@@ -43,11 +43,11 @@ export function ScrollLexicon() {
         <div className="slx-hero-inner">
           <div className="ar-kicker sa-reveal">附录 · Lexicon</div>
           <h2 className="slx-hero-title sa-reveal">
-            设计提示词词典,<br />188 词。
+            设计提示词词典，<br />188 词。
           </h2>
           <p className="slx-hero-lede sa-reveal">
-            把抽象的审美语汇,翻译成 Agent 能执行的表达规则。
-            一个词条 = 一个审美词 + 它对应的可执行约束。12 类,共 188 词,中英对照。
+            把抽象的审美语汇，翻译成 Agent 能执行的表达规则。
+            一个词条 = 一个审美词 + 它对应的可执行约束。12 类，共 188 词，中英对照。
           </p>
           <input
             className="lex-search slx-search"
