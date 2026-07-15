@@ -29,6 +29,7 @@ export function useTitleReveal(ready: unknown = true) {
     titles.forEach((title) => {
       const split = new SplitText(title, { type: "lines", linesClass: "sa-line" });
       splits.push(split);
+      gsap.set(split.lines, { yPercent: 110, opacity: 0 });
       title.style.opacity = "1"; // 容器显形,行自身控制可见
 
       const tr = ScrollTrigger.create({
@@ -36,16 +37,12 @@ export function useTitleReveal(ready: unknown = true) {
         start: "top 86%",
         once: true,
         onEnter: () =>
-          gsap.fromTo(split.lines, {
-            yPercent: 110,
-            opacity: 0,
-          }, {
+          gsap.to(split.lines, {
             yPercent: 0,
             opacity: 1,
             duration: 0.8,
             ease: "power3.out",
             stagger: 0.12,
-            immediateRender: false,
           }),
       });
       triggers.push(tr);

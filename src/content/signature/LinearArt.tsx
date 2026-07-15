@@ -23,7 +23,7 @@ const NS = { vectorEffect: "non-scaling-stroke" } as const;
 /* 入场门:进入视口给 svg 加 .is-in(触发描边生长/淡入,见 Chapters.css);
    ScrollSmoother 下原生 IntersectionObserver 不可靠,统一走 ScrollTrigger。
    prefers-reduced-motion:直接完整呈现。 */
-function LartSvg({ children, ...rest }: SVGProps<SVGSVGElement> & { children: ReactNode }) {
+function LartSvg({ children, className, ...rest }: SVGProps<SVGSVGElement> & { children: ReactNode }) {
   const ref = useRef<SVGSVGElement>(null);
   useEffect(() => {
     const el = ref.current;
@@ -42,7 +42,7 @@ function LartSvg({ children, ...rest }: SVGProps<SVGSVGElement> & { children: Re
     return () => { window.clearTimeout(t); st.kill(); };
   }, []);
   return (
-    <svg ref={ref} className="lart" aria-hidden="true" {...rest}>
+    <svg ref={ref} className={className ? `lart ${className}` : "lart"} aria-hidden="true" {...rest}>
       {children}
     </svg>
   );
@@ -79,170 +79,101 @@ export function ArtEngineering() {
   );
 }
 
-/* ============ 02 动态交互 · INTENT → FORM 网络 ============ */
+/* ============ 02 动态交互 · CONTEXT → INTENT → FORM ============ */
 export function ArtInteraction() {
-  // 左簇(意图,散) 4 节点 → 右簇(界面,聚) 6 节点；两个发丝帧框斜错
-  const L: [number, number][] = [[96, 300], [172, 160], [206, 246], [268, 282]];
-  const R: [number, number][] = [[312, 176], [388, 118], [352, 232], [432, 196], [406, 300], [462, 258]];
-  const lEdges: [number, number][][] = [
-    [L[0], L[1]], [L[0], L[2]], [L[1], L[2]], [L[2], L[3]], [L[0], L[3]],
-  ];
-  const rEdges: [number, number][][] = [
-    [R[0], R[1]], [R[0], R[2]], [R[1], R[3]], [R[2], R[3]], [R[2], R[4]],
-    [R[3], R[5]], [R[4], R[5]], [R[0], R[3]], [R[2], R[5]],
-  ];
-  const bridge: [number, number][][] = [[L[1], R[0]], [L[3], R[2]]];
   return (
-    <LartSvg viewBox="0 0 500 430">
-      {/* 虚点网格底(横+竖双向,严格对称:竖线中轴 x=250、横线中轴 y=215) */}
-      <g stroke="var(--la-grid)" strokeWidth={1}>
-        {[75, 145, 215, 285, 355].map((y) => (
-          <line key={`h${y}`} x1={24} y1={y} x2={476} y2={y} strokeDasharray="1 9" {...NS} />
-        ))}
-        {[70, 142, 214, 286, 358, 430].map((x) => (
-          <line key={`v${x}`} x1={x} y1={40} x2={x} y2={390} strokeDasharray="1 9" {...NS} />
-        ))}
+    <LartSvg viewBox="0 0 500 430" className="lart--interaction">
+      <line x1={86} y1={215} x2={332} y2={215} fill="none" stroke="var(--la-soft)" strokeWidth={1} {...NS} />
+
+      <g id="context">
+        <circle cx={168} cy={215} r={82} fill="none" stroke="var(--la-line)" strokeWidth={1} strokeDasharray="1 5" strokeLinecap="round" {...NS} />
+        <circle cx={168} cy={215} r={66} fill="none" stroke="var(--la-bright)" strokeWidth={0.65} opacity={0.3} {...NS} />
       </g>
-      {/* 图形主体整体居中：原坐标系质心(266,216) → 平移到画幅中心(250,215) */}
-      <g transform="translate(-16,-1)">
-        {/* 帧框 + mono 标签：INTENT(左下) / FORM(右上) */}
-        <rect x={56} y={196} width={236} height={160} fill="none" stroke="var(--la-frame)" strokeWidth={1} {...NS} />
-        <rect x={288} y={84} width={188} height={236} fill="none" stroke="var(--la-frame)" strokeWidth={1} {...NS} />
-        <g className="lart-label">
-          <rect x={56} y={186} width={54} height={15} fill="var(--la-tagbg)" stroke="var(--la-frame)" strokeWidth={1} {...NS} />
-          <text x={83} y={197} textAnchor="middle">INTENT</text>
-          <rect x={438} y={76} width={38} height={15} fill="var(--la-tagbg)" stroke="var(--la-frame)" strokeWidth={1} {...NS} />
-          <text x={457} y={87} textAnchor="middle">FORM</text>
+
+      <g id="form">
+        <rect x={250} y={133} width={164} height={164} fill="none" stroke="var(--la-frame)" strokeWidth={1} {...NS} />
+        <circle cx={332} cy={215} r={82} fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS} />
+      </g>
+
+      <g className="lart-label">
+        <rect x={86} y={104} width={70} height={20} fill="var(--la-tagbg)" />
+        <text x={121} y={118} textAnchor="middle">CONTEXT</text>
+        <rect x={362} y={104} width={52} height={20} fill="var(--la-tagbg)" />
+        <text x={388} y={118} textAnchor="middle">FORM</text>
+      </g>
+
+      <g id="intent">
+        <circle className="lart-intent-point" cx={332} cy={215} r={5} fill="var(--la-bright)" />
+        <g className="lart-label lart-interaction-intent">
+          <text x={344} y={207}>INTENT</text>
         </g>
-        {/* 连线（弱） + 跨簇桥（主线） */}
-        <g stroke="var(--la-line)" strokeWidth={1} opacity={0.8}>
-          {lEdges.map(([a, b], i) => <line key={`l${i}`} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} {...NS} />)}
-          {rEdges.map(([a, b], i) => <line key={`r${i}`} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} {...NS} />)}
-        </g>
-        {/* 跨簇桥(意图→界面)走重点色 —— 本卡无箭头,以桥线承担色彩重音 */}
-        <g stroke="var(--la-accent)" strokeWidth={1}>
-          {bridge.map(([a, b], i) => <line key={`b${i}`} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} {...NS} />)}
-        </g>
-        {/* 节点（实心灰圆,尺寸对齐参考的节点/画幅比） */}
-        {[...L, ...R].map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r={6} fill="var(--la-node)" stroke="none" />
-        ))}
       </g>
     </LartSvg>
   );
 }
 
-/* ============ 03 自我进化 · 相切圆链（X hero 式 · 宽幅） ============ */
+/* ============ 03 自我进化 · 嵌套进化场（宽幅） ============ */
 export function ArtEvolution() {
-  // 中心锚点 → 左右镜像逐个相切的圆(小→大)；横轴贯穿 + 端部刻度簇 + 竖轴
   const CY = 160;
-  // 精确相切链：r 42/62/96,圆心 = 上一圆右缘 + 本圆半径
-  const chain = [
-    { cx: 642, r: 42 },   // 600+42
-    { cx: 746, r: 62 },   // 684+62
-    { cx: 904, r: 96 },   // 808+96
+  const circles = [
+    { cx: 600, r: 118, opacity: 0.66 },
+    { cx: 388, r: 103, opacity: 0.54 },
+    { cx: 812, r: 103, opacity: 0.54 },
+    { cx: 225, r: 70, opacity: 0.48 },
+    { cx: 975, r: 70, opacity: 0.48 },
   ];
   return (
     <LartSvg viewBox="0 0 1200 320">
-      {/* 横轴 + 端部刻度簇 */}
-      <line x1={30} y1={CY} x2={1170} y2={CY} stroke="var(--la-line)" strokeWidth={1} {...NS} />
-      <g stroke="var(--la-line)" strokeWidth={1}>
-        {[132, 144, 156, 1044, 1056, 1068].map((x) => (
-          <line key={x} x1={x} y1={CY - 5} x2={x} y2={CY + 5} {...NS} />
+      <g fill="none" stroke="var(--la-line)" {...NS}>
+        <ellipse cx={600} cy={CY} rx={500} ry={118} strokeWidth={1} opacity={0.38} />
+        {circles.map(({ cx, r, opacity }) => (
+          <circle key={cx} cx={cx} cy={CY} r={r} strokeWidth={1} opacity={opacity} />
         ))}
+        <path d="M0 160 H584 M616 160 H1200" strokeWidth={1} opacity={0.48} />
+        <path d="M600 0 V144 M600 176 V320" strokeWidth={1} opacity={0.48} />
       </g>
-      {/* 竖轴（中心贯穿 + 上下双刻度） */}
-      <line x1={600} y1={16} x2={600} y2={304} stroke="var(--la-soft)" strokeWidth={1} {...NS} />
-      <g stroke="var(--la-line)" strokeWidth={1}>
-        {[52, 60, 260, 268].map((y) => (
-          <line key={y} x1={594} y1={y} x2={606} y2={y} {...NS} />
-        ))}
+
+      <g fill="var(--la-bright)">
+        <rect x={596} y={156} width={8} height={8} />
+        <rect x={596} y={2} width={8} height={8} />
+        <rect x={596} y={310} width={8} height={8} />
+        <path d="M0 156 l4 4 -4 4 -4 -4 Z" />
+        <path d="M1200 156 l4 4 -4 4 -4 -4 Z" />
       </g>
-      {/* 相切圆链（镜像）—— 进化的代际放大 */}
-      {chain.flatMap(({ cx, r }, i) =>
-        [1, -1].map((s) => (
-          <circle
-            key={`${i}${s}`}
-            cx={600 + s * (cx - 600)}
-            cy={CY}
-            r={r}
-            fill="none"
-            stroke="var(--la-line)"
-            strokeWidth={1}
-            {...NS}
-          />
-        )),
-      )}
-      {/* 圆顶方向箭头（各代旋转方向左右交替） */}
-      <Arrow x={642} y={CY - 42} a={8} s={4} />
-      <Arrow x={558} y={CY - 42} a={-8} s={4} />
-      <Arrow x={746} y={CY - 62} a={8} s={4} />
-      <Arrow x={454} y={CY - 62} a={-8} s={4} />
-      <Arrow x={904} y={CY - 96} a={8} s={4.5} />
-      <Arrow x={296} y={CY - 96} a={-8} s={4.5} />
+
+      <Arrow x={600} y={43} a={0} s={5.5} />
+      <Arrow x={388} y={57} a={0} s={5} />
+      <Arrow x={812} y={57} a={0} s={5} />
+      <Arrow x={225} y={90} a={0} s={4.5} />
+      <Arrow x={975} y={90} a={0} s={4.5} />
     </LartSvg>
   );
 }
 
-/* ============ 99 结语 · 流线绕节点（平行流被"讲清楚的判断"重新组织） ============
-   语言对齐参考：满幅平行横线(左起点圆点/右终点箭头)；圆节点坐在某几条线上,
-   邻近的线以衰减的位移场柔和绕行；过圆心的线 节点前虚线/节点后实线,圆缘两粒切点。 */
+/* ============ 99 结语 · 平衡拓扑（三层结构逐层显影） ============ */
 export function ArtOutro() {
-  const X0 = 40, X1 = 460;
-  const LINES = Array.from({ length: 15 }, (_, i) => 61 + i * 22);
-  const NODES = [
-    { cx: 170, cy: LINES[3], r: 21 },
-    { cx: 318, cy: LINES[7], r: 30 },
-    { cx: 128, cy: LINES[11], r: 18 },
+  const nodes = [
+    { cx: 150, cy: 48, r: 4 }, { cx: 350, cy: 48, r: 4 },
+    { cx: 448, cy: 215, r: 4 }, { cx: 350, cy: 382, r: 4 },
+    { cx: 150, cy: 382, r: 4 }, { cx: 52, cy: 215, r: 4 },
+    { cx: 215, cy: 168, r: 5 }, { cx: 285, cy: 168, r: 5 },
+    { cx: 304, cy: 224, r: 5 }, { cx: 216, cy: 256, r: 5 },
   ];
-  /* 位移场：距圆心 |dy| 越近偏折越大,超出影响半径归零;方向背离圆心 */
-  const linePath = (y0: number) => {
-    let d = `M ${X0} ${y0}`;
-    const bumps = NODES
-      .map((n) => {
-        const dy = y0 - n.cy;
-        const disp = Math.max(0, (n.r + 34 - Math.abs(dy)) * 0.55);
-        return { ...n, dy, disp };
-      })
-      .filter((b) => Math.abs(b.dy) > 0.5 && b.disp > 0.5)
-      .sort((a, b) => a.cx - b.cx);
-    for (const b of bumps) {
-      const ty = y0 + Math.sign(b.dy) * b.disp;      // 鼓起顶点 y(背离圆心)
-      const w = b.r * 2 + 10;                        // 单侧影响宽度
-      d += ` L ${b.cx - w} ${y0}`;
-      d += ` C ${b.cx - w * 0.45} ${y0}, ${b.cx - b.r * 0.9} ${ty}, ${b.cx} ${ty}`;
-      d += ` C ${b.cx + b.r * 0.9} ${ty}, ${b.cx + w * 0.45} ${y0}, ${b.cx + w} ${y0}`;
-    }
-    d += ` L ${X1} ${y0}`;
-    return d;
-  };
   return (
-    <LartSvg viewBox="0 0 500 430">
-      {LINES.map((y) => {
-        const node = NODES.find((n) => n.cy === y);
-        return node ? (
-          /* 过圆心的线：节点前虚线 + 节点后实线,圆缘切点小亮点 */
-          <g key={y}>
-            <line x1={X0} y1={y} x2={node.cx - node.r} y2={y} stroke="var(--la-soft)" strokeWidth={1} strokeDasharray="1 6" {...NS} />
-            <line x1={node.cx + node.r} y1={y} x2={X1} y2={y} stroke="var(--la-line)" strokeWidth={1} {...NS} />
-            <circle cx={node.cx - node.r} cy={y} r={2} fill="var(--la-accent)" />
-            <circle cx={node.cx + node.r} cy={y} r={2} fill="var(--la-accent)" />
-          </g>
-        ) : (
-          <path key={y} d={linePath(y)} fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS} />
-        );
-      })}
-      {/* 节点圆(空心,线稿) */}
-      {NODES.map((n, i) => (
-        <circle key={i} cx={n.cx} cy={n.cy} r={n.r} fill="none" stroke="var(--la-line)" strokeWidth={1} {...NS} />
-      ))}
-      {/* 左起点圆点 + 右终点箭头 */}
-      {LINES.map((y) => (
-        <g key={`e${y}`}>
-          <circle cx={X0} cy={y} r={2.2} fill="var(--la-node)" />
-          <Arrow x={X1} y={y} a={0} s={3.2} />
+    <LartSvg viewBox="0 0 500 430" className="lart--outro">
+      <g fill="none">
+        <path className="lart-outro-outer" d="M150 48 L350 48 L448 215 L350 382 L150 382 L52 215 Z" stroke="var(--la-line)" strokeWidth={1} opacity={0.58} {...NS} />
+        <path className="lart-outro-middle" d="M205 112 L295 112 L336 215 L292 306 L208 306 L164 215 Z" stroke="var(--la-line)" strokeWidth={1} opacity={0.52} {...NS} />
+        <path className="lart-outro-core" d="M215 168 L285 168 L304 224 L274 278 L216 256 L196 210 Z" stroke="var(--la-line)" strokeWidth={1} opacity={0.68} {...NS} />
+        <g className="lart-outro-links" stroke="var(--la-line)" strokeWidth={1} opacity={0.46} {...NS}>
+          <path d="M150 48 L205 112 M350 48 L295 112 M448 215 L336 215 M350 382 L292 306 M150 382 L208 306 M52 215 L164 215" />
+          <path d="M205 112 L215 168 M295 112 L285 168 M336 215 L304 224 M292 306 L274 278 M208 306 L216 256 M164 215 L196 210" />
+          <path d="M150 48 L285 168 M350 48 L215 168 M448 215 L274 278 M350 382 L304 224 M150 382 L196 210 M52 215 L216 256" />
         </g>
-      ))}
+      </g>
+      <g className="lart-outro-node" fill="var(--la-bright)">
+        {nodes.map(({ cx, cy, r }) => <circle key={`${cx}-${cy}`} cx={cx} cy={cy} r={r} />)}
+      </g>
     </LartSvg>
   );
 }

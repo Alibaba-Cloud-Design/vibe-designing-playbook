@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 430" role="img" aria-labelledby="title description">
+  <title id="title">Context, intent and form</title>
+  <desc id="description">An intent point travels from a context circle into a generated form.</desc>
+
+  <style>
+    :root {
+      --line: rgba(25, 26, 27, 0.34);
+      --line-soft: rgba(25, 26, 27, 0.18);
+      --ink: #191a1b;
+      --tag: #ececef;
+      --tag-ink: rgba(25, 26, 27, 0.72);
+    }
+
+    .line {
+      fill: none;
+      stroke: var(--line);
+      stroke-width: 1;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .axis {
+      stroke: var(--line-soft);
+      transform-box: fill-box;
+      transform-origin: left center;
+    }
+
+    .context-ring {
+      stroke-dasharray: 1 5;
+      stroke-linecap: round;
+    }
+
+    .context-inner {
+      stroke: var(--ink);
+      stroke-width: 0.65;
+      stroke-opacity: 0.3;
+    }
+
+    .label rect {
+      fill: var(--tag);
+    }
+
+    .label text,
+    .intent-label {
+      fill: var(--tag-ink);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .point {
+      fill: var(--ink);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --line: rgba(232, 232, 230, 0.42);
+        --line-soft: rgba(232, 232, 230, 0.20);
+        --ink: #e8e8e6;
+        --tag: #34363a;
+        --tag-ink: rgba(232, 232, 230, 0.78);
+      }
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .geometry {
+        opacity: 0;
+        animation: fade-in 0.35s ease-out forwards;
+      }
+
+      .axis {
+        animation: draw-axis 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+      }
+
+      #intent-point {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation:
+          intent-transfer 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both,
+          intent-breathe 4.8s ease-in-out 1.8s infinite;
+      }
+
+      .intent-label {
+        opacity: 0;
+        animation: fade-in 0.3s ease-out 1.05s forwards;
+      }
+
+      #form-frame {
+        opacity: 0;
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: form-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.85s forwards;
+      }
+
+      #form-label {
+        opacity: 0;
+        animation: fade-in 0.3s ease-out 1.18s forwards;
+      }
+    }
+
+    @keyframes fade-in {
+      to { opacity: 1; }
+    }
+
+    @keyframes draw-axis {
+      from { transform: scaleX(0); opacity: 0; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    @keyframes intent-transfer {
+      from { transform: translateX(-164px); opacity: 0; }
+      18% { opacity: 1; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes intent-breathe {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
+    }
+
+    @keyframes form-in {
+      from { opacity: 0; transform: scale(0.92); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+
+  <g class="geometry">
+    <line class="line axis" x1="86" y1="215" x2="332" y2="215" />
+
+    <g id="context">
+      <circle class="line context-ring" cx="168" cy="215" r="82" />
+      <circle class="line context-inner" cx="168" cy="215" r="66" />
+      <g class="label" id="context-label">
+        <rect x="86" y="104" width="70" height="20" />
+        <text x="121" y="118" text-anchor="middle">CONTEXT</text>
+      </g>
+    </g>
+
+    <circle class="line" cx="332" cy="215" r="82" />
+
+    <g id="form">
+      <rect id="form-frame" class="line" x="250" y="133" width="164" height="164" />
+      <g class="label" id="form-label">
+        <rect x="362" y="104" width="52" height="20" />
+        <text x="388" y="118" text-anchor="middle">FORM</text>
+      </g>
+    </g>
+
+    <g id="intent">
+      <circle id="intent-point" class="point" cx="332" cy="215" r="5" />
+      <text class="intent-label" x="344" y="207">INTENT</text>
+    </g>
+  </g>
+</svg>
