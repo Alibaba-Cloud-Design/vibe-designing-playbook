@@ -90,7 +90,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
 .cf-vline{ position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.10); }
 .cf-hline{ position:absolute; left:0; right:0; height:1px; background:rgba(255,255,255,0.10); }
 
-/* —— 左上角标 · serif「Not Design / But Future ■」 —— */
+/* —— 左上角标 · serif「Not Design / Just Future ■」 —— */
 .cf-cornermark{
   position:absolute; z-index:3; left:28px; top:29px;
   display:flex; flex-direction:column; align-items:flex-start;
@@ -99,7 +99,8 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   color:rgba(255,255,255,0.9);
 }
 .cf-cornermark span{ display:inline-flex; align-items:center; white-space:nowrap; }
-.cf-cornermark span + span{ padding-left:25px; }   /* 「But Future」右缩进 25px（Figma 错落双行） */
+.cf-cornermark span + span{ padding-left:25px; }   /* 「Just Future」右缩进 25px（Figma 错落双行） */
+.cf-cornermark-just{ font-style:italic; }
 .cf-sq{ flex:none; width:14px; height:14px; margin-left:6px; background:#fff; }
 
 /* —— mono 眉标 · Chivo Mono 12/20 · 字距 0.96 · 白 32%（0.8×0.4） —— */
@@ -123,7 +124,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
 .cf-w{ display:block; font-size:155.442px; line-height:0.9; }
 .cf-w-designing{ font-style:italic; }
 
-/* —— 靛蓝小色块（Playbook 后，Figma 209:56） —— */
+/* —— 主题蓝动态光标（Playbook 后，Figma 209:56） —— */
 .cf-blue{
   position:absolute; z-index:2; left:543px; top:748px;
   width:46px; height:64px;
@@ -145,19 +146,17 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   bottom:6px;
   display:block;
   min-width:1ch;
-  background:linear-gradient(95deg, #b266ff 4%, #c62afb 45%, #7a5ef4 68%, #2996ff 100%);
-  background-size:260% 100%;
+  background:var(--accent-bright);
   background-clip:text;
   -webkit-background-clip:text;
   color:transparent;
   -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 14px rgba(128,111,239,0.26));
-  animation:cf-blue-grad 8s linear 1.86s infinite;
+  filter:drop-shadow(
+    0 0 14px color-mix(in srgb, var(--accent-bright), transparent 74%)
+  );
 }
 .cf-blue-overlay{
-  animation:
-    cf-blue-grad 8s linear 1.86s infinite,
-    cf-blue-glyph-hit 66ms steps(1,end) infinite;
+  animation:cf-blue-glyph-hit 66ms steps(1,end) infinite;
 }
 .cf-blue.is-hidden .cf-blue-measure,
 .cf-blue[data-phase="scramble"] .cf-blue-measure{
@@ -213,13 +212,19 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   0%{ opacity:0; transform:scaleX(0); }
   100%{ opacity:1; transform:scaleX(1); }
 }
-@keyframes cf-blue-grad{
-  0%{ background-position:0% 50%; }
-  100%{ background-position:200% 50%; }
-}
 @keyframes cf-blue-glyph-hit{
-  0%, 100%{ opacity:1; filter:drop-shadow(0 0 10px rgba(128,111,239,0.22)); }
-  50%{ opacity:0.78; filter:drop-shadow(0 0 20px rgba(198,42,251,0.42)); }
+  0%, 100%{
+    opacity:1;
+    filter:drop-shadow(
+      0 0 10px color-mix(in srgb, var(--accent-bright), transparent 78%)
+    );
+  }
+  50%{
+    opacity:0.78;
+    filter:drop-shadow(
+      0 0 20px color-mix(in srgb, var(--accent-bright), transparent 58%)
+    );
+  }
 }
 
 @media (prefers-reduced-motion:reduce){
@@ -575,7 +580,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
     content:"_";
     display:inline-block;
     margin-left:0.06em;
-    color:var(--accent-bright, #685CFF);
+    color:var(--accent-bright);
     animation:cf-cursor-blink 1.15s steps(1) infinite;
   }
   .cf-blue{ left:20px; top:auto; bottom:28px; width:32px; height:42px; font-size:34px; }

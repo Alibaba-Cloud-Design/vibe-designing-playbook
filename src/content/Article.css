@@ -79,7 +79,7 @@
 .ar-toc-title { font-size: 13px; line-height: 1.4; }
 .ar-toc-item:hover { color: var(--accent); }
 .ar-toc-item:hover .ar-toc-title {
-  background: var(--accent); color: #fff;
+  background: var(--accent); color: var(--accent-ink);
   box-shadow: 2px 0 0 var(--accent), -2px 0 0 var(--accent);
 }
 .ar-toc-item.is-active { color: var(--accent); }
