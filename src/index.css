@@ -27,11 +27,11 @@
   --ink-40:        rgba(25,26,27,0.40);
   --ink-30:        rgba(25,26,27,0.30);     /* 占位 / 编号眉标 = 30 */
   --ink-10:        rgba(25,26,27,0.10);     /* 极弱(= 发丝线) = 10 */
-  --accent:        #34429E;
-  --accent-bright: #4E5DB8;
-  --accent-deep:   #20285F;
-  --accent-soft:   transparent;
-  --accent-ink:    #FAFAFA;
+  --accent:        #3D77F3;
+  --accent-bright: var(--accent);
+  --accent-deep:   color-mix(in srgb, var(--accent), #08090A 42%);
+  --accent-soft:   color-mix(in srgb, var(--accent), transparent 88%);
+  --accent-ink:    #08090A;
   --grid-line:     rgba(20,22,24,0.08);
   --grid-line-strong: rgba(20,22,24,0.14);
 
@@ -53,8 +53,8 @@
   --la-tagbg:  #ECECEF;                /* mono 标签底 */
   --la-barhi:  rgba(20,22,24,0.16);    /* 词条渐变条·亮端 */
   --la-barlo:  rgba(20,22,24,0.02);    /* 词条渐变条·隐端 */
-  --la-accent: #4339FF;                /* 插画重点色(亮色版=导航高亮蓝) */
-  --la-accent-ink: #FFFFFF;            /* 重点色底上的文字色(与侧栏高亮同规) */
+  --la-accent: var(--accent);           /* 插画重点色跟随主题强调色 */
+  --la-accent-ink: #08090A;            /* 重点色底上的高对比文字色 */
   --pb-chip: #FFFFFF;                  /* 图表浮层面色:亮=纯白(压灰骨架上跳出) */
 
   /* —— 手绘图版制式(fig-plate,取自用户 arch-2 手稿):线/青点/染面/卡底/章/墨 —— */
@@ -138,11 +138,11 @@
   --ink-40:        rgba(25,26,27,0.40);
   --ink-30:        rgba(25,26,27,0.30);
   --ink-10:        rgba(25,26,27,0.10);
-  --accent:        #34429E;
-  --accent-bright: #4E5DB8;
-  --accent-deep:   #20285F;
-  --accent-soft:   transparent;
-  --accent-ink:    #FAFAFA;
+  --accent:        #3D77F3;
+  --accent-bright: var(--accent);
+  --accent-deep:   color-mix(in srgb, var(--accent), #08090A 42%);
+  --accent-soft:   color-mix(in srgb, var(--accent), transparent 88%);
+  --accent-ink:    #08090A;
   --grid-line:     rgba(20,22,24,0.08);
   --grid-line-strong: rgba(20,22,24,0.14);
   --sig-lo: 206,208,212;
@@ -161,8 +161,8 @@
   --la-tagbg:  #ECECEF;
   --la-barhi:  rgba(20,22,24,0.16);
   --la-barlo:  rgba(20,22,24,0.02);
-  --la-accent: #4339FF;
-  --la-accent-ink: #FFFFFF;
+  --la-accent: var(--accent);
+  --la-accent-ink: #08090A;
   --pb-chip: #FFFFFF;
   --fp-line:  #8F939B;
   --fp-dot:   #80EBFF;
@@ -190,11 +190,11 @@
   --ink-40:        rgba(232,232,230,0.40);
   --ink-30:        rgba(232,232,230,0.30);
   --ink-10:        rgba(232,232,230,0.10);
-  --accent:        #4337FF;
-  --accent-bright: #685CFF;
-  --accent-deep:   #2A22B0;
-  --accent-soft:   color-mix(in srgb, #685CFF, transparent 88%);
-  --accent-ink:    #FAFAFA;
+  --accent:        #6A99FF;
+  --accent-bright: var(--accent);
+  --accent-deep:   color-mix(in srgb, var(--accent), #08090A 42%);
+  --accent-soft:   color-mix(in srgb, var(--accent), transparent 86%);
+  --accent-ink:    #08090A;
   --grid-line:     rgba(255,255,255,0.045);
   --grid-line-strong: rgba(255,255,255,0.075);
   --sig-lo: 60,60,60;                  /* 线稿幽灵端：暗卡上的幽灵灰 */
@@ -214,8 +214,8 @@
   --la-tagbg:  #17181A;
   --la-barhi:  rgba(255,255,255,0.22);
   --la-barlo:  rgba(255,255,255,0.02);
-  --la-accent: color(display-p3 0.6745 0.8842 0.9367);  /* 插画重点色(=暗色侧栏高亮青绿) */
-  --la-accent-ink: #1A1A1A;            /* 青绿底上用深墨(白字在浅青绿上不可读) */
+  --la-accent: var(--accent);           /* 插画重点色跟随主题强调色 */
+  --la-accent-ink: #08090A;            /* 重点色底上的高对比文字色 */
   --pb-chip: #232527;                  /* 图表浮层面色:暗=明显亮于骨架的一层 */
   /* —— 手绘图版制式暗色(取自 arch-2 深色手稿) —— */
   --fp-line:  #656565;
@@ -252,11 +252,10 @@
 /* 移动端触控:消除 300ms 延迟与双击缩放误触 */
 button, a, input, [role="button"] { touch-action: manipulation; }
 
-/* 文本选中色 = 主题高亮色(与侧栏高亮同值)：亮=蓝底白字 / 暗=青绿底深字 */
-::selection { background:#4339FF; color:#FFFFFF; }
-:root[data-theme="dark"] ::selection {
-  background: color(display-p3 0.6745 0.8842 0.9367);
-  color:#1A1A1A;
+/* 文本选中色 = 当前主题重点色 */
+::selection {
+  background: var(--la-accent);
+  color: var(--la-accent-ink);
 }
 
 * { box-sizing:border-box; }

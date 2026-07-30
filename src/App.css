@@ -575,7 +575,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
     content:"_";
     display:inline-block;
     margin-left:0.06em;
-    color:var(--accent-bright, #685CFF);
+    color:var(--accent-bright);
     animation:cf-cursor-blink 1.15s steps(1) infinite;
   }
   .cf-blue{ left:20px; top:auto; bottom:28px; width:32px; height:42px; font-size:34px; }

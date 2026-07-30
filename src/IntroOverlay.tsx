@@ -7,8 +7,8 @@ import "./IntroOverlay.css";
  *
  * 三相位（动画时钟锚定 overlay 首帧 t=0，靠 CSS animation-delay，不用 JS 延迟挂载）：
  *   P0  0–500ms    黑屏 hold
- *   P1  500–1500ms 组装：logo「vibe designing playbook」淡入 + #4337FF 方块横扫+3闪
- *   P2  1500–2460ms 四层拉幕：#4337FF/#685CFF/#8D81FF + 黑底 wordmark 层，错峰 80ms 向右滑出
+ *   P1  500–1500ms 组装：logo「vibe designing playbook」淡入 + accent 方块横扫+3闪
+ *   P2  1500–2460ms 四层拉幕：accent-deep/accent/accent-bright + 黑底 wordmark 层，错峰 80ms 向右滑出
  *
  * React 只做编排：测量 wordmark 宽度（喂方块横扫终点）、reveal+260ms 发封面入场信号、
  * 2460ms 卸载 overlay + 恢复滚动。reduced-motion 降级为 0.45s 黑屏 fade-out。

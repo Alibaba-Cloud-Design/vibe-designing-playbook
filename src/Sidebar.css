@@ -1,12 +1,12 @@
 /* ============================================================
    全局常驻侧栏 —— 封面后 fixed 显示
    v2-dark:深色皮 · mono 编号(001) · 发丝线账本分隔 · 亮度分层
-   保留 poolside 蓝块「擦入」hover 机制不动(仅深色下强调换亮一档靛蓝 #685CFF)。
+   保留 poolside 蓝块「擦入」hover 机制，颜色统一跟随主题重点色 token。
    参考:x.com/advertising 左导航(静默灰列表 + 生成式留白) + unmoth 目录发丝线账本。
    ============================================================ */
 .sb{
-  --sb-highlight-bg: color(display-p3 0.6745 0.8842 0.9367);
-  --sb-highlight-ink: #1A1A1A;
+  --sb-highlight-bg: var(--la-accent);
+  --sb-highlight-ink: var(--la-accent-ink);
   --sb-active: var(--sb-highlight-bg);
   --sb-hover-bg: var(--sb-highlight-bg);
   --sb-hover-ink: var(--sb-highlight-ink);
@@ -20,13 +20,6 @@
   opacity:0; pointer-events:none;
   transition:opacity .4s ease;
   font-family:var(--font-sans);
-}
-/* 亮色模式：高亮换品牌靛蓝 #4339FF(蓝块白字)；暗色保持青色版 */
-:root[data-theme="light"] .sb,
-:root:not([data-theme]) .sb{
-  --sb-highlight-bg: #4339FF;
-  --sb-highlight-ink: #FFFFFF;
-  --sb-active: #4339FF;
 }
 .sb.is-visible{ opacity:1; pointer-events:auto; }
 

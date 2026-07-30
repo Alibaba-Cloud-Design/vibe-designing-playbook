@@ -1,0 +1,29 @@
+:root {
+  background: #f5f4f0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  overflow: hidden;
+  background: #f5f4f0;
+}
+
+canvas {
+  display: block;
+  width: min(600px, 100vw, 100svh);
+  height: auto;
+  aspect-ratio: 1;
+  background: #f5f4f0;
+}
