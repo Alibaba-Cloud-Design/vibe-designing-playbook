@@ -167,11 +167,11 @@ export default function App() {
             <span className="cf-hline" style={{ top: 823 }} />
           </div>
 
-          {/* 左上角标 · serif「Not Design / But Future ■」 */}
-          <div className="cf-cornermark" aria-label="Not Design But Future">
+          {/* 左上角标 · serif「Not Design / Just Future ■」 */}
+          <div className="cf-cornermark" aria-label="Not Design Just Future">
             <span>Not Design</span>
             <span>
-              But Future
+              <em className="cf-cornermark-just">Just</em>{" "}Future
               <i className="cf-sq" />
             </span>
           </div>

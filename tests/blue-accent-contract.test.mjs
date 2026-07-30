@@ -7,6 +7,7 @@ const articleCss = readFileSync(
   new URL("../src/content/Article.css", import.meta.url),
   "utf8",
 );
+const appTsx = readFileSync(new URL("../src/App.tsx", import.meta.url), "utf8");
 const accentConsumerSources = [
   "../src/index.css",
   "../src/Sidebar.css",
@@ -108,4 +109,19 @@ test("routes the cover cursor fill and glow through the theme accent", () => {
   for (const oldValue of ["#b266ff", "#c62afb", "#7a5ef4", "#2996ff"]) {
     assert.equal(appCss.toLowerCase().includes(oldValue), false, oldValue);
   }
+});
+
+test("uses the approved homepage slogan with only Just in italic", () => {
+  const appCss = accentConsumerSources[2];
+
+  assert.match(appTsx, /aria-label="Not Design Just Future"/);
+  assert.match(
+    appTsx,
+    /<em className="cf-cornermark-just">Just<\/em>\s*\{" "\}\s*Future/,
+  );
+  assert.doesNotMatch(appTsx, /But Future/);
+  assert.match(
+    appCss,
+    /\.cf-cornermark-just\s*\{[^}]*font-style:\s*italic;/s,
+  );
 });

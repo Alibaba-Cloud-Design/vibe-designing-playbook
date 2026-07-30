@@ -90,7 +90,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
 .cf-vline{ position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.10); }
 .cf-hline{ position:absolute; left:0; right:0; height:1px; background:rgba(255,255,255,0.10); }
 
-/* —— 左上角标 · serif「Not Design / But Future ■」 —— */
+/* —— 左上角标 · serif「Not Design / Just Future ■」 —— */
 .cf-cornermark{
   position:absolute; z-index:3; left:28px; top:29px;
   display:flex; flex-direction:column; align-items:flex-start;
@@ -99,7 +99,8 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   color:rgba(255,255,255,0.9);
 }
 .cf-cornermark span{ display:inline-flex; align-items:center; white-space:nowrap; }
-.cf-cornermark span + span{ padding-left:25px; }   /* 「But Future」右缩进 25px（Figma 错落双行） */
+.cf-cornermark span + span{ padding-left:25px; }   /* 「Just Future」右缩进 25px（Figma 错落双行） */
+.cf-cornermark-just{ font-style:italic; }
 .cf-sq{ flex:none; width:14px; height:14px; margin-left:6px; background:#fff; }
 
 /* —— mono 眉标 · Chivo Mono 12/20 · 字距 0.96 · 白 32%（0.8×0.4） —— */
