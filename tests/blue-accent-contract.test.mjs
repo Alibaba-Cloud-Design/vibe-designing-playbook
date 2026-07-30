@@ -93,3 +93,19 @@ test("routes sidebar emphasis through the shared theme tokens", () => {
   assert.match(sidebarCss, /--sb-highlight-ink:\s*var\(--la-accent-ink\);/);
   assert.doesNotMatch(sidebarCss, /:root\[data-theme="light"\]\s+\.sb/);
 });
+
+test("routes the cover cursor fill and glow through the theme accent", () => {
+  const appCss = accentConsumerSources[2];
+  assert.match(
+    appCss,
+    /\.cf-blue-measure,\s*\.cf-blue-overlay\s*\{[^}]*background:\s*var\(--accent-bright\);/s,
+  );
+  assert.match(
+    appCss,
+    /\.cf-blue-measure,\s*\.cf-blue-overlay\s*\{[^}]*filter:\s*drop-shadow\([^)]*var\(--accent-bright\)/s,
+  );
+
+  for (const oldValue of ["#b266ff", "#c62afb", "#7a5ef4", "#2996ff"]) {
+    assert.equal(appCss.toLowerCase().includes(oldValue), false, oldValue);
+  }
+});

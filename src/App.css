@@ -123,7 +123,7 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
 .cf-w{ display:block; font-size:155.442px; line-height:0.9; }
 .cf-w-designing{ font-style:italic; }
 
-/* —— 靛蓝小色块（Playbook 后，Figma 209:56） —— */
+/* —— 主题蓝动态光标（Playbook 后，Figma 209:56） —— */
 .cf-blue{
   position:absolute; z-index:2; left:543px; top:748px;
   width:46px; height:64px;
@@ -145,19 +145,17 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   bottom:6px;
   display:block;
   min-width:1ch;
-  background:linear-gradient(95deg, #b266ff 4%, #c62afb 45%, #7a5ef4 68%, #2996ff 100%);
-  background-size:260% 100%;
+  background:var(--accent-bright);
   background-clip:text;
   -webkit-background-clip:text;
   color:transparent;
   -webkit-text-fill-color:transparent;
-  filter:drop-shadow(0 0 14px rgba(128,111,239,0.26));
-  animation:cf-blue-grad 8s linear 1.86s infinite;
+  filter:drop-shadow(
+    0 0 14px color-mix(in srgb, var(--accent-bright), transparent 74%)
+  );
 }
 .cf-blue-overlay{
-  animation:
-    cf-blue-grad 8s linear 1.86s infinite,
-    cf-blue-glyph-hit 66ms steps(1,end) infinite;
+  animation:cf-blue-glyph-hit 66ms steps(1,end) infinite;
 }
 .cf-blue.is-hidden .cf-blue-measure,
 .cf-blue[data-phase="scramble"] .cf-blue-measure{
@@ -213,13 +211,19 @@ body { margin:0; background-color:var(--bg); color:var(--ink);
   0%{ opacity:0; transform:scaleX(0); }
   100%{ opacity:1; transform:scaleX(1); }
 }
-@keyframes cf-blue-grad{
-  0%{ background-position:0% 50%; }
-  100%{ background-position:200% 50%; }
-}
 @keyframes cf-blue-glyph-hit{
-  0%, 100%{ opacity:1; filter:drop-shadow(0 0 10px rgba(128,111,239,0.22)); }
-  50%{ opacity:0.78; filter:drop-shadow(0 0 20px rgba(198,42,251,0.42)); }
+  0%, 100%{
+    opacity:1;
+    filter:drop-shadow(
+      0 0 10px color-mix(in srgb, var(--accent-bright), transparent 78%)
+    );
+  }
+  50%{
+    opacity:0.78;
+    filter:drop-shadow(
+      0 0 20px color-mix(in srgb, var(--accent-bright), transparent 58%)
+    );
+  }
 }
 
 @media (prefers-reduced-motion:reduce){
