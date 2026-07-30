@@ -134,6 +134,8 @@
   .fmt-item:nth-of-type(3) .lart { animation-delay: -4.3s; }
   .fmt-item:nth-of-type(4) .lart { animation-delay: -1.2s; }
   .fmt-item:nth-of-type(5) .lart { animation-delay: -5.6s; }
+  .lart--interaction,
+  .lart--outro { animation: none; }
 }
 
 @keyframes la-breathe {
@@ -168,11 +170,48 @@
     lart-float 8s ease-in-out 1.5s infinite;
 }
 
+/* 动态交互：意图点只执行一次传递，完成后保留极轻微呼吸。 */
+.lart-intent-point { transform-box: fill-box; transform-origin: center; }
+.lart--interaction.is-in .lart-intent-point {
+  animation:
+    lart-intent-transfer 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.35s both,
+    lart-intent-float 4.8s ease-in-out 1.8s infinite;
+}
+.lart--interaction.is-in .lart-interaction-intent text {
+  animation: lart-fade 0.3s ease-out 1.05s forwards;
+}
+
+/* 结语：外层 → 中层 → 核心 → 连接 → 节点，描线结束后保持静止。 */
+.lart--outro.is-in .lart-outro-outer {
+  animation: lart-draw 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.08s forwards;
+}
+.lart--outro.is-in .lart-outro-middle {
+  animation: lart-draw 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.32s forwards;
+}
+.lart--outro.is-in .lart-outro-core {
+  animation: lart-draw 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.58s forwards;
+}
+.lart--outro.is-in .lart-outro-links {
+  animation: lart-draw 0.48s cubic-bezier(0.22, 1, 0.36, 1) 0.78s forwards;
+}
+.lart--outro.is-in .lart-outro-node {
+  animation: lart-fade 0.28s ease-out 1.06s forwards;
+}
+
 @keyframes lart-draw { to { stroke-dashoffset: 0; } }
 @keyframes lart-fade { to { opacity: 1; } }
 @keyframes lart-float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-3px); }
+}
+@keyframes lart-intent-transfer {
+  from { transform: translateX(-164px); opacity: 0; }
+  18% { opacity: 1; }
+  to { transform: translateX(0); opacity: 1; }
+}
+@keyframes lart-intent-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -182,6 +221,13 @@
   .lart [fill]:not([fill="none"]),
   .lart text { opacity: 1; animation: none; }
   .lart.is-in circle[fill="var(--la-accent)"] { animation: none; }
+  .lart--interaction.is-in .lart-intent-point,
+  .lart--interaction.is-in .lart-interaction-intent text,
+  .lart--outro.is-in .lart-outro-node {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* 文字列：编号顶对齐面板顶，标题+描述在剩余空间里垂直居中（X 的 info 列节奏） */

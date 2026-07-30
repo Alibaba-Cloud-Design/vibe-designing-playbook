@@ -22,20 +22,19 @@ export function useScrollReveal(ready: unknown = true) {
       return;
     }
 
+    // 触发前就放到起始状态，避免元素先正常显示、进入视口时再突然下移 28px。
+    gsap.set(els, { opacity: 0, y: 28 });
+
     const triggers = ScrollTrigger.batch(els, {
       start: "top 88%",          // 元素顶进到视口 88% 处即触发
       once: true,
       onEnter: (batch) =>
-        gsap.fromTo(batch, {
-          opacity: 0,
-          y: 28,
-        }, {
+        gsap.to(batch, {
           opacity: 1,
           y: 0,
           duration: 0.7,
           ease: "power2.out",
           stagger: 0.08,         // 同批元素错峰,像一行行落位
-          immediateRender: false,
           onStart: () => batch.forEach((el) => (el as HTMLElement).classList.add("is-in")),
         }),
     });

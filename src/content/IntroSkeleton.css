@@ -1,0 +1,38 @@
+.intro-skeleton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.intro-skeleton path,
+.intro-skeleton line,
+.intro-skeleton circle {
+  vector-effect: non-scaling-stroke;
+}
+
+.intro-skeleton__rail {
+  fill: none;
+  stroke: var(--fp-line);
+  stroke-width: 1;
+  stroke-dasharray: 3 7;
+  opacity: 0.42;
+}
+
+.intro-skeleton__layer-top,
+.intro-skeleton__element-top {
+  fill: var(--fp-card);
+  stroke: var(--fp-line);
+  stroke-width: 1;
+}
+
+.intro-skeleton__layer-side,
+.intro-skeleton__element-side {
+  fill: color-mix(in srgb, var(--fp-card), var(--fp-line) 12%);
+  stroke: var(--fp-line);
+  stroke-width: 1;
+}
+
+.intro-skeleton__group.is-active .intro-skeleton__layer-top {
+  fill: var(--fp-wash);
+}
